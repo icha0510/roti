@@ -1,0 +1,25 @@
+# Keamanan dasar untuk admin panel
+# Blokir akses ke file sensitif
+<Files "*.sql">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files "*.md">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Blokir akses ke file konfigurasi
+<Files "database.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files "config/*">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Blokir akses langsung ke register.php (akan ditangani oleh PHP session)
+# Catatan: Proteksi utama dilakukan di register.php dengan session check 

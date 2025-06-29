@@ -1,164 +1,178 @@
-# Admin Dashboard - Bready Bakery
+# Bready Admin Panel
 
-Panel admin untuk mengelola website Bready Bakery dengan fitur upload gambar langsung ke database.
+Admin panel untuk mengelola website Bready Bakery.
 
-## Fitur Admin Panel
+## Fitur yang Tersedia
 
-### ✅ Manajemen Produk
-- Tambah, edit, hapus produk
-- Upload gambar langsung ke database (base64)
-- Set status produk (Featured, New, Sale)
-- Manajemen stok dan harga
+### 1. Dashboard
+- Statistik produk, kategori, banner, testimonial, dan blog posts
+- Tabel produk terbaru
+- Quick actions untuk menambah konten baru
+- Informasi sistem
+
+### 2. Products Management
+- Menambah, mengedit, dan menghapus produk
+- Upload gambar produk (disimpan sebagai base64 di database)
 - Kategori produk
+- Manajemen stok dan harga
 
-### ✅ Manajemen Banner
-- Tambah banner slider homepage
+### 3. Categories Management
+- Menambah, mengedit, dan menghapus kategori
+- Slug otomatis dari nama kategori
+- Deskripsi kategori
+
+### 4. Banners Management
+- Menambah, mengedit, dan menghapus banner
 - Upload gambar banner
-- Set badge dan link
-- Pengaturan urutan tampilan
+- Pengaturan link dan badge
+- Sort order untuk urutan tampilan
 
-### ✅ Manajemen Testimonial
-- Tambah testimonial pelanggan
-- Upload foto profil
-- Rating dan review
+### 5. Testimonials Management
+- Menambah dan menghapus testimonial
+- Upload foto profil customer
+- Rating sistem (1-5 bintang)
+- Nama dan posisi customer
 
-### ✅ Manajemen Blog Posts
-- Tambah artikel blog
-- Upload gambar artikel
-- Status draft/published
+### 6. Blog Posts Management
+- Menambah dan menghapus blog posts
+- Upload featured image
+- Status publish/draft
+- Author dan excerpt
 
-### ✅ Manajemen Awards
-- Tambah penghargaan toko
-- Upload icon/logo award
+### 7. Awards Management
+- Menambah dan menghapus awards
+- Upload gambar award
+- Tahun award
+- Status aktif/nonaktif
 
-## Instalasi Admin Panel
+### 8. Orders Management
+- Melihat semua pesanan
+- Update status pesanan
+- Tracking pesanan
+- Detail customer dan produk
 
-### 1. Update Database
-Jalankan file `admin/database_update.sql` untuk menambah kolom penyimpanan gambar:
-
-```sql
--- Import file admin/database_update.sql ke database
-```
-
-### 2. Konfigurasi
-Edit file `admin/config/database.php` sesuai dengan database Anda:
-
-```php
-private $host = 'localhost';
-private $db_name = 'bready_db';
-private $username = 'root';
-private $password = '';
-```
-
-### 3. Akses Admin Panel
-```
-http://localhost/bready/admin/
-```
-
-## Struktur File Admin
+## Struktur File
 
 ```
 admin/
-├── config/
-│   └── database.php          # Konfigurasi database
+├── index.php              # Dashboard utama
+├── products.php           # Manajemen produk
+├── categories.php         # Manajemen kategori
+├── banners.php           # Manajemen banner
+├── testimonials.php      # Manajemen testimonial
+├── posts.php             # Manajemen blog posts
+├── awards.php            # Manajemen awards
+├── orders.php            # Manajemen pesanan
+├── logout.php            # Logout admin
 ├── includes/
-│   └── functions.php         # Fungsi-fungsi admin
-├── index.php                 # Dashboard utama
-├── products.php              # Manajemen produk
-├── categories.php            # Manajemen kategori
-├── banners.php               # Manajemen banner
-├── testimonials.php          # Manajemen testimonial
-├── posts.php                 # Manajemen blog
-├── awards.php                # Manajemen awards
-├── get_product.php           # API get product
-├── database_update.sql       # Update database
-└── README.md                 # Dokumentasi ini
+│   └── functions.php     # Fungsi-fungsi helper
+└── config/
+    └── database.php      # Konfigurasi database
 ```
+
+## Fungsi-fungsi Utama
+
+### Database Functions
+- `getAllProducts()` - Mengambil semua produk
+- `getProductById($id)` - Mengambil produk berdasarkan ID
+- `addProduct($data)` - Menambah produk baru
+- `updateProduct($id, $data)` - Update produk
+- `deleteProduct($id)` - Hapus produk
+
+### Image Functions
+- `uploadImageToDatabase($file)` - Upload dan konversi gambar ke base64
+- `displayImage($image_data, $mime_type, $class, $alt)` - Menampilkan gambar dari base64
+
+### Utility Functions
+- `createSlug($string)` - Membuat slug dari string
+- `validateInput($data)` - Validasi input
+- `showAlert($message, $type)` - Menampilkan alert
 
 ## Cara Penggunaan
 
-### 1. Dashboard
-- Melihat statistik website
-- Quick actions untuk menambah konten
-- Overview produk, banner, testimonial
+1. **Akses Admin Panel**
+   - Buka browser dan akses: `http://localhost/web/bready/admin/`
+   - Login dengan kredensial admin
 
-### 2. Manajemen Produk
-1. Klik "Add New Product"
-2. Isi informasi produk
-3. Upload gambar (otomatis disimpan ke database)
-4. Set status dan kategori
-5. Klik "Add Product"
+2. **Menambah Produk**
+   - Klik menu "Products"
+   - Klik "Add New Product"
+   - Isi form dan upload gambar
+   - Klik "Add Product"
 
-### 3. Manajemen Banner
-1. Klik "Add New Banner"
-2. Upload gambar banner
-3. Set title, subtitle, badge
-4. Atur urutan tampilan
-5. Klik "Add Banner"
+3. **Menambah Banner**
+   - Klik menu "Banners"
+   - Klik "Add New Banner"
+   - Upload gambar dan isi form
+   - Klik "Add Banner"
 
-### 4. Manajemen Konten Lainnya
-- Testimonial: Tambah review pelanggan
-- Blog Posts: Tulis artikel
-- Awards: Tambah penghargaan
+4. **Mengelola Pesanan**
+   - Klik menu "Orders"
+   - Lihat daftar pesanan
+   - Update status pesanan sesuai kebutuhan
 
-## Keunggulan Sistem
+## Database Tables
 
-### 🔒 Keamanan
-- Validasi input
-- Sanitasi data
-- Prepared statements
-- File upload validation
+### products
+- id, name, slug, description, price, sale_price
+- category_id, image_data, image_mime, stock
+- is_featured, is_new, is_sale, rating, created_at
 
-### 🖼️ Penyimpanan Gambar
-- Gambar disimpan dalam database (base64)
-- Tidak perlu folder upload
-- Backup lebih mudah
-- Tidak ada broken links
+### categories
+- id, name, slug, description
 
-### 📱 Responsive Design
-- Bootstrap 5
-- Mobile-friendly
-- Modern UI/UX
+### banners
+- id, title, subtitle, image_data, image_mime
+- link, badge_text, badge_type, sort_order, is_active
 
-### ⚡ Performa
-- Optimized queries
-- Efficient image handling
-- Fast loading
+### testimonials
+- id, name, position, content, rating
+- image_data, image_mime, created_at
+
+### posts
+- id, title, slug, content, excerpt, author
+- image_data, image_mime, is_published, created_at
+
+### awards
+- id, title, description, year
+- image_data, image_mime, is_active
+
+### orders
+- id, user_id, total_amount, status, created_at
+- shipping_address, payment_method
+
+## Keamanan
+
+- Validasi input pada semua form
+- Sanitasi data sebelum disimpan ke database
+- Pembatasan tipe file upload (hanya gambar)
+- Pembatasan ukuran file (maksimal 5MB)
+- Session management untuk login
 
 ## Troubleshooting
 
-### Error Upload Gambar
-- Pastikan file < 5MB
-- Format: JPG, PNG, GIF, WebP
-- Periksa permission folder
+### Error: Call to undefined function displayImage()
+- Pastikan fungsi `displayImage()` sudah ada di `includes/functions.php`
+- Fungsi ini digunakan untuk menampilkan gambar dari data base64
 
-### Error Database
-- Periksa konfigurasi database
-- Pastikan tabel sudah dibuat
-- Jalankan database_update.sql
+### Error: Database connection failed
+- Periksa konfigurasi database di `config/database.php`
+- Pastikan MySQL server berjalan
+- Periksa username, password, dan nama database
 
-### Gambar Tidak Muncul
-- Periksa kolom image_data di database
-- Pastikan base64 encoding berhasil
-- Clear browser cache
+### Error: Upload file failed
+- Periksa permission folder upload
+- Pastikan ukuran file tidak melebihi 5MB
+- Pastikan tipe file adalah gambar (JPG, PNG, GIF, WebP)
 
-## Customization
+## Dependencies
 
-### Menambah Fitur Baru
-1. Buat fungsi di `includes/functions.php`
-2. Buat halaman admin baru
-3. Tambah menu di sidebar
-4. Update database jika perlu
-
-### Mengubah Tema
-- Edit CSS di file admin
-- Modifikasi Bootstrap classes
-- Custom styling
+- PHP 7.4+
+- MySQL 5.7+
+- Bootstrap 5.1.3
+- Font Awesome 6.0.0
+- jQuery (untuk beberapa fitur)
 
 ## Support
 
-Untuk bantuan atau pertanyaan, silakan buat issue di repository ini.
-
-## License
-
-Admin panel ini dibuat untuk website Bready Bakery. 
+Untuk bantuan teknis atau pertanyaan, silakan hubungi tim development. 

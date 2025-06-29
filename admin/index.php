@@ -1,16 +1,22 @@
- <?php
+<?php
+session_start();
+
+// Cek apakah admin sudah login
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    header('Location: login.php');
+    exit();
+}
+
 require_once 'includes/functions.php';
 
 // Ambil statistik dashboard
 $products = getAllProducts();
 $categories = getAllCategories();
-$banners = getAllBanners();
 $testimonials = getAllTestimonials();
 $posts = getAllPosts();
 
 $total_products = count($products);
 $total_categories = count($categories);
-$total_banners = count($banners);
 $total_testimonials = count($testimonials);
 $total_posts = count($posts);
 ?>
@@ -81,12 +87,6 @@ $total_posts = count($posts);
                 </a>
             </li>
             <li>
-                <a href="banners.php" class="nav-link text-white">
-                    <i class="fas fa-images me-2"></i>
-                    Banners
-                </a>
-            </li>
-            <li>
                 <a href="testimonials.php" class="nav-link text-white">
                     <i class="fas fa-comments me-2"></i>
                     Testimonials
@@ -110,12 +110,18 @@ $total_posts = count($posts);
                     Orders
                 </a>
             </li>
+            <li>
+                <a href="register.php" class="nav-link text-white">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Add Admin
+                </a>
+            </li>
         </ul>
         <hr>
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-user-circle me-2"></i>
-                <strong>Admin</strong>
+                <strong><?php echo htmlspecialchars($_SESSION['admin_name'] ?? 'Admin'); ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                 <li><a class="dropdown-item" href="../index.php" target="_blank">View Website</a></li>
@@ -165,23 +171,6 @@ $total_posts = count($posts);
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-tags fa-2x text-gray-300"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-info shadow h-100 py-2 card-stats">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                        Active Banners</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_banners; ?></div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-images fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
@@ -266,14 +255,14 @@ $total_posts = count($posts);
                                 <a href="products.php?action=add" class="btn btn-primary">
                                     <i class="fas fa-plus me-2"></i>Add New Product
                                 </a>
-                                <a href="banners.php?action=add" class="btn btn-success">
-                                    <i class="fas fa-image me-2"></i>Add New Banner
-                                </a>
                                 <a href="testimonials.php?action=add" class="btn btn-info">
                                     <i class="fas fa-comment me-2"></i>Add Testimonial
                                 </a>
                                 <a href="posts.php?action=add" class="btn btn-warning">
                                     <i class="fas fa-edit me-2"></i>Write Blog Post
+                                </a>
+                                <a href="register.php" class="btn btn-success">
+                                    <i class="fas fa-user-plus me-2"></i>Add New Admin
                                 </a>
                             </div>
                         </div>
