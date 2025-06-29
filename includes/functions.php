@@ -305,12 +305,10 @@ function saveOrder($order_data) {
         // Insert ke tabel orders
         $sql = "INSERT INTO orders (
             order_number, user_id, customer_name, customer_email, customer_phone, 
-            customer_address, order_date, contact_time, product_name, 
-            product_quantity, notes, total_amount, status, created_at
+            customer_address, notes, total_amount, status, created_at
         ) VALUES (
             :order_number, :user_id, :customer_name, :customer_email, :customer_phone,
-            :customer_address, :order_date, :contact_time, :product_name,
-            :product_quantity, :notes, :total_amount, 'pending', NOW()
+            :customer_address, :notes, :total_amount, 'pending', NOW()
         )";
         
         $stmt = $db->prepare($sql);
@@ -320,10 +318,6 @@ function saveOrder($order_data) {
         $stmt->bindParam(':customer_email', $order_data['customer_email']);
         $stmt->bindParam(':customer_phone', $order_data['customer_phone']);
         $stmt->bindParam(':customer_address', $order_data['customer_address']);
-        $stmt->bindParam(':order_date', $order_data['order_date']);
-        $stmt->bindParam(':contact_time', $order_data['contact_time']);
-        $stmt->bindParam(':product_name', $order_data['product_name']);
-        $stmt->bindParam(':product_quantity', $order_data['product_quantity']);
         $stmt->bindParam(':notes', $order_data['notes']);
         $stmt->bindParam(':total_amount', $order_data['total_amount']);
         
@@ -331,13 +325,23 @@ function saveOrder($order_data) {
         
         $order_id = $db->lastInsertId();
         
-        // Insert ke tabel order_tracking
-        $sql_tracking = "INSERT INTO order_tracking (
-            order_id, status, description, created_at
+        // Insert ke tabel order_items
+        $sql_items = "INSERT INTO order_items (
+            order_id, product_id, product_name, quantity, price
         ) VALUES (
-            :order_id, 'pending', 'Order has been placed successfully', NOW()
+            :order_id, :product_id, :product_name, :quantity, :price
         )";
         
+        $stmt_items = $db->prepare($sql_items);
+        $stmt_items->bindParam(':order_id', $order_id);
+        $stmt_items->bindParam(':product_id', $order_data['product_id']);
+        $stmt_items->bindParam(':product_name', $order_data['product_name']);
+        $stmt_items->bindParam(':quantity', $order_data['product_quantity']);
+        $stmt_items->bindParam(':price', $order_data['price']);
+        $stmt_items->execute();
+        
+        // Insert ke tabel order_tracking
+        $sql_tracking = "INSERT INTO order_tracking (order_id, status, description, created_at) VALUES (:order_id, 'pending', 'Order has been placed successfully', NOW())";
         $stmt_tracking = $db->prepare($sql_tracking);
         $stmt_tracking->bindParam(':order_id', $order_id);
         $stmt_tracking->execute();

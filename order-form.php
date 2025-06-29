@@ -345,26 +345,6 @@ unset($_SESSION['order_errors']);
                        value="<?php echo isset($order_data['product_quantity']) ? htmlspecialchars($order_data['product_quantity']) : '1'; ?>" required>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <label>Tanggal Order <sup>*</sup></label>
-                <div class="ps-form--icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                  <input class="form-control" type="date" name="order_date" 
-                         value="<?php echo isset($order_data['order_date']) ? htmlspecialchars($order_data['order_date']) : date('Y-m-d'); ?>" required>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <label>Waktu Kontak Terbaik <sup>*</sup></label>
-                <div class="ps-form--icon">
-                  <i class="fa fa-clock-o"></i>
-                  <input class="form-control" type="time" name="contact_time" 
-                         value="<?php echo isset($order_data['contact_time']) ? htmlspecialchars($order_data['contact_time']) : ''; ?>" required>
-                </div>
-              </div>
-            </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <div class="form-group">
                 <label>Catatan Tambahan</label>

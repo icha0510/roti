@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status'])) {
                 if ($isAjax) {
                     echo '<div style="color:green; padding: 10px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; margin: 10px 0;">Status berhasil diupdate!</div>';
                 } else {
-                    header("Location: order_tracking.php?order_id=$order_id&success=1");
+                    header("Location: order_tracking_fixed.php?order_id=$order_id&success=1");
                     exit;
                 }
             } else {
@@ -652,6 +652,21 @@ if (!$isAjax) {
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             margin: 10px 0;
         }
+        .print-button {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+        .print-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+        }
         @media print {
             .floating-action, .back-link, .status-update-form {
                 display: none !important;
@@ -793,6 +808,7 @@ if (!$isAjax) {
         </div>
         <?php endif; ?>
     </div>
+    <button class="print-button" onclick="printOrder(<?php echo $order_id; ?>)">🖨️ Print Order</button>
 </div>
 
 <div class="section-divider"></div>
@@ -817,6 +833,28 @@ if (!$isAjax) {
     </div>
 <?php endif; ?>
 
+<div class="section-divider"></div>
+<div class="status-update-form slide-in-right">
+    <h3 class="gradient-text">🔄 Update Status</h3>
+    <form method="post">
+        <div class="form-group">
+            <label>Status</label>
+            <select name="status" required>
+                <option value="">-- Pilih Status --</option>
+                <option value="pending">Pending</option>
+                <option value="processing">Processing</option>
+                <option value="shipped">Shipped</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Keterangan</label>
+            <textarea name="description" placeholder="Masukkan keterangan update status..."></textarea>
+        </div>
+        <button type="submit">Update Status</button>
+    </form>
+</div>
 <a href="orders.php" class="back-link">← Kembali ke Daftar Order</a>
 
 <?php if (!$isAjax): ?>
@@ -899,11 +937,54 @@ if (!$isAjax) {
             }, 3000);
         }
 
+        // Print functionality
+        function printOrder(orderId) {
+            window.open('print_order.php?order_id=' + orderId, '_blank');
+        }
+
         // Add keyboard shortcuts
         document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                printOrder(<?php echo $order_id; ?>);
+            }
             if (e.key === 'Escape') {
                 window.location.href = 'orders.php';
             }
+        });
+
+        // Add tooltips
+        const tooltips = document.querySelectorAll('[title]');
+        tooltips.forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tooltip';
+                tooltip.textContent = this.getAttribute('title');
+                tooltip.style.cssText = `
+                    position: absolute;
+                    background: #333;
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    z-index: 1000;
+                    pointer-events: none;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                `;
+                document.body.appendChild(tooltip);
+                
+                const rect = this.getBoundingClientRect();
+                tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+                tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+                
+                setTimeout(() => tooltip.style.opacity = '1', 10);
+                
+                this.addEventListener('mouseleave', function() {
+                    tooltip.style.opacity = '0';
+                    setTimeout(() => tooltip.remove(), 300);
+                }, { once: true });
+            });
         });
     </script>
 <?php endif; ?>

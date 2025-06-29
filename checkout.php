@@ -5,6 +5,17 @@ error_reporting(E_ALL);
 
 session_start();
 require_once 'includes/functions.php';
+require_once 'config/database.php';
+
+// Cek apakah user sudah login
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['error'] = "Anda harus login terlebih dahulu untuk melakukan checkout.";
+    header('Location: login.php');
+    exit;
+}
+
+// Ambil data user
+$user = getUserById($_SESSION['user_id']);
 
 // Initialize cart if not exists
 if (!isset($_SESSION['cart'])) {
@@ -17,6 +28,7 @@ $db = $database->getConnection();
 
 // Redirect if cart is empty
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+    $_SESSION['error'] = "Keranjang belanja Anda kosong.";
     header('Location: cart.php');
     exit;
 }
@@ -29,6 +41,10 @@ foreach ($_SESSION['cart'] as $item) {
     $cart_count += $item['quantity'];
 }
 
+// Initialize variables for form data
+$order_data = array();
+$errors = array();
+
 // Handle form submission
 if ($_POST && isset($_POST['place_order'])) {
     $customer_name = trim($_POST['customer_name']);
@@ -36,72 +52,88 @@ if ($_POST && isset($_POST['place_order'])) {
     $customer_phone = trim($_POST['customer_phone']);
     $customer_address = trim($_POST['customer_address']);
     $notes = trim($_POST['notes'] ?? '');
-    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+    $user_id = $_SESSION['user_id'];
+    
+    // Store form data for repopulation if there are errors
+    $order_data = array(
+        'customer_name' => $customer_name,
+        'customer_email' => $customer_email,
+        'customer_phone' => $customer_phone,
+        'customer_address' => $customer_address,
+        'notes' => $notes
+    );
     
     // Basic validation
-    $errors = [];
     if (empty($customer_name)) $errors[] = "Nama wajib diisi";
     if (empty($customer_email)) $errors[] = "Email wajib diisi";
     if (!filter_var($customer_email, FILTER_VALIDATE_EMAIL)) $errors[] = "Format email tidak valid";
     if (empty($customer_phone)) $errors[] = "Nomor telepon wajib diisi";
     if (empty($customer_address)) $errors[] = "Alamat wajib diisi";
     
+    // Validate cart items
+    if (empty($_SESSION['cart'])) {
+        $errors[] = "Keranjang belanja kosong";
+    }
+    
     if (empty($errors)) {
         try {
             $db->beginTransaction();
+            
             // Generate unique order number
             $order_number = 'ORD-' . date('Y') . '-' . str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
-            $order_date = isset($_POST['order_date']) ? $_POST['order_date'] : date('Y-m-d');
-            $contact_time = isset($_POST['contact_time']) ? $_POST['contact_time'] : date('H:i');
-            $product_names = [];
-            $product_quantities = 0;
-            foreach ($_SESSION['cart'] as $item) {
-                $product_names[] = $item['name'];
-                $product_quantities += $item['quantity'];
-            }
-            $product_name = implode(', ', $product_names);
-            $product_quantity = $product_quantities;
+            
             // Insert order
             $stmt = $db->prepare("
                 INSERT INTO orders (
                     order_number, user_id, customer_name, customer_email, customer_phone, customer_address,
-                    order_date, contact_time, product_name, product_quantity, notes, total_amount, status, created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())
+                    notes, total_amount, status, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())
             ");
-            $stmt->execute([
+            
+            $result = $stmt->execute([
                 $order_number,
                 $user_id,
                 $customer_name,
                 $customer_email,
                 $customer_phone,
                 $customer_address,
-                $order_date,
-                $contact_time,
-                $product_name,
-                $product_quantity,
                 $notes,
                 $cart_total
             ]);
+            
+            if (!$result) {
+                throw new Exception("Gagal menyimpan data order");
+            }
+            
             $order_id = $db->lastInsertId();
+            
             // Insert order items
             $stmt = $db->prepare("
                 INSERT INTO order_items (order_id, product_id, product_name, quantity, price)
                 VALUES (?, ?, ?, ?, ?)
             ");
+            
             foreach ($_SESSION['cart'] as $product_id => $item) {
-                $stmt->execute([
+                $result = $stmt->execute([
                     $order_id,
                     $product_id,
                     $item['name'],
                     $item['quantity'],
                     $item['price']
                 ]);
+                
+                if (!$result) {
+                    throw new Exception("Gagal menyimpan item order");
+                }
             }
-            // Insert order tracking (optional)
+            
+            // Insert order tracking
             $stmt = $db->prepare("INSERT INTO order_tracking (order_id, status, description, created_at) VALUES (?, 'pending', 'Order has been placed successfully', NOW())");
             $stmt->execute([$order_id]);
+            
             $db->commit();
-            // Clear cart and redirect to success page
+            
+            // Clear cart and set success message
             $_SESSION['cart'] = array();
             $_SESSION['order_success'] = [
                 'order_id' => $order_id,
@@ -109,21 +141,35 @@ if ($_POST && isset($_POST['place_order'])) {
                 'customer_name' => $customer_name,
                 'total_amount' => $cart_total
             ];
+            
+            // Redirect to success page
             header('Location: order-success.php');
             exit;
+            
         } catch (Exception $e) {
             $db->rollBack();
-            $errors[] = "Gagal menyimpan pesanan. Silakan coba lagi.";
+            $errors[] = "Gagal menyimpan pesanan: " . $e->getMessage();
+            error_log("Order error: " . $e->getMessage());
         }
     }
 }
 ?>
 <!DOCTYPE html>
+<!--[if IE 7]><html class="ie ie7"><![endif]-->
+<!--[if IE 8]><html class="ie ie8"><![endif]-->
+<!--[if IE 9]><html class="ie ie9"><![endif]-->
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="favicon.png" rel="icon">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
     <title>Checkout - Bready</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
@@ -136,10 +182,16 @@ if ($_POST && isset($_POST['place_order'])) {
     <link rel="stylesheet" href="plugins/slick/slick/slick.css">
     <link rel="stylesheet" href="plugins/lightGallery-master/dist/css/lightgallery.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
+    <!--WARNING: Respond.js doesn't work if you view the page via file://-->
+    <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
+    <!--[if IE 7]><body class="ie7 lt-ie8 lt-ie9 lt-ie10"><![endif]-->
+    <!--[if IE 8]><body class="ie8 lt-ie9 lt-ie10"><![endif]-->
+    <!--[if IE 9]><body class="ie9 lt-ie10"><![endif]-->
     <style>
         .checkout-item-image {
             width: 80px;
-            height: 280px;
+            height: 80px;
             object-fit: cover;
             border-radius: 8px;
             border: 2px solid #cd9b33;
@@ -318,7 +370,7 @@ if ($_POST && isset($_POST['place_order'])) {
     </header>
 
     <!-- Hero Section -->
-    <div class="ps-hero bg--cover" data-background="images/hero/about.jpg">
+    <div class="ps-hero bg--cover" data-background="images/hero/product.jpg">
         <div class="ps-hero__content">
             <h1>Checkout</h1>
             <div class="ps-breadcrumb">
@@ -334,14 +386,15 @@ if ($_POST && isset($_POST['place_order'])) {
     <!-- Main Content -->
     <main class="ps-main">
         <div class="ps-container">
+            <!-- Error Messages -->
             <?php if (!empty($errors)): ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <ul class="mb-0">
+                <div class="alert alert-danger">
+                    <h4>Terjadi kesalahan:</h4>
+                    <ul>
                         <?php foreach ($errors as $error): ?>
                             <li><?php echo htmlspecialchars($error); ?></li>
                         <?php endforeach; ?>
                     </ul>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
 
@@ -352,43 +405,42 @@ if ($_POST && isset($_POST['place_order'])) {
                             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                                 <div class="ps-form__content">
                                     <h3 class="ps-section__title">Formulir Pemesanan</h3>
-                                    <div class="form-group">
-                                        <label>Nama Lengkap <sup>*</sup></label>
-                                        <input class="form-control" type="text" name="customer_name" placeholder="Masukkan nama lengkap Anda" value="<?php echo htmlspecialchars($_POST['customer_name'] ?? ''); ?>" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nomor Telepon <sup>*</sup></label>
-                                        <input class="form-control" type="text" name="customer_phone" placeholder="Masukkan nomor telepon" value="<?php echo htmlspecialchars($_POST['customer_phone'] ?? ''); ?>" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Alamat Lengkap <sup>*</sup></label>
-                                        <input class="form-control" type="text" name="customer_address" placeholder="Masukkan alamat lengkap" value="<?php echo htmlspecialchars($_POST['customer_address'] ?? ''); ?>" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Email <sup>*</sup></label>
-                                        <input class="form-control" type="email" name="customer_email" placeholder="Masukkan email Anda" value="<?php echo htmlspecialchars($_POST['customer_email'] ?? ''); ?>" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Catatan Tambahan</label>
-                                        <textarea class="form-control" name="notes" rows="4" placeholder="Catatan khusus untuk pesanan Anda (opsional)"><?php echo htmlspecialchars($_POST['notes'] ?? ''); ?></textarea>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                      <div class="form-group">
-                                        <label>Tanggal Order <sup>*</sup></label>
-                                        <div class="ps-form--icon">
-                                          <i class="fa fa-calendar-check-o"></i>
-                                          <input class="form-control" type="date" name="order_date" value="<?php echo htmlspecialchars($_POST['order_date'] ?? date('Y-m-d')); ?>" required>
+                                    
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Nama Lengkap <sup>*</sup></label>
+                                                <input class="form-control" type="text" name="customer_name" placeholder="Masukkan nama lengkap Anda" 
+                                                       value="<?php echo isset($order_data['customer_name']) ? htmlspecialchars($order_data['customer_name']) : htmlspecialchars($user['name'] ?? ''); ?>" required>
+                                            </div>
                                         </div>
-                                      </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                      <div class="form-group">
-                                        <label>Waktu Kontak Terbaik <sup>*</sup></label>
-                                        <div class="ps-form--icon">
-                                          <i class="fa fa-clock-o"></i>
-                                          <input class="form-control" type="time" name="contact_time" value="<?php echo htmlspecialchars($_POST['contact_time'] ?? ''); ?>" required>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Nomor Telepon <sup>*</sup></label>
+                                                <input class="form-control" type="text" name="customer_phone" placeholder="Masukkan nomor telepon" 
+                                                       value="<?php echo isset($order_data['customer_phone']) ? htmlspecialchars($order_data['customer_phone']) : htmlspecialchars($user['phone'] ?? ''); ?>" required>
+                                            </div>
                                         </div>
-                                      </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Alamat Lengkap <sup>*</sup></label>
+                                                <input class="form-control" type="text" name="customer_address" placeholder="Masukkan alamat lengkap" 
+                                                       value="<?php echo isset($order_data['customer_address']) ? htmlspecialchars($order_data['customer_address']) : htmlspecialchars($user['address'] ?? ''); ?>" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Email <sup>*</sup></label>
+                                                <input class="form-control" type="email" name="customer_email" placeholder="Masukkan email Anda" 
+                                                       value="<?php echo isset($order_data['customer_email']) ? htmlspecialchars($order_data['customer_email']) : htmlspecialchars($user['email'] ?? ''); ?>" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Catatan Tambahan</label>
+                                                <textarea class="form-control" name="notes" rows="4" placeholder="Catatan khusus untuk pesanan Anda (opsional)"><?php echo isset($order_data['notes']) ? htmlspecialchars($order_data['notes']) : ''; ?></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -480,7 +532,7 @@ if ($_POST && isset($_POST['place_order'])) {
                 <div class="row">
                     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
                         <div class="ps-site-info">
-                            <a class="ps-logo" href="index.php"><img src="images/logo-dark.png" alt=""></a>
+                            <a class="ps-logo" href="index.html"><img src="images/logo-dark.png" alt=""></a>
                             <p>Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
                             <ul class="ps-list--social">
                                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>

@@ -37,16 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Alamat wajib diisi";
     }
     
-    // Validasi tanggal order
-    if (empty($_POST['order_date'])) {
-        $errors[] = "Tanggal order wajib diisi";
-    }
-    
-    // Validasi waktu kontak
-    if (empty($_POST['contact_time'])) {
-        $errors[] = "Waktu kontak wajib diisi";
-    }
-    
     // Validasi produk
     if (empty($_POST['product_id'])) {
         $errors[] = "Produk wajib dipilih";
@@ -77,10 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'customer_email' => $_POST['customer_email'],
                 'customer_phone' => $_POST['customer_phone'],
                 'customer_address' => $_POST['customer_address'],
-                'order_date' => $_POST['order_date'],
-                'contact_time' => $_POST['contact_time'],
+                'product_id' => $_POST['product_id'],
                 'product_name' => $product['name'],
                 'product_quantity' => $_POST['product_quantity'],
+                'price' => $price,
                 'notes' => $_POST['notes'] ?? '',
                 'total_amount' => $total_amount
             );
