@@ -25,7 +25,8 @@ $total_posts = count($posts);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Bready Bakery</title>
+    <link href="../images/logo-rotio.png" rel="icon">
+    <title>Admin Dashboard - Roti'O</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -41,7 +42,7 @@ $total_posts = count($posts);
             background: #495057;
         }
         .sidebar .nav-link.active {
-            background: #007bff;
+            background: #F2E205;
         }
         .card-stats {
             transition: transform 0.2s;
@@ -63,8 +64,8 @@ $total_posts = count($posts);
     <!-- Sidebar -->
     <nav class="sidebar position-fixed top-0 start-0 d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 250px;">
         <a href="index.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <i class="fas fa-bread-slice me-2"></i>
-            <span class="fs-4">Bready Admin</span>
+            <img src="../images/logo-rotio.png" alt="Roti'O" class="me-2" style="width: 30px; height: 30px;">
+            <span class="fs-4">Roti'O Admin</span>
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
@@ -99,9 +100,9 @@ $total_posts = count($posts);
                 </a>
             </li>
             <li>
-                <a href="awards.php" class="nav-link text-white">
-                    <i class="fas fa-trophy me-2"></i>
-                    Awards
+                <a href="newsletter.php" class="nav-link text-white">
+                    <i class="fas fa-envelope me-2"></i>
+                    Newsletter
                 </a>
             </li>
             <li>

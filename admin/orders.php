@@ -21,6 +21,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <link href="../images/logo-rotio.png" rel="icon">
     <title>Admin - Order Management Dashboard</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
@@ -372,11 +373,6 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <div class="container">
         <h2>📋 Order Management Dashboard</h2>
-        
-        <div class="header-actions">
-            <a href="fix_order_tracking.php" class="btn btn-success">🔧 Update Status (Fixed)</a>
-            <a href="run_fix_sql.php" class="btn btn-primary">🛠️ Perbaiki Database</a>
-        </div>
         
         <div class="order-count">
             <h3>📊 Total Orders: <?php echo count($orders); ?></h3>

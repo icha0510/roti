@@ -484,51 +484,6 @@ function deletePost($id) {
     return $stmt->execute();
 }
 
-// Fungsi untuk mengambil semua awards
-function getAllAwards() {
-    $database = new Database();
-    $db = $database->getConnection();
-    
-    $sql = "SELECT * FROM awards ORDER BY year_start DESC";
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-    
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Fungsi untuk menambah award
-function addAward($data) {
-    $database = new Database();
-    $db = $database->getConnection();
-    
-    $sql = "INSERT INTO awards (title, description, year_start, year_end, image_data, image_mime, is_active) 
-            VALUES (:title, :description, :year_start, :year_end, :image_data, :image_mime, :is_active)";
-    
-    $stmt = $db->prepare($sql);
-    
-    $stmt->bindParam(':title', $data['title']);
-    $stmt->bindParam(':description', $data['description']);
-    $stmt->bindParam(':year_start', $data['year_start']);
-    $stmt->bindParam(':year_end', $data['year_end']);
-    $stmt->bindParam(':image_data', $data['image_data']);
-    $stmt->bindParam(':image_mime', $data['image_mime']);
-    $stmt->bindParam(':is_active', $data['is_active']);
-    
-    return $stmt->execute();
-}
-
-// Fungsi untuk menghapus award
-function deleteAward($id) {
-    $database = new Database();
-    $db = $database->getConnection();
-    
-    $sql = "DELETE FROM awards WHERE id = :id";
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam(':id', $id);
-    
-    return $stmt->execute();
-}
-
 // Fungsi untuk membuat slug dari string
 function createSlug($string) {
     $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)));
@@ -680,5 +635,31 @@ function updateAdminPassword($id, $new_password) {
     $stmt->bindParam(':id', $id);
     
     return $stmt->execute();
+}
+
+// Fungsi untuk mendapatkan semua newsletter subscribers
+function getAllNewsletterSubscribers() {
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM newsletter_subscribers ORDER BY subscribed_at DESC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error getAllNewsletterSubscribers: " . $e->getMessage());
+        return [];
+    }
+}
+
+// Fungsi untuk menghapus subscriber newsletter berdasarkan ID
+function deleteNewsletterSubscriber($id) {
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("DELETE FROM newsletter_subscribers WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->rowCount() > 0;
+    } catch (PDOException $e) {
+        error_log("Error deleteNewsletterSubscriber: " . $e->getMessage());
+        return false;
+    }
 }
 ?> 

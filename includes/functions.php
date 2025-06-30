@@ -115,6 +115,19 @@ function getAllPosts($limit = 3) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Fungsi untuk mengambil post berdasarkan ID
+function getPostById($id) {
+    $database = new Database();
+    $db = $database->getConnection();
+    
+    $sql = "SELECT * FROM posts WHERE id = :id AND status = 'published'";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 // Fungsi untuk mengambil semua awards
 function getAllAwards() {
     $database = new Database();
@@ -499,5 +512,87 @@ function getOrdersByUserIdWithLimit($user_id, $limit = 10) {
     $stmt->execute();
     
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Fungsi untuk subscribe newsletter
+function subscribeNewsletter($email) {
+    $database = new Database();
+    $db = $database->getConnection();
+    
+    // Validasi email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return ['success' => false, 'message' => 'Email tidak valid'];
+    }
+    
+    try {
+        // Cek apakah email sudah terdaftar
+        $sql = "SELECT id FROM newsletter_subscribers WHERE email = :email";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        
+        if ($stmt->fetch()) {
+            return ['success' => false, 'message' => 'Email sudah terdaftar'];
+        }
+        
+        // Insert email baru
+        $sql = "INSERT INTO newsletter_subscribers (email) VALUES (:email)";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        
+        if ($stmt->execute()) {
+            return ['success' => true, 'message' => 'Berhasil subscribe newsletter!'];
+        } else {
+            return ['success' => false, 'message' => 'Gagal subscribe newsletter'];
+        }
+        
+    } catch (Exception $e) {
+        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
+    }
+}
+
+// Fungsi untuk unsubscribe newsletter
+function unsubscribeNewsletter($email) {
+    $database = new Database();
+    $db = $database->getConnection();
+    
+    try {
+        $sql = "UPDATE newsletter_subscribers SET status = 'unsubscribed' WHERE email = :email";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        
+        if ($stmt->execute()) {
+            return ['success' => true, 'message' => 'Berhasil unsubscribe newsletter'];
+        } else {
+            return ['success' => false, 'message' => 'Gagal unsubscribe newsletter'];
+        }
+        
+    } catch (Exception $e) {
+        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
+    }
+}
+
+// Fungsi untuk mendapatkan semua subscribers
+function getAllNewsletterSubscribers() {
+    $database = new Database();
+    $db = $database->getConnection();
+    
+    $sql = "SELECT * FROM newsletter_subscribers ORDER BY subscribed_at DESC";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Fungsi untuk menghapus subscriber
+function deleteNewsletterSubscriber($id) {
+    $database = new Database();
+    $db = $database->getConnection();
+    
+    $sql = "DELETE FROM newsletter_subscribers WHERE id = :id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    
+    return $stmt->execute();
 }
 ?> 

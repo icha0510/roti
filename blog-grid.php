@@ -14,6 +14,9 @@ foreach ($_SESSION['cart'] as $item) {
     $cart_total += $item['price'] * $item['quantity'];
     $cart_count += $item['quantity'];
 }
+
+// Get blog posts from database
+$posts = getAllPosts(9); // Get 9 posts for grid layout
 ?>
 <!DOCTYPE html>
 <!--[if IE 7]><html class="ie ie7"><![endif]-->
@@ -27,11 +30,11 @@ foreach ($_SESSION['cart'] as $item) {
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="favicon.png" rel="icon">
+    <link href="images/logo-rotio.png" rel="icon">
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>Blog Grid - Bready</title>
+    <title>Blog Grid - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -43,6 +46,23 @@ foreach ($_SESSION['cart'] as $item) {
     <link rel="stylesheet" href="plugins/slick/slick/slick.css">
     <link rel="stylesheet" href="plugins/lightGallery-master/dist/css/lightgallery.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+      /* Custom CSS untuk TikTok icon */
+      .fa-tiktok:before {
+        content: "";
+        background-image: url("data:image/svg+xml,%3Csvg id='fi_3046120' enable-background='new 0 0 512 512' height='512' viewBox='0 0 512 512' width='512' xmlns='http://www.w3.org/2000/svg'%3E%3Cg%3E%3Cpath d='m480.32 128.39c-29.22 0-56.18-9.68-77.83-26.01-24.83-18.72-42.67-46.18-48.97-77.83-1.56-7.82-2.4-15.89-2.48-24.16h-83.47v228.08l-.1 124.93c0 33.4-21.75 61.72-51.9 71.68-8.75 2.89-18.2 4.26-28.04 3.72-12.56-.69-24.33-4.48-34.56-10.6-21.77-13.02-36.53-36.64-36.93-63.66-.63-42.23 33.51-76.66 75.71-76.66 8.33 0 16.33 1.36 23.82 3.83v-62.34-22.41c-7.9-1.17-15.94-1.78-24.07-1.78-46.19 0-89.39 19.2-120.27 53.79-23.34 26.14-37.34 59.49-39.5 94.46-2.83 45.94 13.98 89.61 46.58 121.83 4.79 4.73 9.82 9.12 15.08 13.17 27.95 21.51 62.12 33.17 98.11 33.17 8.13 0 16.17-.6 24.07-1.77 33.62-4.98 64.64-20.37 89.12-44.57 30.08-29.73 46.7-69.2 46.88-111.21l-.43-186.56c14.35 11.07 30.04 20.23 46.88 27.34 26.19 11.05 53.96 16.65 82.54 16.64v-60.61-22.49c.02.02-.22.02-.24.02z'/%3E%3C/g%3E%3C/svg%3E");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+      }
+      .fa-brands.fa-tiktok {
+        font-family: inherit;
+      }
+    </style>
     <!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
     <!--WARNING: Respond.js doesn't work if you view the page via file://-->
     <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
@@ -70,7 +90,7 @@ foreach ($_SESSION['cart'] as $item) {
             <!-- Logo Section -->
             <div class="header-logo">
               <a class="ps-logo" href="index.php">
-                <img src="images/logo-light.png" alt="">
+                <img src="images/logo-rotio.png" alt="">
               </a>
             </div>
             <!-- Navigation Menu -->
@@ -214,78 +234,27 @@ foreach ($_SESSION['cart'] as $item) {
     <main class="ps-main">
       <div class="ps-container">
         <div class="row">
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-            <div class="ps-post" data-mh="post">
-              <div class="ps-post__thumbnail"><img src="images/posts/blog-1.jpg" alt=""><a class="ps-post__overlay" href="blog-detail.html"></a></div>
-              <div class="ps-post__content"><span class="ps-post__posted">March 31, 2018</span><a class="ps-post__title" href="blog-detail.html">Tartine style bread</a><span class="ps-post__byline">By<a href="#"> Alena Studio</a></span>
-                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further…</p><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
+          <?php foreach ($posts as $post): ?>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+              <div class="ps-post" data-mh="post">
+                <div class="ps-post__thumbnail">
+                  <?php if (!empty($post['image_data'])): ?>
+                    <?php echo displayImage($post['image_data'], $post['image_mime'], '', $post['title']); ?>
+                  <?php else: ?>
+                    <img src="<?php echo $post['image']; ?>" alt="<?php echo htmlspecialchars($post['title']); ?>">
+                  <?php endif; ?>
+                  <a class="ps-post__overlay" href="blog-detail.php?id=<?php echo $post['id']; ?>"></a>
+                </div>
+                <div class="ps-post__content">
+                  <span class="ps-post__posted"><?php echo date('F j, Y', strtotime($post['created_at'])); ?></span>
+                  <a class="ps-post__title" href="blog-detail.php?id=<?php echo $post['id']; ?>"><?php echo htmlspecialchars($post['title']); ?></a>
+                  <span class="ps-post__byline">By<a href="#"> <?php echo htmlspecialchars($post['author']); ?></a></span>
+                  <p><?php echo htmlspecialchars($post['excerpt']); ?></p>
+                  <a class="ps-post__morelink" href="blog-detail.php?id=<?php echo $post['id']; ?>">Read more</a>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-            <div class="ps-post" data-mh="post">
-              <div class="ps-post__thumbnail"><img src="images/posts/blog-2.jpg" alt=""><a class="ps-post__overlay" href="blog-detail.html"></a></div>
-              <div class="ps-post__content"><span class="ps-post__posted">March 31, 2018</span><a class="ps-post__title" href="blog-detail.html">Breaking Down the Black Rose</a><span class="ps-post__byline">By<a href="#"> Alena Studio</a></span>
-                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further…</p><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-            <div class="ps-post" data-mh="post">
-              <div class="ps-post__thumbnail"><img src="images/posts/blog-3.jpg" alt=""><a class="ps-post__overlay" href="blog-detail.html"></a></div>
-              <div class="ps-post__content"><span class="ps-post__posted">March 31, 2018</span><a class="ps-post__title" href="blog-detail.html">How Traditions and Science</a><span class="ps-post__byline">By<a href="#"> Alena Studio</a></span>
-                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further…</p><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-            <div class="ps-post" data-mh="post">
-              <div class="ps-post__thumbnail"><img src="images/posts/blog-4.jpg" alt=""><a class="ps-post__overlay" href="blog-detail.html"></a></div>
-              <div class="ps-post__content"><span class="ps-post__posted">March 31, 2018</span><a class="ps-post__title" href="blog-detail.html">Unpacking the Breaking</a><span class="ps-post__byline">By<a href="#"> Alena Studio</a></span>
-                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further…</p><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-            <div class="ps-post" data-mh="post">
-              <div class="ps-post__thumbnail"><img src="images/posts/blog-5.jpg" alt=""><a class="ps-post__overlay" href="blog-detail.html"></a></div>
-              <div class="ps-post__content"><span class="ps-post__posted">March 31, 2018</span><a class="ps-post__title" href="blog-detail.html">Limited Edition Tiempo Totti</a><span class="ps-post__byline">By<a href="#"> Alena Studio</a></span>
-                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further…</p><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-            <div class="ps-post" data-mh="post">
-              <div class="ps-post__thumbnail"><img src="images/posts/blog-6.jpg" alt=""><a class="ps-post__overlay" href="blog-detail.html"></a></div>
-              <div class="ps-post__content"><span class="ps-post__posted">March 31, 2018</span><a class="ps-post__title" href="blog-detail.html">The Shoes Athletes</a><span class="ps-post__byline">By<a href="#"> Alena Studio</a></span>
-                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further…</p><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-            <div class="ps-post" data-mh="post">
-              <div class="ps-post__thumbnail"><img src="images/posts/blog-7.jpg" alt=""><a class="ps-post__overlay" href="blog-detail.html"></a></div>
-              <div class="ps-post__content"><span class="ps-post__posted">March 31, 2018</span><a class="ps-post__title" href="blog-detail.html">Basketball Phenom</a><span class="ps-post__byline">By<a href="#"> Alena Studio</a></span>
-                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further…</p><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-            <div class="ps-post" data-mh="post">
-              <div class="ps-post__thumbnail"><img src="images/posts/blog-8.jpg" alt=""><a class="ps-post__overlay" href="blog-detail.html"></a></div>
-              <div class="ps-post__content"><span class="ps-post__posted">March 31, 2018</span><a class="ps-post__title" href="blog-detail.html">Nike's Latest Football</a><span class="ps-post__byline">By<a href="#"> Alena Studio</a></span>
-                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further…</p><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-            <div class="ps-post" data-mh="post">
-              <div class="ps-post__thumbnail"><img src="images/posts/blog-9.jpg" alt=""><a class="ps-post__overlay" href="blog-detail.html"></a></div>
-              <div class="ps-post__content"><span class="ps-post__posted">March 31, 2018</span><a class="ps-post__title" href="blog-detail.html">Limited Edition Tiempo Totti</a><span class="ps-post__byline">By<a href="#"> Alena Studio</a></span>
-                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further…</p><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
-              </div>
-            </div>
-          </div>
+          <?php endforeach; ?>
         </div>
         <div class="ps-pagination">
           <ul class="pagination">
@@ -307,20 +276,21 @@ foreach ($_SESSION['cart'] as $item) {
               <div class="ps-site-info"><a class="ps-logo" href="index.php"><img src="images/logo-dark.png" alt=""></a>
                 <p>Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
                 <ul class="ps-list--social">
-                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                  <li><a href="https://www.facebook.com/share/19g2Ds4bML/"><i class="fa fa-facebook"></i></a></li>
+                  <li><a href="https://www.tiktok.com/@rotio.indonesia?_t=ZS-8xdJVQ8gKAc&_r=1"><i class="fa-brands fa-tiktok"></i></a></li>
+                  <li><a href="https://www.instagram.com/rotio.indonesia?igsh=N2NqdTIwcWFoc2h5"><i class="fa fa-instagram"></i></a></li>
                 </ul>
               </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <form class="ps-form--subscribe-offer" action="do_action" method="post">
+              <form class="ps-form--subscribe-offer" id="newsletterForm" method="post">
                 <h4>Get news & offer</h4>
                 <div class="form-group">
-                  <input class="form-control" type="text" placeholder="Your Email...">
-                  <button>Subscribe</button>
+                  <input class="form-control" type="email" name="email" id="newsletterEmail" placeholder="Your Email..." required>
+                  <button type="submit" id="newsletterBtn">Subscribe</button>
                 </div>
                 <p>* Don't worry, we never spam</p>
+                <div id="newsletterMessage"></div>
               </form>
               <div class="ps-footer__contact">
                 <h4>Contact with me</h4>
@@ -339,20 +309,14 @@ foreach ($_SESSION['cart'] as $item) {
               </div>
               <ul class="ps-list--payment">
                 <li><a href="#"><img src="images/payment-method/visa.png" alt=""></a></li>
-                <li><a href="#"><img src="images/payment-method/master-card.png" alt=""></a></li>
+                <li><a href="#"><i class="ba-shopping"></i></a></li>
                 <li><a href="#"><img src="images/payment-method/paypal.png" alt=""></a></li>
               </ul>
             </div>
           </div>
         </div>
       </div>
-      <div class="ps-footer__copyright">
-        <div class="container">
-          <p>
-            ©  Copyright by <strong>Bready Store</strong>. Design by<a href="#"> Alena Studio.</a></p>
-        </div>
-      </div>
-    </footer>
+      </footer>
     <div id="back2top"><i class="fa fa-angle-up"></i></div>
     <div class="ps-loading">
       <div class="rectangle-bounce">
@@ -381,5 +345,67 @@ foreach ($_SESSION['cart'] as $item) {
     <!-- Custom scripts-->
     <script src="js/main.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsUcTjt43mTheN9ruCsQVgBE-wgN6_AfY&amp;region=GB"></script>
+    
+    <!-- Newsletter JavaScript -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const newsletterForm = document.getElementById('newsletterForm');
+        const newsletterMessage = document.getElementById('newsletterMessage');
+        const newsletterBtn = document.getElementById('newsletterBtn');
+        
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('newsletterEmail').value;
+                
+                if (!email) {
+                    showMessage('Email tidak boleh kosong', 'error');
+                    return;
+                }
+                
+                // Disable button
+                newsletterBtn.disabled = true;
+                newsletterBtn.textContent = 'Subscribing...';
+                
+                // Send AJAX request
+                const formData = new FormData();
+                formData.append('action', 'subscribe');
+                formData.append('email', email);
+                
+                fetch('newsletter_handler.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showMessage(data.message, 'success');
+                        newsletterForm.reset();
+                    } else {
+                        showMessage(data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    showMessage('Terjadi kesalahan. Silakan coba lagi.', 'error');
+                })
+                .finally(() => {
+                    // Re-enable button
+                    newsletterBtn.disabled = false;
+                    newsletterBtn.textContent = 'Subscribe';
+                });
+            });
+        }
+        
+        function showMessage(message, type) {
+            newsletterMessage.innerHTML = `<div class="alert alert-${type === 'success' ? 'success' : 'danger'}">${message}</div>`;
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                newsletterMessage.innerHTML = '';
+            }, 5000);
+        }
+    });
+    </script>
   </body>
 </html>

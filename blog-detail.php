@@ -2,16 +2,6 @@
 session_start();
 require_once 'includes/functions.php';
 
-// Cek apakah user sudah login
-if (!isset($_SESSION['user_id'])) {
-    $_SESSION['error'] = "Anda harus login terlebih dahulu untuk melakukan order.";
-    header('Location: login.php');
-    exit;
-}
-
-// Ambil data user
-$user = getUserById($_SESSION['user_id']);
-
 // Initialize cart if not exists
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = array();
@@ -25,16 +15,20 @@ foreach ($_SESSION['cart'] as $item) {
     $cart_count += $item['quantity'];
 }
 
-// Ambil produk yang tersedia untuk order
-$available_products = getAvailableProducts();
+// Get blog post ID from URL parameter
+$post_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Ambil data order yang sebelumnya (jika ada error)
-$order_data = isset($_SESSION['order_data']) ? $_SESSION['order_data'] : array();
-$order_errors = isset($_SESSION['order_errors']) ? $_SESSION['order_errors'] : array();
+// Get blog post from database
+$post = getPostById($post_id);
 
-// Hapus data dari session setelah diambil
-unset($_SESSION['order_data']);
-unset($_SESSION['order_errors']);
+// If post not found, redirect to blog grid
+if (!$post) {
+    header('Location: blog-grid.php');
+    exit;
+}
+
+// Get recent posts for sidebar
+$recent_posts = getAllPosts(3);
 ?>
 <!DOCTYPE html>
 <!--[if IE 7]><html class="ie ie7"><![endif]-->
@@ -48,11 +42,11 @@ unset($_SESSION['order_errors']);
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="images/logo-rotio.png" rel="icon">
+    <link href="favicon.png" rel="icon">
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>Order Form - Roti'O</title>
+    <title><?php echo htmlspecialchars($post['title']); ?> - Bready</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -108,7 +102,7 @@ unset($_SESSION['order_errors']);
             <!-- Logo Section -->
             <div class="header-logo">
               <a class="ps-logo" href="index.php">
-                <img src="images/logo-rotio.png" alt="">
+                <img src="images/logo-light.png" alt="">
               </a>
             </div>
             <!-- Navigation Menu -->
@@ -120,7 +114,7 @@ unset($_SESSION['order_errors']);
                 <li>
                   <a href="about.php">About</a>
                 </li>
-                <li class="menu-item-has-children current-menu-item">
+                <li class="menu-item-has-children">
                   <a href="#">Product</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
@@ -130,7 +124,7 @@ unset($_SESSION['order_errors']);
                     <li><a href="order-form.php">Order Form</a></li>
                   </ul>
                 </li>
-                <li class="menu-item-has-children">
+                <li class="menu-item-has-children current-menu-item">
                   <a href="#">Others</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
@@ -238,173 +232,118 @@ unset($_SESSION['order_errors']);
       </div>
     </header>
     
-    <div class="ps-hero bg--cover" data-background="images/hero/product.jpg">
+    <div class="ps-hero bg--cover" data-background="images/hero/blog.jpg">
       <div class="ps-hero__content">
-        <h1> Order Form</h1>
+        <h1>Blog Detail</h1>
         <div class="ps-breadcrumb">
           <ol class="breadcrumb">
             <li><a href="index.php">Home</a></li>
-            <li class="active">Order Form</li>
+            <li><a href="blog-grid.php">Blog</a></li>
+            <li class="active"><?php echo htmlspecialchars($post['title']); ?></li>
           </ol>
         </div>
       </div>
     </div>
     <main class="ps-main">
       <div class="ps-container">
-        <!-- Error Messages -->
-        <?php if (!empty($order_errors)): ?>
-        <div class="alert alert-danger">
-          <h4>Terjadi kesalahan:</h4>
-          <ul>
-            <?php foreach ($order_errors as $error): ?>
-              <li><?php echo htmlspecialchars($error); ?></li>
-            <?php endforeach; ?>
-          </ul>
-        </div>
-        <?php endif; ?>
-
-        <!-- Product Selection -->
-        <div class="ps-section__header text-center">
-          <h3 class="ps-section__title">Pilih Produk</h3>
-          <p>Silakan pilih produk yang ingin Anda pesan</p>
-        </div>
-        
         <div class="row">
-          <?php foreach ($available_products as $product): ?>
-          <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-            <div class="ps-product ps-product--order-form">
-              <div class="ps-product__thumbnail">
-                <?php echo getProductBadge($product); ?>
-                <?php if (!empty($product['image_data'])): ?>
-                  <?php echo displayImage($product['image_data'], $product['image_mime'], 'ps-product__image', $product['name']); ?>
+          <div class="col-lg-9 col-md-4 col-sm-12 col-xs-12 ">
+            <div class="ps-post--detail">
+              <div class="ps-post__thumbnail">
+                <?php if (!empty($post['image_data'])): ?>
+                  <?php echo displayImage($post['image_data'], $post['image_mime'], 'img-fluid', $post['title']); ?>
                 <?php else: ?>
-                  <img class="ps-product__image" src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
+                  <img src="<?php echo $post['image']; ?>" alt="<?php echo htmlspecialchars($post['title']); ?>" class="img-fluid">
                 <?php endif; ?>
-                <div class="ps-product__overlay">
-                  <a class="ps-product__detail" href="product-detail.php?id=<?php echo $product['id']; ?>">
-                  </a>
+              </div>
+              <div class="ps-post__content">
+                <div class="ps-post__meta">
+                  <div class="ps-post__posted">
+                    <span class="date"><?php echo date('j', strtotime($post['created_at'])); ?></span>
+                    <span class="month"><?php echo date('M', strtotime($post['created_at'])); ?></span>
+                  </div>
+                  <!-- <div class="ps-post__actions">
+                    <div class="ps-post__action red"><a href="#"><i class="ba-heart"></i></a></div>
+                    <div class="ps-post__action cyan"><a href="#"><i class="fa fa-comment-o"></i></a></div>
+                    <div class="ps-post__action shared"><a href="#"><i class="fa fa-share-alt"></i> Share</a>
+                      <ul class="ps-list--shared">
+                        <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li class="google"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                      </ul>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="ps-post__container">
+                  <h3 class="ps-post__title"><?php echo htmlspecialchars($post['title']); ?></h3>
+                  <p class="ps-post__info">Posted by <a href="blog-grid.php" class="author"><?php echo htmlspecialchars($post['author']); ?></a> - <a href="blog-grid.php">Blog</a></p>
+                  <div class="ps-post__content-text">
+                    <?php echo nl2br(htmlspecialchars($post['content'])); ?>
+                  </div>
                 </div>
               </div>
-              <div class="ps-product__content">
-                <h4 class="ps-product__title">
-                  <a href="product-detail.php?id=<?php echo $product['id']; ?>"><?php echo $product['name']; ?></a>
-                </h4>
-                <p class="ps-product__category">
-                  <a href="product-listing.php?category=<?php echo $product['category_id']; ?>"><?php echo $product['category_name']; ?></a>
-                </p>
-                <?php echo displayRating($product['rating']); ?>
-                <?php echo displayProductPrice($product); ?>
-                <p class="ps-product__stock">
-                  Stock: <span class="<?php echo $product['stock'] > 0 ? 'in-stock' : 'out-of-stock'; ?>">
-                    <?php echo $product['stock'] > 0 ? $product['stock'] . ' available' : 'Out of stock'; ?>
-                  </span>
-                </p>
+              <div class="ps-post__footer">
+                <p class="ps-post__tags"><i class="fa fa-tags"></i><a href="blog-grid.php">Blog</a>, <a href="blog-grid.php">Bakery</a>, <a href="blog-grid.php">Food</a></p>
+              </div>
+            </div>
+            <h3 class="ps-heading mb-20 text-uppercase">Author</h3>
+            <div class="ps-author">
+              <div class="ps-author__thumbnail bg--cover" data-background="images/user/2.jpg" data-mh="author"></div>
+              <div class="ps-author__content" data-mh="author">
+                <header>
+                  <h4><?php echo htmlspecialchars($post['author']); ?></h4>
+                  <p>BLOG AUTHOR</p>
+                </header>
+                <p>Thank you for reading our blog post. We hope you found this article informative and helpful. Stay tuned for more interesting content about bakery and food.</p>
               </div>
             </div>
           </div>
-          <?php endforeach; ?>
-        </div>
-
-        <!-- Order Form -->
-        <form class="ps-form--menu ps-form--order-form" action="process_order.php" method="post">
-          <div class="ps-section__header text-center">
-            <h3 class="ps-section__title">Formulir Pemesanan</h3>
-            <p>Lengkapi data pemesanan Anda</p>
-          </div>
-          
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <label>Nama Lengkap <sup>*</sup></label>
-                <input class="form-control" type="text" name="customer_name" placeholder="Masukkan nama lengkap Anda" 
-                       value="<?php echo isset($order_data['customer_name']) ? htmlspecialchars($order_data['customer_name']) : htmlspecialchars($user['name']); ?>" required>
+          <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 ">
+            <div class="ps-blog__sidebar">
+              <div class="widget widget_search">
+                <form class="ps-form--widget-search" action="do_action" method="post">
+                  <input class="form-control" type="text" placeholder="Search Post...">
+                  <button><i class="ba-magnifying-glass"></i></button>
+                </form>
               </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <label>Nomor Telepon <sup>*</sup></label>
-                <input class="form-control" type="text" name="customer_phone" placeholder="Masukkan nomor telepon" 
-                       value="<?php echo isset($order_data['customer_phone']) ? htmlspecialchars($order_data['customer_phone']) : htmlspecialchars($user['phone']); ?>" required>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <label>Alamat Lengkap <sup>*</sup></label>
-                <input class="form-control" type="text" name="customer_address" placeholder="Masukkan alamat lengkap" 
-                       value="<?php echo isset($order_data['customer_address']) ? htmlspecialchars($order_data['customer_address']) : htmlspecialchars($user['address']); ?>" required>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <label>Email <sup>*</sup></label>
-                <input class="form-control" type="email" name="customer_email" placeholder="Masukkan email Anda" 
-                       value="<?php echo isset($order_data['customer_email']) ? htmlspecialchars($order_data['customer_email']) : htmlspecialchars($user['email']); ?>" required>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <label>Pilih Produk <sup>*</sup></label>
-                <select class="form-control" name="product_id" required>
-                  <option value="">-- Pilih Produk --</option>
-                  <?php foreach ($available_products as $product): ?>
-                    <option value="<?php echo $product['id']; ?>" 
-                            <?php echo (isset($order_data['product_id']) && $order_data['product_id'] == $product['id']) ? 'selected' : ''; ?>>
-                      <?php echo $product['name']; ?> - <?php echo formatPrice($product['is_sale'] && $product['sale_price'] ? $product['sale_price'] : $product['price']); ?>
-                    </option>
+              <div class="widget widget_category">
+                <h3 class="widget-title">Recent Posts</h3>
+                <ul class="ps-list--arrow">
+                  <?php foreach ($recent_posts as $recent_post): ?>
+                    <li><a href="blog-detail.php?id=<?php echo $recent_post['id']; ?>"><?php echo htmlspecialchars($recent_post['title']); ?></a></li>
                   <?php endforeach; ?>
-                </select>
+                </ul>
               </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <label>Jumlah <sup>*</sup></label>
-                <input class="form-control" type="number" name="product_quantity" min="1" placeholder="Masukkan jumlah" 
-                       value="<?php echo isset($order_data['product_quantity']) ? htmlspecialchars($order_data['product_quantity']) : '1'; ?>" required>
+              <div class="widget widget_ads">
+                <h3 class="widget-title">Ads Banner</h3><img src="images/widget-ads.jpg" alt="">
               </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <label>Catatan Tambahan</label>
-                <textarea class="form-control" name="notes" rows="4" placeholder="Catatan khusus untuk pesanan Anda (opsional)"><?php echo isset($order_data['notes']) ? htmlspecialchars($order_data['notes']) : ''; ?></textarea>
+              <div class="widget widget_recent-posts">
+                <h3 class="widget-title">Recent Post</h3>
+                <?php foreach ($recent_posts as $recent_post): ?>
+                <div class="ps-post--sidebar">
+                  <div class="ps-post__thumbnail">
+                    <a class="ps-post__overlay" href="blog-detail.php?id=<?php echo $recent_post['id']; ?>"></a>
+                    <?php if (!empty($recent_post['image_data'])): ?>
+                      <?php echo displayImage($recent_post['image_data'], $recent_post['image_mime'], '', $recent_post['title']); ?>
+                    <?php else: ?>
+                      <img src="<?php echo $recent_post['image']; ?>" alt="<?php echo htmlspecialchars($recent_post['title']); ?>">
+                    <?php endif; ?>
+                  </div>
+                  <div class="ps-post__content">
+                    <a class="ps-post__title" href="blog-detail.php?id=<?php echo $recent_post['id']; ?>"><?php echo htmlspecialchars($recent_post['title']); ?></a>
+                    <p><?php echo date('M j, Y', strtotime($recent_post['created_at'])); ?></p>
+                  </div>
+                </div>
+                <?php endforeach; ?>
               </div>
-              <div class="form-group submit">
-                <button class="ps-btn ps-btn--yellow" type="submit">Kirim Pesanan</button>
+              <div class="widget widget_tags">
+                <h3 class="widget-title">Tags</h3><a href="#">Blog</a><a href="#">Bakery</a><a href="#">Food</a><a href="#">Bread</a><a href="#">Cake</a><a href="#">Pastry</a><a href="#">Recipe</a>
               </div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </main>
-    <div class="ps-site-features">
-      <div class="ps-container">
-        <div class="row">
-          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-            <div class="ps-block--iconbox"><i class="ba-delivery-truck-2"></i>
-              <h4>Free Shipping <span> On Order Over$199</h4>
-              <p>Want to track a package? Find tracking information and order details from Your Orders.</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-            <div class="ps-block--iconbox"><i class="ba-biscuit-1"></i>
-              <h4>Master Chef<span> WITH PASSION</h4>
-              <p>Shop zillions of finds, with new arrivals added daily.</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-            <div class="ps-block--iconbox"><i class="ba-flour"></i>
-              <h4>Natural Materials<span> protect your family</h4>
-              <p>We always ensure the safety of all products of store</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-            <div class="ps-block--iconbox"><i class="ba-cake-3"></i>
-              <h4>Attractive Flavor <span>ALWAYS LISTEN</span></h4>
-              <p>We offer a 24/7 customer hotline so you're never alone if you have a question.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <footer class="ps-footer">
       <div class="ps-footer__content">
         <div class="ps-container">
