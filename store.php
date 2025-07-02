@@ -240,13 +240,13 @@ foreach ($_SESSION['cart'] as $item) {
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="ps-block--store">
               <div class="ps-block__content">
-                <h4>NEW YORK STORE</h4>
-                <p><i class="fa fa-map-marker"></i> 460 West 34th Street, 15th floor, New York</p>
-                <p><i class="fa fa-phone"></i> +1 650-253-0000</p>
-                <p><i class="fa fa-envelope"></i> <a href="mailto:hello@bready.com">hello@bready.com</a></p>
-                <h5>Opening Hours:</h5>
-                <p>Monday - Friday: 08:00 am - 08:30 pm<br>
-                Saturday - Sunday: 10:00 am - 16:30 pm</p>
+                <h4>Stl. Abdurrahman Store</h4>
+                <p><i class="fa fa-map-marker"></i> <a href="https://maps.app.goo.gl/Bik9bXe98rxXxeKp8" target="_blank">  Jl. Slt. Abdurrahman, Sungai Bangkong, Kota Pontianak</a></p>
+                <p><i class="fa fa-phone"></i> +62 821-4567-8901</p>
+                <!-- <p><i class="fa fa-envelope"></i> <a href="mailto:hello@bready.com">hello@bready.com</a></p> -->
+                <h5>Jam Buka:</h5>
+                <p>Senin - Jumat: 08.00 - 21.00<br>
+                Sabtu - Minggu: 08.00 - 22.00</p>
               </div>
             </div>
           </div>
@@ -254,13 +254,13 @@ foreach ($_SESSION['cart'] as $item) {
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="ps-block--store">
               <div class="ps-block__content">
-                <h4>PARIS STORE</h4>
-                <p><i class="fa fa-map-marker"></i> 189/32 Basement Company, Paris, France</p>
-                <p><i class="fa fa-phone"></i> +33 1 42 86 95 00</p>
-                <p><i class="fa fa-envelope"></i> <a href="mailto:hello@bready.com">hello@bready.com</a></p>
-                <h5>Opening Hours:</h5>
-                <p>Monday - Friday: 08:00 am - 08:30 pm<br>
-                Saturday - Sunday: 10:00 am - 16:30 pm</p>
+                <h4>Roti O Tj. Raya Store</h4>
+                <p><i class="fa fa-map-marker" ></i> <a href="https://maps.app.goo.gl/VUidLPqvo2M99pFH8" target="_blank">  Jl. Tj. Raya II, Kec. Pontianak Tim., Kota Pontianak</a></p>
+                <p><i class="fa fa-phone"></i> +62 821-0128-8967</p>
+                <!-- <p><i class="fa fa-envelope"></i> <a href="mailto:hello@bready.com">hello@bready.com</a></p> -->
+                <h5>Jam Buka:</h5>
+                <p>Senin - Jumat: 08.00 - 21.00<br>
+                Sabtu - Minggu: 08.00 - 22.00</p>
               </div>
             </div>
           </div>
@@ -268,16 +268,59 @@ foreach ($_SESSION['cart'] as $item) {
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="ps-block--store">
               <div class="ps-block__content">
-                <h4>CANADA STORE</h4>
-                <p><i class="fa fa-map-marker"></i> 189/32 Basement Company, Toronto, Canada</p>
-                <p><i class="fa fa-phone"></i> +1 416-555-0123</p>
-                <p><i class="fa fa-envelope"></i> <a href="mailto:hello@bready.com">hello@bready.com</a></p>
-                <h5>Opening Hours:</h5>
-                <p>Monday - Friday: 08:00 am - 08:30 pm<br>
-                Saturday - Sunday: 10:00 am - 16:30 pm</p>
+                <h4>Roti'O Bandara Supadio</h4>
+                <p><i class="fa fa-map-marker"></i> <a href="https://maps.app.goo.gl/EH67XRdii6653YHC7" target="_blank"> Jl. Bandara Supadio, Kec. Sungai Raya, Kab. Kubu Raya</a></p>
+                <p><i class="fa fa-phone"></i> +62 891-2328-8954</p>
+                <!-- <p><i class="fa fa-envelope"></i> <a href="mailto:hello@bready.com">hello@bready.com</a></p> -->
+                <h5>Jam Buka:</h5>
+                <p>Senin - Jumat: 08.00 - 21.00<br>
+                Sabtu - Minggu: 08.00 - 22.00</p>
               </div>
             </div>
           </div>
+
+          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <div class="ps-block--store">
+              <div class="ps-block__content">
+                <h4>Roti'O Senen Plaza</h4>
+                <p><i class="fa fa-map-marker"></i> <a href="https://maps.app.goo.gl/hB9z7hamTmkhG1zM9" target="_blank"> No 135 Senen Plaza Atrium, Lantai Ground, Jl. Senen Raya, DKI Jakarta</a></p>
+                <p><i class="fa fa-phone"></i> +62 891-2678-8955</p>
+                <!-- <p><i class="fa fa-envelope"></i> <a href="mailto:hello@bready.com">hello@bready.com</a></p> -->
+                <h5>Jam Buka:</h5>
+                <p>Senin - Jumat: 07.30 - 22.00<br>
+                Sabtu - Minggu: 08.00 - 22.00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <div class="ps-block--store">
+              <div class="ps-block__content">
+                <h4>Roti'O Stasiun Gondangdia</h4>
+                <p><i class="fa fa-map-marker"></i> <a href="https://maps.app.goo.gl/uWjziBPEArQsSzg76" target="_blank"> Jl. Srikaya I No.1, Kec. Menteng, Kota Jakarta Pusat</a></p>
+                <p><i class="fa fa-phone"></i> +62 891-2328-8954</p>
+                <!-- <p><i class="fa fa-envelope"></i> <a href="mailto:hello@bready.com">hello@bready.com</a></p> -->
+                <h5>Jam Buka:</h5>
+                <p>Senin - Jumat: 08.00 - 21.00<br>
+                Sabtu - Minggu: 08.00 - 22.00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <div class="ps-block--store">
+              <div class="ps-block__content">
+                <h4>Roti'O Stasiun Sudirman</h4>
+                <p><i class="fa fa-map-marker"></i> <a href="https://maps.app.goo.gl/DYG1wTXoxm2QVVn6A" target="_blank"> St. Sudirman, Dukuh Atas, Kb. Melati, Kecamatan Tanah Abang, Kota Jakarta Pusat</a></p>
+                <p><i class="fa fa-phone"></i> +62 891-2328-8954</p>
+                <!-- <p><i class="fa fa-envelope"></i> <a href="mailto:hello@bready.com">hello@bready.com</a></p> -->
+                <h5>Jam Buka:</h5>
+                <p>Senin - Jumat: 08.00 - 21.00<br>
+                Sabtu - Minggu: 08.00 - 22.00</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </main>

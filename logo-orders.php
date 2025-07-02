@@ -42,7 +42,8 @@ if (isset($_SESSION['cart'])) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders - Bready</title>
+    <link rel="icon" href="images/logo-rotio.png" type="image/x-icon">
+    <title>My Orders - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -84,7 +85,7 @@ if (isset($_SESSION['cart'])) {
             transform: translateY(-5px);
         }
         .order-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #F2CB05 0%, #F2E205 100%);
             color: white;
             padding: 20px;
             position: relative;
@@ -157,14 +158,6 @@ if (isset($_SESSION['cart'])) {
             color: #999;
             margin-bottom: 20px;
         }
-        .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
         .hero-section::before {
             content: '';
             position: absolute;
@@ -203,90 +196,150 @@ if (isset($_SESSION['cart'])) {
     </div>
     <!-- Header-->
     <header class="header header--3" data-sticky="false">
-      <nav class="navigation">
-        <div class="ps-container">
-          <a class="ps-logo" href="index.php"><img src="images/logo-light.png" alt=""></a>
-          <div class="menu-toggle"><span></span></div>
-          <div class="header__actions">
-            <a class="ps-search-btn" href="#"><i class="ba-magnifying-glass"></i></a>
-            <div class="ps-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="ba-profile"></i>
-                <span><?php echo htmlspecialchars($user['name']); ?></span>
+      <div class="ps-container">
+        <nav class="navigation">
+          <div class="header-wrapper">
+            
+            <!-- Logo Section -->
+            <div class="header-logo">
+              <a class="ps-logo" href="index.php">
+                <img src="images/logo-rotio.png" alt="">
               </a>
-              <ul class="dropdown-menu">
-                <li><a href="logo-orders.php">My Orders</a></li>
-                <li><a href="profile.php">Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a href="logout.php">Logout</a></li>
+            </div>
+
+            <!-- Navigation Menu -->
+            <div class="header-nav">
+              <ul class="menu">
+                <li class="menu-item-has-children">
+                  <a href="index.php">Homepage</a>
+                </li>
+                <li>
+                  <a href="about.php">About</a>
+                </li>
+                <li class="menu-item-has-children">
+                  <a href="#">Product</a>
+                  <span class="sub-toggle">
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <ul class="sub-menu">
+                    <li><a href="product-listing.php">Product List</a></li>
+                    <li><a href="order-form.php">Order Form</a></li>
+                  </ul>
+                </li>   
+                <li class="menu-item-has-children">
+                  <a href="#">Others</a>
+                  <span class="sub-toggle">
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <ul class="sub-menu">
+                    <li><a href="blog-grid.php">Blog</a></li>
+                    <li><a href="store.php">Our Stores</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="contact.php">Contact Us</a>
+                </li>
               </ul>
             </div>
-            <div class="ps-cart">
-              <a class="ps-cart__toggle" href="cart.php">
-                <span><i><?php echo $cart_count; ?></i></span>
-                <i class="ba-shopping"></i>
-              </a>
-              <div class="ps-cart__listing">
-                <div class="ps-cart__content">
-                  <?php if (!empty($_SESSION['cart'])): ?>
-                    <?php $count = 0; foreach ($_SESSION['cart'] as $item): $count++; if ($count <= 6): ?>
-                    <div class="ps-cart-item">
-                      <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
-                      <div class="ps-cart-item__thumbnail">
-                        <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
-                        <?php if (!empty($item['image_data'])): ?>
-                          <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
-                        <?php else: ?>
-                          <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
-                        <?php endif; ?>
-                      </div>
-                      <div class="ps-cart-item__content">
-                        <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>"><?php echo $item['name']; ?></a>
-                        <p><span>Quantity:<i><?php echo $item['quantity']; ?></i></span><span>Total:<i>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></i></span></p>
-                      </div>
-                    </div>
-                    <?php endif; endforeach; ?>
-                  <?php else: ?>
-                    <div class="ps-cart-item">
-                      <div class="ps-cart-item__content">
-                        <p>Your cart is empty</p>
-                      </div>
-                    </div>
-                  <?php endif; ?>
-                </div>
-                <div class="ps-cart__total">
-                  <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                  <p>Item Total:<span>$<?php echo number_format($cart_total, 2); ?></span></p>
-                </div>
-                <div class="ps-cart__footer"><a href="cart.php">Check out</a></div>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="menu-toggle">
+              <span></span>
+            </div>
+            
+            <!-- Header Actions -->
+            <div class="header__actions">
+              
+              <!-- User Profile Dropdown -->
+              <div class="header-profile">
+                <?php if (isset($_SESSION['user_id'])): ?>
+                  <div class="ps-dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <i class="ba-profile"></i>
+                      <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a href="logo-orders.php">My Orders</a>
+                      </li>
+                      <li>
+                        <a href="profile.php">Profile</a>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li>
+                        <a href="logout.php">Logout</a>
+                      </li>
+                    </ul>
+                  </div>
+                <?php else: ?>
+                  <a href="login.php">
+                    <i class="ba-profile"></i>
+                  </a>
+                <?php endif; ?>
               </div>
+              
+              <!-- Shopping Cart -->
+              <div class="header-cart">
+                <div class="ps-cart">
+                  <a class="ps-cart__toggle" href="cart.php">
+                    <span>
+                      <i><?php echo $cart_count; ?></i>
+                    </span>
+                    <i class="ba-shopping"></i>
+                  </a>
+                  
+                  <div class="ps-cart__listing">
+                    <div class="ps-cart__content">
+                      <?php if (!empty($_SESSION['cart'])): ?>
+                        <?php $count = 0; foreach ($_SESSION['cart'] as $item): $count++; if ($count <= 6): ?>
+                          <div class="ps-cart-item">
+                            <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
+                            <div class="ps-cart-item__thumbnail">
+                              <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
+                              <?php if (!empty($item['image_data'])): ?>
+                                <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
+                              <?php else: ?>
+                                <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
+                              <?php endif; ?>
+                            </div>
+                            <div class="ps-cart-item__content">
+                              <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>">
+                                <?php echo $item['name']; ?>
+                              </a>
+                              <p>
+                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Total:<i>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></i></span>
+                              </p>
+                            </div>
+                          </div>
+                        <?php endif; endforeach; ?>
+                      <?php else: ?>
+                        <div class="ps-cart-item">
+                          <div class="ps-cart-item__content">
+                            <p>Your cart is empty</p>
+                          </div>
+                        </div>
+                      <?php endif; ?>
+                    </div>
+                    
+                    <div class="ps-cart__total">
+                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
+                      <p>Item Total:<span>$<?php echo number_format($cart_total, 2); ?></span></p>
+                    </div>
+                    
+                    <div class="ps-cart__footer">
+                      <a href="cart.php">Check out</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
             </div>
           </div>
-          <ul class="menu">
-            <li class="menu-item-has-children">
-              <a href="index.php">Homepage</a>
-            </li>
-            <li><a href="about.php">About</a></li>
-            <li class="menu-item-has-children">
-              <a href="#">product</a>
-              <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-              <ul class="sub-menu">
-                <li><a href="product-listing.php">Product List</a></li>
-                <li><a href="order-form.php">Order Form</a></li>
-              </ul>
-            </li>   
-            <li class="menu-item-has-children">
-              <a href="#">Others</a>
-              <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-              <ul class="sub-menu">
-                <li><a href="blog-grid.php">Blog</a></li>
-                <li><a href="store.php">Our Stores</a></li>
-              </ul>
-            </li>
-            <li><a href="contact.php">Contact Us</a></li>
-          </ul>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
 
     <!-- Hero Section -->
@@ -323,9 +376,29 @@ if (isset($_SESSION['cart'])) {
                                     <div class="row">
                                         <div class="col-md-6">
                                             <h5>Order Details</h5>
-                                            <p><strong>Product:</strong> <?php echo htmlspecialchars($order['product_name']); ?></p>
-                                            <p><strong>Quantity:</strong> <?php echo $order['quantity']; ?></p>
+                                            <?php
+                                            // Ambil semua item untuk order ini
+                                            $stmt_items = $db->prepare("SELECT oi.*, p.name as product_name FROM order_items oi LEFT JOIN products p ON oi.product_id = p.id WHERE oi.order_id = :order_id");
+                                            $stmt_items->bindParam(':order_id', $order['id']);
+                                            $stmt_items->execute();
+                                            $items = $stmt_items->fetchAll(PDO::FETCH_ASSOC);
+                                            ?>
+                                            <?php if ($items): ?>
+                                                <ul style="padding-left: 18px;">
+                                                    <?php foreach ($items as $item): ?>
+                                                        <li>
+                                                            <strong><?php echo htmlspecialchars($item['product_name'] ?? 'Product'); ?></strong>
+                                                            (Qty: <?php echo $item['quantity']; ?>) - $<?php echo number_format($item['price'], 2); ?>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            <?php else: ?>
+                                                <p>No products found for this order.</p>
+                                            <?php endif; ?>
                                             <p><strong>Total Amount:</strong> $<?php echo number_format($order['total_amount'], 2); ?></p>
+                                            <?php if (!empty($order['notes'])): ?>
+                                                <p><strong>Notes:</strong> <?php echo htmlspecialchars($order['notes']); ?></p>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="col-md-6">
                                             <h5>Status</h5>

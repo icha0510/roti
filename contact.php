@@ -276,35 +276,35 @@ foreach ($_SESSION['cart'] as $item) {
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                   <div class="ps-block--contact-2">
-                    <h3>OFFICE AT AMERICA</h3>
-                    <h4>BASEMENT COMPANY, NEW YORK</h4>
+                    <h3>OFFICE AT JAKARTA</h3>
+                    <h4>PT. Sebastian Citra Indonesia</h4>
+                    <p>Jl. Semanan Raya No.27, RT.4/RW.8, Semanan, Kec. Kalideres, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11850</p>
                     <p><i class="fa fa-envelope-o"></i><a href="#">hello@example.com</a></p>
                     <p><i class="fa fa-phone"></i> +1 650-253-0000</p>
                   </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                   <div class="ps-block--contact-2">
                     <h3>OFFICE AT VIETNAM</h3>
                     <h4>189/32 BASEMENT COMPANY, ABC, VIET NAM</h4>
                     <p><i class="fa fa-envelope-o"></i><a href="#">hello@basis.com</a></p>
                     <p><i class="fa fa-phone"></i> +1 650-253-0000</p>
                   </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                </div> -->
+                <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                   <div class="ps-block--contact-2">
                     <h3>OFFICE AT PARIS</h3>
                     <h4>189/32 BASEMENT COMPANY, PARIS, FRANCE</h4>
                     <p><i class="fa fa-envelope-o"></i><a href="#">hello@basis.com</a></p>
                     <p><i class="fa fa-phone"></i> +1 650-253-0000</p>
                   </div>
-                </div>
+                </div> -->
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                   <div class="ps-block--contact-2">
                     <h3>FOLLOW US</h3>
                     <ul class="ps-list--social ps-list--social-simple">
-                      <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                      <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                      <li><a href="#"><i class="fa fa-feed"></i></a></li>
+                      <li><a href="https://www.facebook.com/share/19g2Ds4bML/"><i class="fa fa-facebook"></i></a></li>
+                      <li><a href="https://www.instagram.com/rotio.indonesia?igsh=N2NqdTIwcWFoc2h5"><i class="fa fa-instagram"></i></a></li>
                     </ul>
                   </div>
                 </div>

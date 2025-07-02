@@ -15,7 +15,7 @@ CREATE TABLE `orders` (
   `customer_email` varchar(100) NOT NULL,
   `customer_phone` varchar(30) NOT NULL,
   `customer_address` text,
-  `status` enum('pending','processing','shipped','completed','cancelled') DEFAULT 'pending',
+  `status` enum('pending','processing','shipped','delivered','cancelled') DEFAULT 'pending',
   `total_amount` decimal(10,2) DEFAULT 0.00,
   `notes` text,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -24,6 +24,17 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `order_number` (`order_number`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `order_tracking` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `status` enum('pending','processing','shipped','delivered','cancelled') NOT NULL,
+  `description` text,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`),
+  CONSTRAINT `order_tracking_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `order_items` (
@@ -62,6 +73,12 @@ SET total_amount = (
     FROM order_items oi 
     WHERE oi.order_id = o.id
 );
+
+-- Step 5: Insert initial tracking records for existing orders
+INSERT INTO `order_tracking` (`order_id`, `status`, `description`, `created_at`) VALUES
+(1, 'pending', 'Order has been placed successfully', NOW()),
+(2, 'processing', 'Order is being processed', NOW()),
+(3, 'delivered', 'Order has been delivered', NOW());
 
 -- Update tabel orders yang sudah ada (jika ada) dengan user_id default
 -- UPDATE orders SET user_id = 1 WHERE user_id IS NULL; 

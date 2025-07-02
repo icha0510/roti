@@ -279,8 +279,8 @@ $categories = getAllCategories();
                   <?php endif; ?>
                   <a class="ps-product__overlay" href="product-detail.php?id=<?php echo $product['id']; ?>"></a>
                   <ul class="ps-product__actions">
-                    <li><a href="#" data-tooltip="Quick View"><i class="ba-magnifying-glass"></i></a></li>
-                    <li><a href="#" data-tooltip="Favorite"><i class="ba-heart"></i></a></li>
+                    <!-- <li><a href="#" data-tooltip="Quick View"><i class="ba-magnifying-glass"></i></a></li>
+                    <li><a href="#" data-tooltip="Favorite"><i class="ba-heart"></i></a></li> -->
                     <li><a href="cart_actions.php?action=add&id=<?php echo $product['id']; ?>" data-tooltip="Add to Cart"><i class="ba-shopping"></i></a></li>
                   </ul>
                 </div>

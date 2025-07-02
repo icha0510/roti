@@ -4762,7 +4762,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   -webkit-transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
   -moz-transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
   transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
-  background-color: #cd9b33;
+  background-color: #F2CB05;
 }
 
 .ps-loading.loaded {
@@ -10351,7 +10351,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   -webkit-transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
   -moz-transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
   transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
-  background-color: #cd9b33;
+  background-color: #F2CB05;
 }
 
 .ps-loading.loaded {
@@ -16691,7 +16691,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   -webkit-transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
   -moz-transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
   transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
-  background-color: #cd9b33;
+  background-color: #F2CB05;
 }
 
 .ps-loading.loaded {
@@ -22280,7 +22280,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   -webkit-transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
   -moz-transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
   transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
-  background-color: #cd9b33;
+  background-color: #F2CB05;
 }
 
 .ps-loading.loaded {

@@ -94,7 +94,8 @@ if (isset($_SESSION['cart'])) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - Bready</title>
+    <link rel="icon" href="images/logo-rotio.png" type="image/x-icon">
+    <title>Profile - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -125,66 +126,425 @@ if (isset($_SESSION['cart'])) {
     </style>
     <style>
         .profile-container {
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #F2E205 0%, #F2CB05 100%);
             min-height: 100vh;
             padding: 40px 0;
+            margin-top: 120px;
         }
-        .profile-card {
+        
+        /* Sidebar Styling */
+        .profile-sidebar {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(64, 36, 1, 0.15);
+            border: 3px solid #402401;
+            overflow: hidden;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .profile-avatar {
+            background: linear-gradient(135deg, #402401 0%, #F2CB05 50%, #F2E205 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+            position: relative;
             overflow: hidden;
         }
-        .profile-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        
+        .profile-avatar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .avatar-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .avatar-circle i {
+            font-size: 40px;
+            color: white;
+        }
+        
+        .profile-avatar h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .user-email {
+            margin: 0 0 25px 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            flex: 1;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .stat-item i {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-item span {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .quick-actions {
+            padding: 30px;
+        }
+        
+        .quick-actions h4 {
+            color: #402401;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .quick-action-btn {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #F2E205 0%, #F2CB05 100%);
+            border: 2px solid #402401;
+            border-radius: 12px;
+            color: #402401;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateX(5px);
+            background: linear-gradient(135deg, #402401 0%, #F2E205 100%);
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(64, 36, 1, 0.2);
+        }
+        
+        .quick-action-btn i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 20px;
+        }
+        
+        /* Main Content Styling */
+        .profile-main {
+            margin-bottom: 30px;
+        }
+        
+        .profile-form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(64, 36, 1, 0.15);
+            border: 3px solid #402401;
+            overflow: hidden;
+        }
+        
+        .form-header {
+            background: linear-gradient(135deg, #402401 0%, #F2CB05 50%, #F2E205 100%);
             color: white;
             padding: 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        .profile-header h2 {
+        
+        .form-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .form-header h2 {
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-header p {
             margin: 0;
-            font-family: 'Kaushan Script', cursive;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
         }
-        .profile-body {
+        
+        .form-header i {
+            margin-right: 10px;
+        }
+        
+        /* Form Sections */
+        .form-section {
             padding: 30px;
+            border-bottom: 1px solid #e9ecef;
         }
+        
+        .form-section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #F2CB05;
+            position: relative;
+        }
+        
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #402401 0%, #F2E205 100%);
+        }
+        
+        .section-header i {
+            font-size: 24px;
+            color: #402401;
+            margin-right: 15px;
+        }
+        
+        .section-header h3 {
+            margin: 0;
+            color: #402401;
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+        
+        .section-description {
+            color: #6c757d;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        /* Form Elements */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
-        .form-control {
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            padding: 12px 15px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-        .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }
-        .btn-update {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 8px;
-            padding: 12px 30px;
-            font-size: 16px;
+        
+        .form-group label {
+            color: #402401;
             font-weight: 600;
-            color: white;
-            transition: transform 0.3s ease;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 0.95rem;
         }
+        
+        .form-group label i {
+            margin-right: 8px;
+            color: #F2CB05;
+        }
+        
+        .form-control {
+            border: 2px solid #F2CB05;
+            border-radius: 12px;
+            padding: 15px 18px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fefefe;
+            color: #402401;
+        }
+        
+        .form-control:focus {
+            border-color: #402401;
+            box-shadow: 0 0 0 0.3rem rgba(242, 203, 5, 0.25);
+            background: white;
+            outline: none;
+        }
+        
+        .form-control:read-only {
+            background: #f8f9fa;
+            border-color: #e9ecef;
+            color: #6c757d;
+        }
+        
+        /* Action Buttons */
+        .form-actions {
+            padding: 30px;
+            background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
+            text-align: center;
+        }
+        
+        .btn-update {
+            background: linear-gradient(135deg, #402401 0%, #F2CB05 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 15px 35px;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(64, 36, 1, 0.2);
+            margin-right: 15px;
+        }
+        
         .btn-update:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            color: white;
+            box-shadow: 0 8px 25px rgba(64, 36, 1, 0.3);
+            background: linear-gradient(135deg, #F2CB05 0%, #402401 100%);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(135deg, #F2E205 0%, #F2CB05 100%);
+            border: 2px solid #402401;
+            border-radius: 12px;
+            padding: 15px 35px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #402401;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-reset:hover {
+            transform: translateY(-3px);
+            color: #402401;
+            box-shadow: 0 8px 25px rgba(242, 203, 5, 0.3);
+            background: linear-gradient(135deg, #402401 0%, #F2E205 100%);
             color: white;
         }
+        
+        /* Alerts */
         .alert {
-            border-radius: 8px;
-            margin-bottom: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: none;
+            padding: 15px 20px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
         }
-        .section-title {
-            color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e9ecef;
+        
+        .alert i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .text-muted {
+            color: #6c757d !important;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 991px) {
+            .profile-sidebar {
+                position: static;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 20px 0;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+            
+            .form-header {
+                padding: 20px;
+            }
+            
+            .form-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .btn-update, .btn-reset {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .profile-avatar {
+                padding: 30px 20px;
+            }
+            
+            .quick-actions {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -202,99 +562,319 @@ if (isset($_SESSION['cart'])) {
     </div>
     <!-- Header-->
     <header class="header header--3" data-sticky="false">
-      <nav class="navigation">
-        <div class="ps-container">
-          <a class="ps-logo" href="index.php"><img src="images/logo-light.png" alt=""></a>
-          <div class="menu-toggle"><span></span></div>
-          <div class="header__actions">
-            <a class="ps-search-btn" href="#"><i class="ba-magnifying-glass"></i></a>
-            <div class="ps-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="ba-profile"></i>
-                <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+      <div class="ps-container">
+        <nav class="navigation">
+          <div class="header-wrapper">
+            
+            <!-- Logo Section -->
+            <div class="header-logo">
+              <a class="ps-logo" href="index.php">
+                <img src="images/logo-rotio.png" alt="">
               </a>
-              <ul class="dropdown-menu">
-                <li><a href="logo-orders.php">My Orders</a></li>
-                <li><a href="profile.php">Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a href="logout.php">Logout</a></li>
+            </div>
+
+            <!-- Navigation Menu -->
+            <div class="header-nav">
+              <ul class="menu">
+                <li class="menu-item-has-children">
+                  <a href="index.php">Homepage</a>
+                </li>
+                <li>
+                  <a href="about.php">About</a>
+                </li>
+                <li class="menu-item-has-children">
+                  <a href="#">Product</a>
+                  <span class="sub-toggle">
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <ul class="sub-menu">
+                    <li><a href="product-listing.php">Product List</a></li>
+                    <li><a href="order-form.php">Order Form</a></li>
+                  </ul>
+                </li>   
+                <li class="menu-item-has-children">
+                  <a href="#">Others</a>
+                  <span class="sub-toggle">
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <ul class="sub-menu">
+                    <li><a href="blog-grid.php">Blog</a></li>
+                    <li><a href="store.php">Our Stores</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="contact.php">Contact Us</a>
+                </li>
               </ul>
             </div>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="menu-toggle">
+              <span></span>
+            </div>
+            
+            <!-- Header Actions -->
+            <div class="header__actions">
+              
+              <!-- User Profile Dropdown -->
+              <div class="header-profile">
+                <?php if (isset($_SESSION['user_id'])): ?>
+                  <div class="ps-dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <i class="ba-profile"></i>
+                      <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a href="logo-orders.php">My Orders</a>
+                      </li>
+                      <li>
+                        <a href="profile.php">Profile</a>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li>
+                        <a href="logout.php">Logout</a>
+                      </li>
+                    </ul>
+                  </div>
+                <?php else: ?>
+                  <a href="login.php">
+                    <i class="ba-profile"></i>
+                  </a>
+                <?php endif; ?>
+              </div>
+              
+              <!-- Shopping Cart -->
+              <div class="header-cart">
+                <div class="ps-cart">
+                  <a class="ps-cart__toggle" href="cart.php">
+                    <span>
+                      <i><?php echo $cart_count; ?></i>
+                    </span>
+                    <i class="ba-shopping"></i>
+                  </a>
+                  
+                  <div class="ps-cart__listing">
+                    <div class="ps-cart__content">
+                      <?php if (!empty($_SESSION['cart'])): ?>
+                        <?php $count = 0; foreach ($_SESSION['cart'] as $item): $count++; if ($count <= 6): ?>
+                          <div class="ps-cart-item">
+                            <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
+                            <div class="ps-cart-item__thumbnail">
+                              <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
+                              <?php if (!empty($item['image_data'])): ?>
+                                <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
+                              <?php else: ?>
+                                <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
+                              <?php endif; ?>
+                            </div>
+                            <div class="ps-cart-item__content">
+                              <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>">
+                                <?php echo $item['name']; ?>
+                              </a>
+                              <p>
+                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Total:<i>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></i></span>
+                              </p>
+                            </div>
+                          </div>
+                        <?php endif; endforeach; ?>
+                      <?php else: ?>
+                        <div class="ps-cart-item">
+                          <div class="ps-cart-item__content">
+                            <p>Your cart is empty</p>
+                          </div>
+                        </div>
+                      <?php endif; ?>
+                    </div>
+                    
+                    <div class="ps-cart__total">
+                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
+                      <p>Item Total:<span>$<?php echo number_format($cart_total, 2); ?></span></p>
+                    </div>
+                    
+                    <div class="ps-cart__footer">
+                      <a href="cart.php">Check out</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
 
     <!-- Main Content -->
     <div class="profile-container">
         <div class="ps-container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="profile-card">
-                        <div class="profile-header">
-                            <h2>My Profile</h2>
-                            <p>Manage your account information</p>
+            <div class="row">
+                <!-- Sidebar Profile Info -->
+                <div class="col-lg-4 col-md-12 mb-4">
+                    <div class="profile-sidebar">
+                        <div class="profile-avatar">
+                            <div class="avatar-circle">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <h3><?php echo htmlspecialchars($user['name']); ?></h3>
+                            <p class="user-email"><?php echo htmlspecialchars($user['email']); ?></p>
+                            <div class="profile-stats">
+                                <div class="stat-item">
+                                    <i class="fa fa-shopping-bag"></i>
+                                    <span>Orders</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fa fa-heart"></i>
+                                    <span>Favorites</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="profile-body">
+                        
+                        <div class="quick-actions">
+                            <h4>Quick Actions</h4>
+                            <a href="logo-orders.php" class="quick-action-btn">
+                                <i class="fa fa-list"></i>
+                                <span>My Orders</span>
+                            </a>
+                            <a href="cart.php" class="quick-action-btn">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Shopping Cart</span>
+                            </a>
+                            <a href="index.php" class="quick-action-btn">
+                                <i class="fa fa-home"></i>
+                                <span>Back to Home</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Profile Content -->
+                <div class="col-lg-8 col-md-12">
+                    <div class="profile-main">
+                        <!-- Alert Messages -->
                             <?php if ($error): ?>
                                 <div class="alert alert-danger">
+                                <i class="fa fa-exclamation-triangle"></i>
                                     <?php echo htmlspecialchars($error); ?>
                                 </div>
                             <?php endif; ?>
                             
                             <?php if ($success): ?>
                                 <div class="alert alert-success">
+                                <i class="fa fa-check-circle"></i>
                                     <?php echo htmlspecialchars($success); ?>
                                 </div>
                             <?php endif; ?>
+                        
+                        <!-- Profile Form -->
+                        <div class="profile-form-card">
+                            <div class="form-header">
+                                <h2><i class="fa fa-edit"></i> Edit Profile</h2>
+                                <p>Update your personal information and account settings</p>
+                            </div>
                             
                             <form method="POST" action="">
-                                <h4 class="section-title">Personal Information</h4>
-                                
+                                <!-- Personal Information Section -->
+                                <div class="form-section">
+                                    <div class="section-header">
+                                        <i class="fa fa-user-circle"></i>
+                                        <h3>Personal Information</h3>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="name">Full Name</label>
+                                                <label for="name">
+                                                    <i class="fa fa-user"></i> Full Name
+                                                </label>
                                     <input type="text" class="form-control" id="name" name="name" 
                                            value="<?php echo htmlspecialchars($user['name']); ?>" required>
+                                            </div>
                                 </div>
                                 
+                                        <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="email">Email Address</label>
-                                    <input type="email" class="form-control" id="email" value="<?php echo htmlspecialchars($user['email']); ?>" readonly>
+                                                <label for="email">
+                                                    <i class="fa fa-envelope"></i> Email Address
+                                                </label>
+                                                <input type="email" class="form-control" id="email" 
+                                                       value="<?php echo htmlspecialchars($user['email']); ?>" readonly>
                                     <small class="text-muted">Email cannot be changed</small>
+                                            </div>
+                                        </div>
                                 </div>
                                 
+                                    <div class="row">
+                                        <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="phone">Phone Number</label>
+                                                <label for="phone">
+                                                    <i class="fa fa-phone"></i> Phone Number
+                                                </label>
                                     <input type="tel" class="form-control" id="phone" name="phone" 
                                            value="<?php echo htmlspecialchars($user['phone'] ?? ''); ?>">
+                                            </div>
                                 </div>
                                 
+                                        <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="address">Address</label>
+                                                <label for="address">
+                                                    <i class="fa fa-map-marker"></i> Address
+                                                </label>
                                     <textarea class="form-control" id="address" name="address" rows="3"><?php echo htmlspecialchars($user['address'] ?? ''); ?></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 
-                                <h4 class="section-title">Change Password</h4>
-                                <p class="text-muted">Leave blank if you don't want to change your password</p>
-                                
+                                <!-- Password Change Section -->
+                                <div class="form-section">
+                                    <div class="section-header">
+                                        <i class="fa fa-lock"></i>
+                                        <h3>Change Password</h3>
+                                    </div>
+                                    <p class="section-description">Leave blank if you don't want to change your password</p>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="current_password">Current Password</label>
+                                                <label for="current_password">
+                                                    <i class="fa fa-key"></i> Current Password
+                                                </label>
                                     <input type="password" class="form-control" id="current_password" name="current_password">
+                                            </div>
                                 </div>
                                 
+                                        <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="new_password">New Password</label>
+                                                <label for="new_password">
+                                                    <i class="fa fa-lock"></i> New Password
+                                                </label>
                                     <input type="password" class="form-control" id="new_password" name="new_password">
+                                            </div>
                                 </div>
                                 
+                                        <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="confirm_password">Confirm New Password</label>
+                                                <label for="confirm_password">
+                                                    <i class="fa fa-check-circle"></i> Confirm Password
+                                                </label>
                                     <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-update">Update Profile</button>
-                                    <a href="logo-orders.php" class="btn btn-secondary">View My Orders</a>
+                                <!-- Action Buttons -->
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-update">
+                                        <i class="fa fa-save"></i> Update Profile
+                                    </button>
+                                    <button type="reset" class="btn btn-reset">
+                                        <i class="fa fa-undo"></i> Reset Form
+                                    </button>
                                 </div>
                             </form>
                         </div>

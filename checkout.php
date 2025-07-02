@@ -240,151 +240,153 @@ if ($_POST && isset($_POST['place_order'])) {
         </form>
       </div>
     </div>
-    
-    <!-- Header -->
-    <header class="header header--3" data-sticky="false">
-      <div class="ps-container">
-        <nav class="navigation">
-          <div class="header-wrapper">
-            
-            <!-- Logo Section -->
-            <div class="header-logo">
-              <a class="ps-logo" href="index.php">
-                <img src="images/logo-light.png" alt="">
-              </a>
-            </div>
+    <!-- Header-->
+<header class="header header--3" data-sticky="false">
+  <div class="ps-container">
+    <nav class="navigation">
+      <div class="header-wrapper">
+        
+        <!-- Logo Section -->
+        <div class="header-logo">
+          <a class="ps-logo" href="index.php">
+            <img src="images/logo-rotio.png" alt="">
+          </a>
+        </div>
 
-            <!-- Navigation Menu -->
-            <div class="header-nav">
-              <ul class="menu">
-                <li class="menu-item-has-children">
-                  <a href="index.php">Homepage</a>
-                </li>
-                <li>
-                  <a href="about.php">About</a>
-                </li>
-                <li class="menu-item-has-children">
-                  <a href="#">Product</a>
-                  <span class="sub-toggle">
-                    <i class="fa fa-angle-down"></i>
-                  </span>
-                  <ul class="sub-menu">
-                    <li><a href="product-listing.php">Product List</a></li>
-                    <li><a href="order-form.php">Order Form</a></li>
-                  </ul>
-                </li>   
-                <li class="menu-item-has-children">
-                  <a href="#">Others</a>
-                  <span class="sub-toggle">
-                    <i class="fa fa-angle-down"></i>
-                  </span>
-                  <ul class="sub-menu">
-                    <li><a href="blog-grid.php">Blog</a></li>
-                    <li><a href="store.php">Our Stores</a></li>
-                  </ul>
-                </li>
-                <li>
-                  <a href="contact.php">Contact Us</a>
-                </li>
+        <!-- Navigation Menu -->
+        <div class="header-nav">
+          <ul class="menu">
+            <li class="menu-item-has-children">
+              <a href="index.php">Homepage</a>
+            </li>
+            <li>
+              <a href="about.php">About</a>
+            </li>
+            <li class="menu-item-has-children">
+              <a href="#">Product</a>
+              <span class="sub-toggle">
+                <i class="fa fa-angle-down"></i>
+              </span>
+              <ul class="sub-menu">
+                <li><a href="product-listing.php">Product List</a></li>
+                <li><a href="order-form.php">Order Form</a></li>
               </ul>
-            </div>
+            </li>   
+            <li class="menu-item-has-children">
+              <a href="#">Others</a>
+              <span class="sub-toggle">
+                <i class="fa fa-angle-down"></i>
+              </span>
+              <ul class="sub-menu">
+                <li><a href="blog-grid.php">Blog</a></li>
+                <li><a href="store.php">Our Stores</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="contact.php">Contact Us</a>
+            </li>
+          </ul>
+        </div>
 
-            <!-- Mobile Menu Toggle -->
-            <div class="menu-toggle">
-              <span></span>
-            </div>
-            
-            <!-- Header Actions -->
-            <div class="header__actions">
-              
-              <!-- User Profile Dropdown -->
-              <div class="header-profile">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                  <div class="ps-dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      <i class="ba-profile"></i>
-                      <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a href="logo-orders.php">My Orders</a>
-                      </li>
-                      <li>
-                        <a href="profile.php">Profile</a>
-                      </li>
-                      <li>
-                        <hr class="dropdown-divider">
-                      </li>
-                      <li>
-                        <a href="logout.php">Logout</a>
-                      </li>
-                    </ul>
-                  </div>
-                <?php else: ?>
-                  <a href="login.php">
-                    <i class="ba-profile"></i>
-                  </a>
-                <?php endif; ?>
+        <!-- Mobile Menu Toggle -->
+        <div class="menu-toggle">
+          <span></span>
+        </div>
+        
+        <!-- Header Actions -->
+        <div class="header__actions">
+          
+          <!-- User Profile Dropdown -->
+          <div class="header-profile">
+            <?php if (isset($_SESSION['user_id'])): ?>
+              <div class="ps-dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="ba-profile"></i>
+                  <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="logo-orders.php">My Orders</a>
+                  </li>
+                  <li>
+                    <a href="profile.php">Profile</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li>
+                    <a href="logout.php">Logout</a>
+                  </li>
+                </ul>
               </div>
+            <?php else: ?>
+              <a href="login.php">
+                <i class="ba-profile"></i>
+              </a>
+            <?php endif; ?>
+          </div>
+          
+          <!-- Shopping Cart -->
+          <div class="header-cart">
+            <div class="ps-cart">
+              <a class="ps-cart__toggle" href="cart.php">
+                <span>
+                  <i><?php echo $cart_count; ?></i>
+                </span>
+                <i class="ba-shopping"></i>
+              </a>
               
-              <!-- Shopping Cart -->
-              <div class="header-cart">
-                <div class="ps-cart">
-                  <a class="ps-cart__toggle" href="cart.php">
-                    <span>
-                      <i><?php echo $cart_count; ?></i>
-                    </span>
-                    <i class="ba-shopping"></i>
-                  </a>
-                  
-                  <div class="ps-cart__listing">
-                    <div class="ps-cart__content">
-                      <?php if (!empty($_SESSION['cart'])): ?>
-                        <?php $count = 0; foreach ($_SESSION['cart'] as $item): $count++; if ($count <= 6): ?>
-                          <div class="ps-cart-item">
-                            <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
-                            <div class="ps-cart-item__thumbnail">
-                              <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
-                              <?php if (!empty($item['image_data'])): ?>
-                                <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
-                              <?php else: ?>
-                                <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
-                              <?php endif; ?>
-                            </div>
-                            <div class="ps-cart-item__content">
-                              <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>">
-                                <?php echo $item['name']; ?>
-                              </a>
-                              <p>
-                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
-                                <span>Total:<i>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></i></span>
-                              </p>
-                            </div>
-                          </div>
-                        <?php endif; endforeach; ?>
-                      <?php else: ?>
-                        <div class="ps-cart-item">
-                          <div class="ps-cart-item__content">
-                            <p>Your cart is empty</p>
-                          </div>
+              <div class="ps-cart__listing">
+                <div class="ps-cart__content">
+                  <?php if (!empty($_SESSION['cart'])): ?>
+                    <?php $count = 0; foreach ($_SESSION['cart'] as $item): $count++; if ($count <= 6): ?>
+                      <div class="ps-cart-item">
+                        <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
+                        <div class="ps-cart-item__thumbnail">
+                          <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
+                          <?php if (!empty($item['image_data'])): ?>
+                            <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
+                          <?php else: ?>
+                            <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
+                          <?php endif; ?>
                         </div>
-                      <?php endif; ?>
+                        <div class="ps-cart-item__content">
+                          <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>">
+                            <?php echo $item['name']; ?>
+                          </a>
+                          <p>
+                            <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                            <span>Total:<i>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></i></span>
+                          </p>
+                        </div>
+                      </div>
+                    <?php endif; endforeach; ?>
+                  <?php else: ?>
+                    <div class="ps-cart-item">
+                      <div class="ps-cart-item__content">
+                        <p>Your cart is empty</p>
+                      </div>
                     </div>
-                    <div class="ps-cart__total">
-                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                      <p>Item Total:<span>$<?php echo number_format($cart_total, 2); ?></span></p>
-                    </div>
-                    <div class="ps-cart__footer">
-                      <a href="cart.php">Check out</a>
-                    </div>
-                  </div>
+                  <?php endif; ?>
+                </div>
+                
+                <div class="ps-cart__total">
+                  <p>Number of items:<span><?php echo $cart_count; ?></span></p>
+                  <p>Item Total:<span>$<?php echo number_format($cart_total, 2); ?></span></p>
+                </div>
+                
+                <div class="ps-cart__footer">
+                  <a href="cart.php">Check out</a>
                 </div>
               </div>
             </div>
           </div>
-        </nav>
+          
+        </div>
       </div>
-    </header>
+    </nav>
+  </div>
+</header>
 
     <!-- Hero Section -->
     <div class="ps-hero bg--cover" data-background="images/hero/product.jpg">

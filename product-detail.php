@@ -52,56 +52,7 @@ if (!$product_id) {
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="ps-footer">
-      <div class="ps-footer__content">
-        <div class="ps-container">
-          <div class="row">
-            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
-              <div class="ps-site-info"><a class="ps-logo" href="index.php"><img src="images/logo-dark.png" alt=""></a>
-                <p>Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
-                <ul class="ps-list--social">
-                  <li><a href="https://www.facebook.com/share/19g2Ds4bML/"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="https://www.tiktok.com/@rotio.indonesia?_t=ZS-8xdJVQ8gKAc&_r=1"><i class="fa-brands fa-tiktok"></i></a></li>
-                  <li><a href="https://www.instagram.com/rotio.indonesia?igsh=N2NqdTIwcWFoc2h5"><i class="fa fa-instagram"></i></a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <form class="ps-form--subscribe-offer" id="newsletterForm" method="post">
-                <h4>Get news & offer</h4>
-                <div class="form-group">
-                  <input class="form-control" type="email" name="email" id="newsletterEmail" placeholder="Your Email..." required>
-                  <button type="submit" id="newsletterBtn">Subscribe</button>
-                </div>
-                <p>* Don't worry, we never spam</p>
-                <div id="newsletterMessage"></div>
-              </form>
-              <div class="ps-footer__contact">
-                <h4>Contact with me</h4>
-                <p>PO Box 16122 Collins Street West,Victoria 8007 Australia</p>
-                <P>(+84 ) 7534 9773, (+84 ) 874 548</P>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <div class="ps-footer__open">
-                <h4>Time to Open</h4>
-                <p>
-                  Monday - Friday: <br>08:00 am - 08:30 pm <br>
-                  Saturday - Sunday:<br>
-                  10:00 am - 16:30 pm
-                </p>
-              </div>
-              <ul class="ps-list--payment">
-                <li><a href="#"><img src="images/payment-method/visa.png" alt=""></a></li>
-                <li><a href="#"><i class="ba-shopping"></i></a></li>
-                <li><a href="#"><img src="images/payment-method/paypal.png" alt=""></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      </footer>
+    
 
     <!-- Scripts -->
     <script src="plugins/jquery/dist/jquery.min.js"></script>
@@ -125,22 +76,7 @@ if (!$product_id) {
     exit;
 }
 
-// Ambil detail produk dari database
-function getProductById($id) {
-    $database = new Database();
-    $db = $database->getConnection();
-    
-    $sql = "SELECT p.*, c.name as category_name 
-            FROM products p 
-            LEFT JOIN categories c ON p.category_id = c.id 
-            WHERE p.id = :id";
-    
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam(':id', $id);
-    $stmt->execute();
-    
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+// Ambil detail produk dari database menggunakan fungsi dari includes/functions.php
 
 $product = getProductById($product_id);
 
@@ -176,57 +112,6 @@ if (!$product) {
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="ps-footer">
-      <div class="ps-footer__content">
-        <div class="ps-container">
-          <div class="row">
-            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
-              <div class="ps-site-info"><a class="ps-logo" href="index.php"><img src="images/logo-dark.png" alt=""></a>
-                <p>Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
-                <ul class="ps-list--social">
-                  <li><a href="https://www.facebook.com/share/19g2Ds4bML/"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="https://www.tiktok.com/@rotio.indonesia?_t=ZS-8xdJVQ8gKAc&_r=1"><i class="fa-brands fa-tiktok"></i></a></li>
-                  <li><a href="https://www.instagram.com/rotio.indonesia?igsh=N2NqdTIwcWFoc2h5"><i class="fa fa-instagram"></i></a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <form class="ps-form--subscribe-offer" id="newsletterForm" method="post">
-                <h4>Get news & offer</h4>
-                <div class="form-group">
-                  <input class="form-control" type="email" name="email" id="newsletterEmail" placeholder="Your Email..." required>
-                  <button type="submit" id="newsletterBtn">Subscribe</button>
-                </div>
-                <p>* Don't worry, we never spam</p>
-                <div id="newsletterMessage"></div>
-              </form>
-              <div class="ps-footer__contact">
-                <h4>Contact with me</h4>
-                <p>PO Box 16122 Collins Street West,Victoria 8007 Australia</p>
-                <P>(+84 ) 7534 9773, (+84 ) 874 548</P>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <div class="ps-footer__open">
-                <h4>Time to Open</h4>
-                <p>
-                  Monday - Friday: <br>08:00 am - 08:30 pm <br>
-                  Saturday - Sunday:<br>
-                  10:00 am - 16:30 pm
-                </p>
-              </div>
-              <ul class="ps-list--payment">
-                <li><a href="#"><img src="images/payment-method/visa.png" alt=""></a></li>
-                <li><a href="#"><i class="ba-shopping"></i></a></li>
-                <li><a href="#"><img src="images/payment-method/paypal.png" alt=""></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      </footer>
 
     <!-- Scripts -->
     <script src="plugins/jquery/dist/jquery.min.js"></script>
@@ -284,11 +169,11 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="favicon.png" rel="icon">
+    <link href="images/logo-rotio.png" rel="icon">
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title><?php echo $product['name']; ?> - Bready</title>
+    <title><?php echo $product['name']; ?> - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -316,6 +201,15 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
       .fa-brands.fa-tiktok {
         font-family: inherit;
       }
+      /* Tambahan agar konten tidak tertutup header */
+      .ps-product-detail {
+        margin-top: 120px;
+      }
+      @media (max-width: 991px) {
+        .ps-product-detail {
+          margin-top: 80px;
+        }
+      }
     </style>
     <!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
     <!--WARNING: Respond.js doesn't work if you view the page via file://-->
@@ -337,13 +231,66 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
       </div>
     </div>
     <!-- Header-->
-    <header class="header header--3" data-sticky="false">
-      <nav class="navigation">
-        <div class="ps-container">
-          <a class="ps-logo" href="index.php"><img src="images/logo-light.png" alt=""></a>
-          <div class="menu-toggle"><span></span></div>
-          <div class="header__actions">
-            <a class="ps-search-btn" href="#"><i class="ba-magnifying-glass"></i></a>
+<header class="header header--3" data-sticky="false">
+  <div class="ps-container">
+    <nav class="navigation">
+      <div class="header-wrapper">
+        
+        <!-- Logo Section -->
+        <div class="header-logo">
+          <a class="ps-logo" href="index.php">
+            <img src="images/logo-rotio.png" alt="">
+          </a>
+        </div>
+
+        <!-- Navigation Menu -->
+        <div class="header-nav">
+          <ul class="menu">
+            <li class="menu-item-has-children">
+              <a href="index.php">Homepage</a>
+            </li>
+            <li>
+              <a href="about.php">About</a>
+            </li>
+            <li class="menu-item-has-children current-menu-item">
+              <a href="#">Product</a>
+              <span class="sub-toggle">
+                <i class="fa fa-angle-down"></i>
+              </span>
+              <ul class="sub-menu">
+                <li><a href="product-listing.php">Product List</a></li>
+                <li><a href="order-form.php">Order Form</a></li>
+              </ul>
+            </li>   
+            <li class="menu-item-has-children">
+              <a href="#">Others</a>
+              <span class="sub-toggle">
+                <i class="fa fa-angle-down"></i>
+              </span>
+              <ul class="sub-menu">
+                <li><a href="blog-grid.php">Blog</a></li>
+                <li><a href="store.php">Our Stores</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="contact.php">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="menu-toggle">
+          <span></span>
+        </div>
+        
+        <!-- Header Actions -->
+        <div class="header__actions">
+          
+          <!-- Search Button -->
+          <a class="ps-search-btn" href="#"><i class="ba-magnifying-glass"></i></a>
+          
+          <!-- User Profile Dropdown -->
+          <div class="header-profile">
             <?php if (isset($_SESSION['user_id'])): ?>
               <div class="ps-dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -351,39 +298,61 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
                   <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="logo-orders.php">My Orders</a></li>
-                  <li><a href="profile.php">Profile</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a href="logout.php">Logout</a></li>
+                  <li>
+                    <a href="logo-orders.php">My Orders</a>
+                  </li>
+                  <li>
+                    <a href="profile.php">Profile</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li>
+                    <a href="logout.php">Logout</a>
+                  </li>
                 </ul>
               </div>
             <?php else: ?>
-              <a href="login.php"><i class="ba-profile"></i></a>
+              <a href="login.php">
+                <i class="ba-profile"></i>
+              </a>
             <?php endif; ?>
+          </div>
+          
+          <!-- Shopping Cart -->
+          <div class="header-cart">
             <div class="ps-cart">
               <a class="ps-cart__toggle" href="cart.php">
-                <span><i><?php echo $cart_count; ?></i></span>
+                <span>
+                  <i><?php echo $cart_count; ?></i>
+                </span>
                 <i class="ba-shopping"></i>
               </a>
+              
               <div class="ps-cart__listing">
                 <div class="ps-cart__content">
                   <?php if (!empty($_SESSION['cart'])): ?>
                     <?php $count = 0; foreach ($_SESSION['cart'] as $item): $count++; if ($count <= 6): ?>
-                    <div class="ps-cart-item">
-                      <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
-                      <div class="ps-cart-item__thumbnail">
-                        <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
-                        <?php if (!empty($item['image_data'])): ?>
-                          <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
-                        <?php else: ?>
-                          <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
-                        <?php endif; ?>
+                      <div class="ps-cart-item">
+                        <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
+                        <div class="ps-cart-item__thumbnail">
+                          <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
+                          <?php if (!empty($item['image_data'])): ?>
+                            <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
+                          <?php else: ?>
+                            <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
+                          <?php endif; ?>
+                        </div>
+                        <div class="ps-cart-item__content">
+                          <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>">
+                            <?php echo $item['name']; ?>
+                          </a>
+                          <p>
+                            <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                            <span>Total:<i>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></i></span>
+                          </p>
+                        </div>
                       </div>
-                      <div class="ps-cart-item__content">
-                        <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>"><?php echo $item['name']; ?></a>
-                        <p><span>Quantity:<i><?php echo $item['quantity']; ?></i></span><span>Total:<i>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></i></span></p>
-                      </div>
-                    </div>
                     <?php endif; endforeach; ?>
                   <?php else: ?>
                     <div class="ps-cart-item">
@@ -393,40 +362,24 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
                     </div>
                   <?php endif; ?>
                 </div>
+                
                 <div class="ps-cart__total">
                   <p>Number of items:<span><?php echo $cart_count; ?></span></p>
                   <p>Item Total:<span>$<?php echo number_format($cart_total, 2); ?></span></p>
                 </div>
-                <div class="ps-cart__footer"><a href="cart.php">Check out</a></div>
+                
+                <div class="ps-cart__footer">
+                  <a href="cart.php">Check out</a>
+                </div>
               </div>
             </div>
           </div>
-          <ul class="menu">
-            <li class="menu-item-has-children">
-              <a href="index.php">Homepage</a>
-            </li>
-            <li><a href="about.php">About</a></li>
-            <li class="menu-item-has-children current-menu-item">
-              <a href="#">product</a>
-              <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-              <ul class="sub-menu">
-                <li><a href="product-listing.php">Product List</a></li>
-                <li><a href="order-form.php">Order Form</a></li>
-              </ul>
-            </li>   
-            <li class="menu-item-has-children">
-              <a href="#">Others</a>
-              <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-              <ul class="sub-menu">
-                <li><a href="blog-grid.php">Blog</a></li>
-                <li><a href="store.php">Our Stores</a></li>
-              </ul>
-            </li>
-            <li><a href="contact.php">Contact Us</a></li>
-          </ul>
+          
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
+  </div>
+</header>
 
     <!-- Breadcrumb -->
     <div class="ps-breadcrumb">
@@ -525,8 +478,8 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
                                 <?php endif; ?>
                                 <a class="ps-product__overlay" href="product-detail.php?id=<?php echo $related_product['id']; ?>"></a>
                                 <ul class="ps-product__actions">
-                                    <li><a href="#" data-tooltip="Quick View"><i class="ba-magnifying-glass"></i></a></li>
-                                    <li><a href="#" data-tooltip="Favorite"><i class="ba-heart"></i></a></li>
+                                    <!-- <li><a href="#" data-tooltip="Quick View"><i class="ba-magnifying-glass"></i></a></li>
+                                    <li><a href="#" data-tooltip="Favorite"><i class="ba-heart"></i></a></li> -->
                                     <li><a href="cart_actions.php?action=add&id=<?php echo $related_product['id']; ?>" data-tooltip="Add to Cart"><i class="ba-shopping"></i></a></li>
                                 </ul>
                             </div>

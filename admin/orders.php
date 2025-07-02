@@ -131,34 +131,54 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             display: inline-block;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            color: #fff;
+            margin-bottom: 5px;
+            min-width: 80px;
+            text-align: center;
+        }
         .badge-pending {
             background: linear-gradient(45deg, #ffc107, #ff9800);
-            color: #fff;
         }
         .badge-processing {
             background: linear-gradient(45deg, #17a2b8, #3498db);
-            color: #fff;
         }
         .badge-shipped {
             background: linear-gradient(45deg, #6f42c1, #8e44ad);
-            color: #fff;
         }
         .badge-delivered {
             background: linear-gradient(45deg, #28a745, #20c997);
-            color: #fff;
         }
         .badge-cancelled {
             background: linear-gradient(45deg, #dc3545, #e74c3c);
-            color: #fff;
+        }
+        /* Fallback untuk status lama */
+        .badge-success {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+        .badge-cancel {
+            background: linear-gradient(45deg, #dc3545, #e74c3c);
+        }
+        .badge-process {
+            background: linear-gradient(45deg, #17a2b8, #3498db);
         }
         tr.selected {
             background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
             border-left: 4px solid #667eea;
         }
         .user-info {
-            font-size: 11px;
-            color: #666;
+            font-size: 10px;
+            color: #888;
             margin-top: 3px;
+            font-style: italic;
         }
         .action-buttons {
             display: flex;
@@ -417,17 +437,48 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     
                                     // Mapping status yang benar sesuai enum database
                                     $badge = 'badge-pending';
-                                    if ($status == 'processing') $badge = 'badge-processing';
-                                    if ($status == 'shipped') $badge = 'badge-shipped';
-                                    if ($status == 'delivered') $badge = 'badge-delivered';
-                                    if ($status == 'cancelled') $badge = 'badge-cancelled';
+                                    $display_status = 'Pending';
                                     
-                                    // Fallback untuk status lama
-                                    if ($status == 'process') $badge = 'badge-processing';
-                                    if ($status == 'success') $badge = 'badge-delivered';
-                                    if ($status == 'cancel') $badge = 'badge-cancelled';
+                                    switch ($status) {
+                                        case 'processing':
+                                            $badge = 'badge-processing';
+                                            $display_status = 'Processing';
+                                            break;
+                                        case 'shipped':
+                                            $badge = 'badge-shipped';
+                                            $display_status = 'Shipped';
+                                            break;
+                                        case 'delivered':
+                                            $badge = 'badge-delivered';
+                                            $display_status = 'Delivered';
+                                            break;
+                                        case 'cancelled':
+                                            $badge = 'badge-cancelled';
+                                            $display_status = 'Cancelled';
+                                            break;
+                                        // Fallback untuk status lama
+                                        case 'process':
+                                            $badge = 'badge-process';
+                                            $display_status = 'Processing';
+                                            break;
+                                        case 'success':
+                                            $badge = 'badge-success';
+                                            $display_status = 'Delivered';
+                                            break;
+                                        case 'cancel':
+                                            $badge = 'badge-cancel';
+                                            $display_status = 'Cancelled';
+                                            break;
+                                        case 'completed':
+                                            $badge = 'badge-delivered';
+                                            $display_status = 'Delivered';
+                                            break;
+                                        default:
+                                            $badge = 'badge-pending';
+                                            $display_status = ucfirst($status);
+                                    }
                                 ?>
-                                <span class="badge <?php echo $badge; ?>"><?php echo ucfirst($status); ?></span>
+                                <span class="badge <?php echo $badge; ?>"><?php echo $display_status; ?></span>
                                 <?php if ($order['last_update']): ?>
                                     <div class="user-info">Updated: <?php echo date('d/m/Y H:i', strtotime($order['last_update'])); ?></div>
                                 <?php endif; ?>
@@ -503,10 +554,14 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'order_tracking.php?order_id=' + orderId + '&ajax=1');
             xhr.onload = function() {
-                document.getElementById('order-detail').innerHTML = xhr.responseText;
+                if (xhr.status === 200) {
+                    document.getElementById('order-detail').innerHTML = xhr.responseText;
+                } else {
+                    document.getElementById('order-detail').innerHTML = '<div style="text-align: center; padding: 50px; color: #dc3545;"><h3>❌ Error</h3><p>Gagal memuat detail order. Status: ' + xhr.status + '</p></div>';
+                }
             };
             xhr.onerror = function() {
-                document.getElementById('order-detail').innerHTML = '<div style="text-align: center; padding: 50px; color: #dc3545;"><h3>❌ Error</h3><p>Gagal memuat detail order. Gunakan tombol "Update Status (Fixed)" untuk mengupdate status.</p></div>';
+                document.getElementById('order-detail').innerHTML = '<div style="text-align: center; padding: 50px; color: #dc3545;"><h3>❌ Error</h3><p>Gagal memuat detail order. Silakan coba lagi.</p></div>';
             };
             xhr.send();
         });
@@ -549,11 +604,24 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         submitBtn.textContent = 'Updating...';
         submitBtn.disabled = true;
         submitBtn.classList.add('loading');
+        
         fetch('debug_update.php', {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.text().then(text => {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    console.error('Response text:', text);
+                    throw new Error('Invalid JSON response: ' + text.substring(0, 100));
+                }
+            });
+        })
         .then(data => {
             if (data.success) {
                 document.getElementById('alertMessage').innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
@@ -564,11 +632,40 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     var statusCell = row.querySelector('td:nth-child(4)');
                     var status = document.getElementById('statusSelect').value;
                     var badgeClass = 'badge-pending';
-                    if (status == 'processing') badgeClass = 'badge-processing';
-                    if (status == 'shipped') badgeClass = 'badge-shipped';
-                    if (status == 'delivered') badgeClass = 'badge-delivered';
-                    if (status == 'cancelled') badgeClass = 'badge-cancelled';
-                    statusCell.innerHTML = '<span class="badge ' + badgeClass + '">' + status.charAt(0).toUpperCase() + status.slice(1) + '</span>';
+                    var displayStatus = 'Pending';
+                    
+                    switch (status) {
+                        case 'processing':
+                            badgeClass = 'badge-processing';
+                            displayStatus = 'Processing';
+                            break;
+                        case 'shipped':
+                            badgeClass = 'badge-shipped';
+                            displayStatus = 'Shipped';
+                            break;
+                        case 'delivered':
+                            badgeClass = 'badge-delivered';
+                            displayStatus = 'Delivered';
+                            break;
+                        case 'cancelled':
+                            badgeClass = 'badge-cancelled';
+                            displayStatus = 'Cancelled';
+                            break;
+                        default:
+                            badgeClass = 'badge-pending';
+                            displayStatus = status.charAt(0).toUpperCase() + status.slice(1);
+                    }
+                    
+                    // Update badge dengan waktu update
+                    var now = new Date();
+                    var timeString = now.getDate().toString().padStart(2, '0') + '/' + 
+                                   (now.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+                                   now.getFullYear() + ' ' + 
+                                   now.getHours().toString().padStart(2, '0') + ':' + 
+                                   now.getMinutes().toString().padStart(2, '0');
+                    
+                    statusCell.innerHTML = '<span class="badge ' + badgeClass + '">' + displayStatus + '</span>' +
+                                         '<div class="user-info">Updated: ' + timeString + '</div>';
                 }
                 setTimeout(function() {
                     closeModal();
@@ -578,6 +675,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         })
         .catch(error => {
+            console.error('Error:', error);
             document.getElementById('alertMessage').innerHTML = '<div class="alert alert-error">Error: ' + error.message + '</div>';
         })
         .finally(() => {

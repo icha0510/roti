@@ -552,12 +552,13 @@
         var slider2 = $('#slider .ps-carousel--animate');
         slider2.slick({
             autoplay: true,
+            autoplaySpeed: 1500,
             speed: 1000,
             lazyLoad: 'progressive',
-            arrows: true,
-            fade: true,
-            prevArrow: "<i class='slider-prev ba-back'></i>",
-            nextArrow: "<i class='slider-next ba-next'></i>"
+            arrows: false,
+            fade: true
+            // prevArrow: "<i class='slider-prev ba-back'></i>",
+            // nextArrow: "<i class='slider-next ba-next'></i>"
         }).slickAnimation();
 
     }

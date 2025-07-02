@@ -14,6 +14,9 @@ foreach ($_SESSION['cart'] as $item) {
     $cart_total += $item['price'] * $item['quantity'];
     $cart_count += $item['quantity'];
 }
+
+// Get testimonials from database
+$testimonials = getAllTestimonials();
 ?>
 <!DOCTYPE html>
 <!--[if IE 7]><html class="ie ie7"><![endif]-->
@@ -368,70 +371,24 @@ foreach ($_SESSION['cart'] as $item) {
     <div class="ps-testimonials bg--parallax" data-background="images/bg/testimonials.jpg">
       <div class="ps-container">
         <div class="ps-carousel--testimonial owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="false" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="off" data-owl-animate-in="fadeIn" data-owl-animate-out="fadeOut">
+          <?php foreach ($testimonials as $testimonial): ?>
           <div class="ps-block--tesimonial">
-            <div class="ps-block__user"><img src="images/user/1.jpg" alt=""></div>
+            <div class="ps-block__user">
+              <?php if (!empty($testimonial['image_data'])): ?>
+                <?php echo displayImage($testimonial['image_data'], $testimonial['image_mime'], '', $testimonial['name']); ?>
+              <?php else: ?>
+                <img src="<?php echo $testimonial['image']; ?>" alt="<?php echo $testimonial['name']; ?>">
+              <?php endif; ?>
+            </div>
             <div class="ps-block__content">
-              <select class="ps-rating">
-                <option value="1">1</option>
-                <option value="1">2</option>
-                <option value="1">3</option>
-                <option value="1">4</option>
-                <option value="2">5</option>
-              </select>
-              <p>"Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant."</p>
+              <?php echo displayRating($testimonial['rating']); ?>
+              <p>"<?php echo $testimonial['content']; ?>"</p>
             </div>
             <div class="ps-block__footer">
-              <p><strong>Logan May</strong>  - CEO & Founder Invision</p>
+              <p><strong><?php echo $testimonial['name']; ?></strong>  - <?php echo $testimonial['position']; ?> <?php echo $testimonial['company']; ?></p>
             </div>
           </div>
-          <div class="ps-block--tesimonial">
-            <div class="ps-block__user"><img src="images/user/2.jpg" alt=""></div>
-            <div class="ps-block__content">
-              <select class="ps-rating">
-                <option value="1">1</option>
-                <option value="1">2</option>
-                <option value="1">3</option>
-                <option value="1">4</option>
-                <option value="2">5</option>
-              </select>
-              <p>"Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant."</p>
-            </div>
-            <div class="ps-block__footer">
-              <p><strong>Logan May</strong>  - CEO & Founder Invision</p>
-            </div>
-          </div>
-          <div class="ps-block--tesimonial">
-            <div class="ps-block__user"><img src="images/user/3.jpg" alt=""></div>
-            <div class="ps-block__content">
-              <select class="ps-rating">
-                <option value="1">1</option>
-                <option value="1">2</option>
-                <option value="1">3</option>
-                <option value="1">4</option>
-                <option value="2">5</option>
-              </select>
-              <p>"Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant."</p>
-            </div>
-            <div class="ps-block__footer">
-              <p><strong>Logan May</strong>  - CEO & Founder Invision</p>
-            </div>
-          </div>
-          <div class="ps-block--tesimonial">
-            <div class="ps-block__user"><img src="images/user/4.jpg" alt=""></div>
-            <div class="ps-block__content">
-              <select class="ps-rating">
-                <option value="1">1</option>
-                <option value="1">2</option>
-                <option value="1">3</option>
-                <option value="1">4</option>
-                <option value="2">5</option>
-              </select>
-              <p>"Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant."</p>
-            </div>
-            <div class="ps-block__footer">
-              <p><strong>Logan May</strong>  - CEO & Founder Invision</p>
-            </div>
-          </div>
+          <?php endforeach; ?>
         </div>
       </div>
     </div>

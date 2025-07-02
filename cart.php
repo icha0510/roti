@@ -55,7 +55,8 @@ foreach ($_SESSION['cart'] as $item) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart - Bready</title>
+    <link rel="icon" href="images/logo-rotio.png" type="image/x-icon">
+    <title>Shopping Cart - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -106,7 +107,7 @@ foreach ($_SESSION['cart'] as $item) {
             <!-- Logo Section -->
             <div class="header-logo">
               <a class="ps-logo" href="index.php">
-                <img src="images/logo-light.png" alt="">
+                <img src="images/logo-rotio.png" alt="">
               </a>
             </div>
 

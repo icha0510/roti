@@ -39,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Bready Bakery</title>
+    <link href="../images/logo-rotio.png" rel="icon">   
+    <title>Admin Login - Roti'O</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -63,6 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: white;
             padding: 30px;
             text-align: center;
+        }
+        .login-header img {
+            max-width: 120px;
+            height: auto;
+            margin-bottom: 15px;
         }
         .login-body {
             padding: 40px;
@@ -94,8 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-card">
         <div class="login-header">
-            <i class="fas fa-bread-slice fa-3x mb-3"></i>
-            <h2>Bready Admin</h2>
+            <img src="../images/logo-rotio.png" alt="Roti'O">
+            <h2>Roti'O Admin</h2>
             <p class="mb-0">Login ke Dashboard Admin</p>
         </div>
         
