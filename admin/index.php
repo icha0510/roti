@@ -231,7 +231,7 @@ $total_posts = count($posts);
                                             </td>
                                             <td><?php echo $product['name']; ?></td>
                                             <td><?php echo $product['category_name']; ?></td>
-                                            <td>£<?php echo number_format($product['price'], 2); ?></td>
+                                            <td>Rp<?php echo number_format($product['price'], 3); ?></td>
                                             <td>
                                                 <span class="badge <?php echo $product['stock'] > 0 ? 'bg-success' : 'bg-danger'; ?>">
                                                     <?php echo $product['stock']; ?>

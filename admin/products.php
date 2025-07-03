@@ -245,10 +245,10 @@ if (isset($_GET['edit'])) {
                                     <td><?php echo $product['category_name']; ?></td>
                                     <td>
                                         <?php if ($product['is_sale'] && $product['sale_price']): ?>
-                                            <del>£<?php echo number_format($product['price'], 2); ?></del>
-                                            <span class="text-danger">£<?php echo number_format($product['sale_price'], 2); ?></span>
+                                            <del>Rp<?php echo number_format($product['price'], 3); ?></del>
+                                            <span class="text-danger">Rp<?php echo number_format($product['sale_price'], 3); ?></span>
                                         <?php else: ?>
-                                            £<?php echo number_format($product['price'], 2); ?>
+                                            Rp<?php echo number_format($product['price'], 3); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td>
@@ -488,10 +488,27 @@ if (isset($_GET['edit'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function editProduct(id) {
+            // Show loading state
+            const button = event.target.closest('button');
+            const originalContent = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            button.disabled = true;
+            
             // Fetch product data and populate modal
             fetch('get_product.php?id=' + id)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            throw new Error('Network response was not ok: ' + response.status + ' - ' + text);
+                        });
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+                    
                     document.getElementById('edit_id').value = data.id;
                     document.getElementById('edit_name').value = data.name;
                     document.getElementById('edit_description').value = data.description;
@@ -515,6 +532,15 @@ if (isset($_GET['edit'])) {
                     }
                     
                     new bootstrap.Modal(document.getElementById('editProductModal')).show();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error loading product data: ' + error.message);
+                })
+                .finally(() => {
+                    // Restore button state
+                    button.innerHTML = originalContent;
+                    button.disabled = false;
                 });
         }
     </script>

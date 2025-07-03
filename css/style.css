@@ -8460,7 +8460,8 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   width: 100%;
   position: relative;
   flex-wrap: nowrap;
-  min-height: 60px;
+  min-height: 45px !important;
+  padding: 8px 0 !important;
 }
 
 /* Logo Section */
@@ -8472,7 +8473,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 
 .header-logo .ps-logo {
   display: inline-block;
-  max-width: 150px;
+  max-width: 120px !important;
 }
 
 .header-logo .ps-logo img {
@@ -8485,7 +8486,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   flex: 1;
   display: flex;
   justify-content: center;
-  margin: 0 20px;
+  margin: 0 15px !important;
   order: 2;
 }
 
@@ -8500,7 +8501,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 
 .header-nav .menu > li {
   position: relative;
-  margin: 0 15px;
+  margin: 0 12px !important;
   white-space: nowrap;
 }
 
@@ -8508,7 +8509,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 .header__actions {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px !important;
   flex-shrink: 0;
   order: 3;
 }
@@ -8529,7 +8530,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 8px 12px;
+  padding: 6px 10px !important;
   text-decoration: none;
   color: #333;
   white-space: nowrap;
@@ -8620,8 +8621,13 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+  .header-wrapper {
+    min-height: 40px !important;
+    padding: 6px 0 !important;
+  }
+  
   .header-nav .menu > li {
-    margin: 0 8px;
+    margin: 0 6px !important;
   }
   
   .header-nav .menu > li a {
@@ -8629,26 +8635,31 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   }
   
   .header__actions {
-    gap: 10px;
+    gap: 8px !important;
   }
 }
 
 @media (max-width: 768px) {
+  .header-wrapper {
+    min-height: 38px !important;
+    padding: 5px 0 !important;
+  }
+  
   .header-nav {
-    margin: 0 10px;
+    margin: 0 8px !important;
   }
   
   .header-nav .menu > li {
-    margin: 0 5px;
+    margin: 0 4px !important;
   }
   
   .header-nav .menu > li a {
     font-size: 13px;
-    padding: 5px 8px;
+    padding: 4px 6px !important;
   }
   
   .header__actions {
-    gap: 8px;
+    gap: 6px !important;
   }
   
   .ps-cart__listing {
@@ -8659,6 +8670,8 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 @media (max-width: 640px) {
   .header-wrapper {
     flex-wrap: wrap;
+    min-height: 35px !important;
+    padding: 4px 0 !important;
   }
   
   .header-logo {
@@ -8667,13 +8680,13 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   
   .header__actions {
     order: 2;
-    gap: 5px;
+    gap: 4px !important;
   }
   
   .header-nav {
     order: 3;
     width: 100%;
-    margin: 10px 0 0 0;
+    margin: 8px 0 0 0 !important;
     justify-content: center;
   }
   
@@ -8683,7 +8696,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   }
   
   .header-nav .menu > li {
-    margin: 5px;
+    margin: 4px !important;
   }
   
   .menu-toggle {
@@ -8692,19 +8705,24 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 }
 
 @media (max-width: 479px) {
+  .header-wrapper {
+    min-height: 32px !important;
+    padding: 3px 0 !important;
+  }
+  
   .header .ps-dropdown > a, 
   .header .ps-dropdown .ps-dropdown > a {
     font-size: 11px;
-    padding: 5px 8px;
+    padding: 4px 6px !important;
   }
   
   .header-logo .ps-logo {
-    max-width: 100px;
+    max-width: 90px !important;
   }
   
   .header-nav .menu > li a {
     font-size: 11px;
-    padding: 3px 5px;
+    padding: 3px 4px !important;
   }
   
   .ps-cart__listing {
@@ -8713,7 +8731,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   }
   
   .header__actions {
-    gap: 3px;
+    gap: 3px !important;
   }
 }
 
@@ -8724,7 +8742,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 }
 
 .navigation {
-  padding: 15px 0;
+  padding: 8px 0 !important;
 }
 
 /* Ensure proper stacking */
@@ -9048,39 +9066,39 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 }
 
 .header--3 .navigation {
-  padding: 20px 0;
+  padding: 6px 0 !important;
 }
 
 .header--3 .ps-logo {
   display: inline-block;
-  max-width: 90px;
-  line-height: 80px;
+  max-width: 70px !important;
+  line-height: 45px !important;
 }
 
 .header--3 .menu {
-  padding-top: 20px;
+  padding-top: 8px !important;
   float: right;
-  margin-right: 40px;
+  margin-right: 25px !important;
 }
 
 .header--3 .menu-toggle {
-  margin-top: 20px;
+  margin-top: 8px !important;
   margin-left: 10px;
   float: right;
 }
 
 .header--3 .header__actions {
-  padding-top: 20px;
+  padding-top: 8px !important;
   float: right;
 }
 
 .header--3 .header__actions > a {
-  margin-right: 10px;
+  margin-right: 8px;
   position: relative;
   display: inline-block;
-  width: 40px;
-  height: 40px;
-  font-size: 25px;
+  width: 35px;
+  height: 35px;
+  font-size: 22px;
   vertical-align: top;
 }
 
@@ -9105,7 +9123,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
   }
   .header--3 .navigation {
     position: relative;
-    padding: 10px 0;
+    padding: 6px 0 !important;
   }
   .header--3 .navigation .ps-container {
     position: static;
@@ -9189,7 +9207,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 }
 
 .navigation--sticky.header--3.navigation--pin .navigation {
-  padding: 5px 0;
+  padding: 3px 0;
 }
 
 .ps-site-info {
@@ -9209,22 +9227,22 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 }
 
 .ps-footer .ps-footer__content {
-  padding: 80px 0;
-  background-color: #22202e;
+  padding: 25px 0 !important;
+  background-color: #0D0D0D;
 }
 
 .ps-footer .ps-footer__copyright {
   background-color: #000;
   text-align: center;
-  padding: 25px 0;
+  padding: 10px 0 !important;
 }
 
 .ps-footer .ps-footer__copyright p {
   margin-bottom: 0;
   font-family: Lora;
-  font-size: 14px;
+  font-size: 12px !important;
   color: #777;
-  line-height: 20px;
+  line-height: 16px !important;
 }
 
 .ps-footer .ps-footer__copyright p strong {
@@ -9241,7 +9259,7 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 }
 
 .ps-footer .ps-form--subscribe-offer {
-  margin-bottom: 40px;
+  margin-bottom: 12px !important;
 }
 
 .ps-footer .ps-footer__contact {
@@ -9249,24 +9267,25 @@ a[data-tooltip]:hover:before, a[data-tooltip]:hover:after {
 }
 
 .ps-footer .ps-footer__contact h4 {
-  font-size: 24px;
+  font-size: 18px !important;
   color: #ffffff;
 }
 
 .ps-footer .ps-footer__open {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px !important;
 }
 
 .ps-footer .ps-footer__open h4 {
-  margin-bottom: 40px;
-  font-size: 24px;
+  margin-bottom: 12px !important;
+  font-size: 18px !important;
   color: #ffffff;
 }
 
 .ps-footer .ps-footer__open p {
   color: #777;
-  line-height: 1.8em;
+  line-height: 1.4em !important;
+  margin-bottom: 8px !important;
 }
 
 .ps-footer .ps-list--payment {

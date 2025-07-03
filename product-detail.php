@@ -286,9 +286,7 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
         <!-- Header Actions -->
         <div class="header__actions">
           
-          <!-- Search Button -->
-          <a class="ps-search-btn" href="#"><i class="ba-magnifying-glass"></i></a>
-          
+         
           <!-- User Profile Dropdown -->
           <div class="header-profile">
             <?php if (isset($_SESSION['user_id'])): ?>

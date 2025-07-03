@@ -40,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Bready</title>
+    <link href="images/logo-rotio.png" rel="icon">
+    <title>Login - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -49,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
         .login-container {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #F2CB05 0%, #D97E4A 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -64,14 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             width: 100%;
         }
         .login-header {
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #F2E205 0%, #F2CB05 100%);
             padding: 30px;
             text-align: center;
-            border-bottom: 1px solid #e9ecef;
+            border-bottom: 1px solid #D97E4A;
         }
         .login-header h2 {
             margin: 0;
-            color: #333;
+            color: #402401;
             font-family: 'Kaushan Script', cursive;
         }
         .login-body {
@@ -80,52 +81,67 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .form-group {
             margin-bottom: 20px;
         }
-        .form-control {
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            padding: 12px 15px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
         .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: #F2CB05;
+            box-shadow: 0 0 0 0.2rem rgba(242, 203, 5, 0.25);
         }
         .btn-login {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #F2CB05 0%, #D97E4A 100%);
             border: none;
             border-radius: 8px;
             padding: 12px;
             font-size: 16px;
             font-weight: 600;
-            color: white;
+            color: #402401;
             width: 100%;
             transition: transform 0.3s ease;
         }
         .btn-login:hover {
             transform: translateY(-2px);
-            color: white;
+            color: #402401;
         }
         .login-footer {
             text-align: center;
             padding: 20px 30px;
-            background: #f8f9fa;
-            border-top: 1px solid #e9ecef;
+            background: linear-gradient(135deg, #F2E205 0%, #F2CB05 100%);
+            border-top: 1px solid #D97E4A;
         }
         .login-footer a {
-            color: #667eea;
+            color: #D97E4A;
             text-decoration: none;
         }
         .login-footer a:hover {
             text-decoration: underline;
+            color: #D97E4A;
+        }
+        .login-footer a.back-home {
+            color: #402401 !important;
+            font-weight: 600;
+        }
+        .login-footer a.back-home:hover {
+            color: #D97E4A !important;
         }
         .alert {
             border-radius: 8px;
             margin-bottom: 20px;
         }
+        .alert-danger {
+            border-color: #D97E4A;
+            background-color: rgba(217, 126, 74, 0.1);
+        }
+        .form-control {
+            border: 2px solid #F2E205;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .form-control:hover {
+            border-color: #F2CB05;
+        }
     </style>
 </head>
-<body>
+<body> 
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
@@ -159,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="login-footer">
                 <p>Don't have an account? <a href="signup.php">Sign up here</a></p>
-                <p><a href="index.php">← Back to Home</a></p>
+                <p><a href="index.php" class="back-home">← Back to Home</a></p>
             </div>
         </div>
     </div>

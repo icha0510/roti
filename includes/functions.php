@@ -142,7 +142,7 @@ function getAllAwards() {
 
 // Fungsi untuk format harga
 function formatPrice($price) {
-    return '£' . number_format($price, 2);
+    return 'Rp' . number_format($price, 3);
 }
 
 // Fungsi untuk menampilkan badge produk

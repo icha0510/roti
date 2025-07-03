@@ -42,11 +42,11 @@ $recent_posts = getAllPosts(3);
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="favicon.png" rel="icon">
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title><?php echo htmlspecialchars($post['title']); ?> - Bready</title>
+    <link href="images/logo-rotio.png" rel="icon">
+    <title><?php echo htmlspecialchars($post['title']); ?> - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -102,7 +102,7 @@ $recent_posts = getAllPosts(3);
             <!-- Logo Section -->
             <div class="header-logo">
               <a class="ps-logo" href="index.php">
-                <img src="images/logo-light.png" alt="">
+                <img src="images/logo-rotio.png" alt="">
               </a>
             </div>
             <!-- Navigation Menu -->
@@ -286,17 +286,6 @@ $recent_posts = getAllPosts(3);
                 <p class="ps-post__tags"><i class="fa fa-tags"></i><a href="blog-grid.php">Blog</a>, <a href="blog-grid.php">Bakery</a>, <a href="blog-grid.php">Food</a></p>
               </div>
             </div>
-            <h3 class="ps-heading mb-20 text-uppercase">Author</h3>
-            <div class="ps-author">
-              <div class="ps-author__thumbnail bg--cover" data-background="images/user/2.jpg" data-mh="author"></div>
-              <div class="ps-author__content" data-mh="author">
-                <header>
-                  <h4><?php echo htmlspecialchars($post['author']); ?></h4>
-                  <p>BLOG AUTHOR</p>
-                </header>
-                <p>Thank you for reading our blog post. We hope you found this article informative and helpful. Stay tuned for more interesting content about bakery and food.</p>
-              </div>
-            </div>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 ">
             <div class="ps-blog__sidebar">
@@ -307,7 +296,7 @@ $recent_posts = getAllPosts(3);
                 </form>
               </div>
               <div class="widget widget_category">
-                <h3 class="widget-title">Recent Posts</h3>
+                <h3 class="widget-title">Postingan Terbaru</h3>
                 <ul class="ps-list--arrow">
                   <?php foreach ($recent_posts as $recent_post): ?>
                     <li><a href="blog-detail.php?id=<?php echo $recent_post['id']; ?>"><?php echo htmlspecialchars($recent_post['title']); ?></a></li>
@@ -315,10 +304,10 @@ $recent_posts = getAllPosts(3);
                 </ul>
               </div>
               <div class="widget widget_ads">
-                <h3 class="widget-title">Ads Banner</h3><img src="images/widget-ads.jpg" alt="">
+                <h3 class="widget-title">Tersertifikasi Halal</h3><img src="images/halal.jpg" alt="">
               </div>
               <div class="widget widget_recent-posts">
-                <h3 class="widget-title">Recent Post</h3>
+                <h3 class="widget-title">Postingan Terbaru</h3>
                 <?php foreach ($recent_posts as $recent_post): ?>
                 <div class="ps-post--sidebar">
                   <div class="ps-post__thumbnail">
