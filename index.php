@@ -74,18 +74,7 @@ $categories = getAllCategories();
     <!--[if IE 8]><body class="ie8 lt-ie9 lt-ie10"><![endif]-->
     <!--[if IE 9]><body class="ie9 lt-ie10"><![endif]-->
   </head>
-  <body>
-    <div class="ps-search">
-      <div class="ps-search__content"><a class="ps-search__close" href="#"><span></span></a>
-        <form class="ps-form--search-2" action="do_action" method="post">
-          <h3>Enter your keyword</h3>
-          <div class="form-group">
-            <input class="form-control" type="text" placeholder="">
-            <button class="ps-btn active ps-btn--fullwidth">Search</button>
-          </div>
-        </form>
-      </div>
-    </div>
+  
     <!-- Header-->
 <header class="header header--3" data-sticky="false">
   <div class="ps-container">
