@@ -18,7 +18,6 @@ foreach ($_SESSION['cart'] as $item) {
 // Ambil data dari database
 $featuredProducts = getAllProducts(6);
 $banners = getAllBanners();
-$testimonials = getAllTestimonials(4);
 $posts = getAllPosts(3);
 $categories = getAllCategories();
 ?>
@@ -286,31 +285,7 @@ $categories = getAllCategories();
         </div>
       </div>
     </div>
-    <!-- Testimonials-->
-    <div class="ps-testimonials bg--parallax" data-background="images/bg/testimonials.jpg">
-      <div class="ps-container">
-        <div class="ps-carousel--testimonial owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="false" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="off" data-owl-animate-in="fadeIn" data-owl-animate-out="fadeOut">
-          <?php foreach ($testimonials as $testimonial): ?>
-          <div class="ps-block--tesimonial">
-            <div class="ps-block__user">
-              <?php if (!empty($testimonial['image_data'])): ?>
-                <?php echo displayImage($testimonial['image_data'], $testimonial['image_mime'], '', $testimonial['name']); ?>
-              <?php else: ?>
-                <img src="<?php echo $testimonial['image']; ?>" alt="<?php echo $testimonial['name']; ?>">
-              <?php endif; ?>
-            </div>
-            <div class="ps-block__content">
-              <?php echo displayRating($testimonial['rating']); ?>
-              <p>"<?php echo $testimonial['content']; ?>"</p>
-            </div>
-            <div class="ps-block__footer">
-              <p><strong><?php echo $testimonial['name']; ?></strong>  - <?php echo $testimonial['position']; ?> <?php echo $testimonial['company']; ?></p>
-            </div>
-          </div>
-          <?php endforeach; ?>
-        </div>
-      </div>
-    </div>
+    
     <!-- home-blog-->
     <div class="ps-home-blog">
       <div class="ps-container">
@@ -395,19 +370,6 @@ $categories = getAllCategories();
       </div>
   </footer>
 
-    <div class="ps-popup" id="subscribe" data-time="10000">
-      <div class="ps-popup__content"><a class="ps-popup__close" href="#"><i class="fa fa-remove"></i></a>
-        <form class="ps-form--subscribe-popup bg--cover" id="popupNewsletterForm" method="post" data-background="images/bg/subscribe.jpg">
-          <h3>subscribe email</h3>
-          <p>Stay updated with our latest news, recipes, and bakery tips!</p>
-          <div class="form-group">
-            <input class="form-control" type="email" name="email" id="popupNewsletterEmail" placeholder="Enter your email..." required>
-            <button type="submit" class="ps-btn ps-btn--yellow" id="popupNewsletterBtn">Subscribe</button>
-          </div>
-          <div id="popupNewsletterMessage"></div>
-        </form>
-      </div>
-    </div>
     <div id="back2top"><i class="fa fa-angle-up"></i></div>
     <div class="ps-loading">
       <div class="rectangle-bounce">
@@ -436,124 +398,6 @@ $categories = getAllCategories();
     <!-- Custom scripts-->
     <script src="js/main.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsUcTjt43mTheN9ruCsQVgBE-wgN6_AfY&amp;region=GB"></script>
-    
-    <!-- Newsletter JavaScript -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const newsletterForm = document.getElementById('newsletterForm');
-        const newsletterMessage = document.getElementById('newsletterMessage');
-        const newsletterBtn = document.getElementById('newsletterBtn');
-        
-        // Popup newsletter form
-        const popupNewsletterForm = document.getElementById('popupNewsletterForm');
-        const popupNewsletterMessage = document.getElementById('popupNewsletterMessage');
-        const popupNewsletterBtn = document.getElementById('popupNewsletterBtn');
-        
-        if (newsletterForm) {
-            newsletterForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('newsletterEmail').value;
-                
-                if (!email) {
-                    showMessage('Email tidak boleh kosong', 'error', newsletterMessage);
-                    return;
-                }
-                
-                // Disable button
-                newsletterBtn.disabled = true;
-                newsletterBtn.textContent = 'Subscribing...';
-                
-                // Send AJAX request
-                const formData = new FormData();
-                formData.append('action', 'subscribe');
-                formData.append('email', email);
-                
-                fetch('newsletter_handler.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showMessage(data.message, 'success', newsletterMessage);
-                        newsletterForm.reset();
-                    } else {
-                        showMessage(data.message, 'error', newsletterMessage);
-                    }
-                })
-                .catch(error => {
-                    showMessage('Terjadi kesalahan. Silakan coba lagi.', 'error', newsletterMessage);
-                })
-                .finally(() => {
-                    // Re-enable button
-                    newsletterBtn.disabled = false;
-                    newsletterBtn.textContent = 'Subscribe';
-                });
-            });
-        }
-        
-        // Handle popup newsletter form
-        if (popupNewsletterForm) {
-            popupNewsletterForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('popupNewsletterEmail').value;
-                
-                if (!email) {
-                    showMessage('Email tidak boleh kosong', 'error', popupNewsletterMessage);
-                    return;
-                }
-                
-                // Disable button
-                popupNewsletterBtn.disabled = true;
-                popupNewsletterBtn.textContent = 'Subscribing...';
-                
-                // Send AJAX request
-                const formData = new FormData();
-                formData.append('action', 'subscribe');
-                formData.append('email', email);
-                
-                fetch('newsletter_handler.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showMessage(data.message, 'success', popupNewsletterMessage);
-                        popupNewsletterForm.reset();
-                        // Close popup after successful subscription
-                        setTimeout(() => {
-                            const popup = document.getElementById('subscribe');
-                            if (popup) {
-                                popup.style.display = 'none';
-                            }
-                        }, 2000);
-                    } else {
-                        showMessage(data.message, 'error', popupNewsletterMessage);
-                    }
-                })
-                .catch(error => {
-                    showMessage('Terjadi kesalahan. Silakan coba lagi.', 'error', popupNewsletterMessage);
-                })
-                .finally(() => {
-                    // Re-enable button
-                    popupNewsletterBtn.disabled = false;
-                    popupNewsletterBtn.textContent = 'Subscribe';
-                });
-            });
-        }
-        
-        function showMessage(message, type, messageElement) {
-            messageElement.innerHTML = `<div class="alert alert-${type === 'success' ? 'success' : 'danger'}">${message}</div>`;
-            
-            // Auto hide after 5 seconds
-            setTimeout(() => {
-                messageElement.innerHTML = '';
-            }, 5000);
-        }
-    });
-    </script>
+
   </body>
 </html> 

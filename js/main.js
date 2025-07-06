@@ -590,21 +590,6 @@
         });
     }
 
-    function subscribePopup() {
-        var subscribe = $('#subscribe'),
-            time = subscribe.data('time');
-        setTimeout(function() {
-            if (subscribe.length > 0) {
-                subscribe.addClass('active');
-                $('body').css('overflow', 'hidden');
-            }
-        }, time);
-        $('.ps-popup__close').on('click', function(e) {
-            e.preventDefault();
-            $(this).closest('.ps-popup').removeClass('active');
-            $('body').css('overflow', 'auto');
-        });
-    }
 
     function overFlowScrollbar() {
         var cart = $('.ps-cart');

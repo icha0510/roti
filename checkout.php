@@ -480,7 +480,7 @@ if ($_POST && isset($_POST['place_order'])) {
                                             <?php endforeach; ?>
                                         </div>
                                         <div class="ps-block__footer">
-                                            <h3>Total <span>$<?php echo number_format($cart_total, 2); ?></span></h3>
+                                            <h3>Total <span>Rp <?php echo number_format($cart_total, 3); ?></span></h3>
                                         </div>
                                     </div>
                                     <div class="ps-form__footer">

@@ -15,147 +15,56 @@ foreach ($_SESSION['cart'] as $item) {
     $cart_count += $item['quantity'];
 }
 
-// Ambil ID produk dari URL
+// Ambil ID produk dari URL dengan validasi
 $product_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Jika tidak ada ID produk, tampilkan halaman error yang user-friendly
-if (!$product_id) {
-    $page_title = "Product Not Found";
-    include 'header.php';
-    ?>
-    <!-- Breadcrumb -->
-    <div class="ps-breadcrumb">
-        <div class="ps-container">
-            <ul class="breadcrumb">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="product-listing.php">Products</a></li>
-                <li>Product Not Found</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Error Section -->
-    <div class="ps-section--error">
-        <div class="ps-container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 center-block">
-                    <div class="ps-error">
-                        <h1>404</h1>
-                        <h3>Product Not Found</h3>
-                        <p>Sorry, the product you're looking for doesn't exist or has been removed.</p>
-                        <p>Please browse our <a href="product-listing.php">product catalog</a> to find what you're looking for.</p>
-                        <a class="ps-btn" href="product-listing.php">Browse Products</a>
-                        <a class="ps-btn ps-btn--outline" href="index.php">Back to Home</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    
-
-    <!-- Scripts -->
-    <script src="plugins/jquery/dist/jquery.min.js"></script>
-    <script src="plugins/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="plugins/owl-carousel/owl.carousel.min.js"></script>
-    <script src="plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-    <script src="plugins/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
-    <script src="plugins/jquery.waypoints.min.js"></script>
-    <script src="plugins/jquery.countTo.js"></script>
-    <script src="plugins/jquery.matchHeight-min.js"></script>
-    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="plugins/gmap3.min.js"></script>
-    <script src="plugins/lightGallery-master/dist/js/lightgallery-all.min.js"></script>
-    <script src="plugins/slick/slick/slick.min.js"></script>
-    <script src="plugins/slick-animation.min.js"></script>
-    <script src="plugins/jquery.slimscroll.min.js"></script>
-    <script src="js/main.js"></script>
-    </body>
-    </html>
-    <?php
-    exit;
+// Validasi ID produk
+if ($product_id <= 0) {
+    // Redirect ke halaman produk jika ID tidak valid
+    header('Location: product-listing.php');
+    exit();
 }
 
-// Ambil detail produk dari database menggunakan fungsi dari includes/functions.php
-
+// Ambil detail produk dari database
 $product = getProductById($product_id);
 
+// Cek apakah produk ditemukan
 if (!$product) {
-    $page_title = "Product Not Found";
-    include 'header.php';
-    ?>
-    <!-- Breadcrumb -->
-    <div class="ps-breadcrumb">
-        <div class="ps-container">
-            <ul class="breadcrumb">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="product-listing.php">Products</a></li>
-                <li>Product Not Found</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Error Section -->
-    <div class="ps-section--error">
-        <div class="ps-container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 center-block">
-                    <div class="ps-error">
-                        <h1>404</h1>
-                        <h3>Product Not Found</h3>
-                        <p>Sorry, the product you're looking for doesn't exist or has been removed.</p>
-                        <p>Please browse our <a href="product-listing.php">product catalog</a> to find what you're looking for.</p>
-                        <a class="ps-btn" href="product-listing.php">Browse Products</a>
-                        <a class="ps-btn ps-btn--outline" href="index.php">Back to Home</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="plugins/jquery/dist/jquery.min.js"></script>
-    <script src="plugins/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="plugins/owl-carousel/owl.carousel.min.js"></script>
-    <script src="plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-    <script src="plugins/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
-    <script src="plugins/jquery.waypoints.min.js"></script>
-    <script src="plugins/jquery.countTo.js"></script>
-    <script src="plugins/jquery.matchHeight-min.js"></script>
-    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="plugins/gmap3.min.js"></script>
-    <script src="plugins/lightGallery-master/dist/js/lightgallery-all.min.js"></script>
-    <script src="plugins/slick/slick/slick.min.js"></script>
-    <script src="plugins/slick-animation.min.js"></script>
-    <script src="plugins/jquery.slimscroll.min.js"></script>
-    <script src="js/main.js"></script>
-    </body>
-    </html>
-    <?php
-    exit;
+    // Redirect ke halaman produk jika produk tidak ditemukan
+    header('Location: product-listing.php');
+    exit();
 }
 
-// Ambil produk terkait
+// Fungsi untuk mengambil produk terkait
 function getRelatedProducts($category_id, $current_product_id, $limit = 4) {
-    $database = new Database();
-    $db = $database->getConnection();
-    
-    $sql = "SELECT p.*, c.name as category_name 
-            FROM products p 
-            LEFT JOIN categories c ON p.category_id = c.id 
-            WHERE p.category_id = :category_id AND p.id != :current_id AND p.stock > 0 
-            ORDER BY p.created_at DESC 
-            LIMIT " . $limit;
-    
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam(':category_id', $category_id);
-    $stmt->bindParam(':current_id', $current_product_id);
-    $stmt->execute();
-    
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+        
+        $sql = "SELECT p.*, c.name as category_name 
+                FROM products p 
+                LEFT JOIN categories c ON p.category_id = c.id 
+                WHERE p.category_id = :category_id AND p.id != :current_id AND p.stock > 0 
+                ORDER BY p.created_at DESC 
+                LIMIT " . (int)$limit;
+        
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
+        $stmt->bindParam(':current_id', $current_product_id, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        // Return array kosong jika terjadi error
+        return array();
+    }
 }
 
-$related_products = getRelatedProducts($product['category_id'], $product_id);
+// Ambil produk terkait dengan error handling
+$related_products = array();
+if (isset($product['category_id']) && $product['category_id']) {
+    $related_products = getRelatedProducts($product['category_id'], $product_id);
+}
 ?>
 <!DOCTYPE html>
 <!--[if IE 7]><html class="ie ie7"><![endif]-->
@@ -168,12 +77,8 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <link href="apple-touch-icon.png" rel="apple-touch-icon">
     <link href="images/logo-rotio.png" rel="icon">
-    <meta name="author" content="">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <title><?php echo $product['name']; ?> - Roti'O</title>
+    <title><?php echo htmlspecialchars($product['name']); ?> - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -210,13 +115,17 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
           margin-top: 80px;
         }
       }
+      /* Styling untuk stock status */
+      .in-stock {
+        color: #28a745;
+        font-weight: bold;
+      }
+      .out-of-stock {
+        color: #dc3545;
+        font-weight: bold;
+      }
     </style>
-    <!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
-    <!--WARNING: Respond.js doesn't work if you view the page via file://-->
-    <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
-    <!--[if IE 7]><body class="ie7 lt-ie8 lt-ie9 lt-ie10"><![endif]-->
-    <!--[if IE 8]><body class="ie8 lt-ie9 lt-ie10"><![endif]-->
-    <!--[if IE 9]><body class="ie9 lt-ie10"><![endif]-->
+
   </head>
   <body>
     
@@ -328,12 +237,12 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
                           <?php if (!empty($item['image_data'])): ?>
                             <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
                           <?php else: ?>
-                            <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
+                            <img src="<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
                           <?php endif; ?>
                         </div>
                         <div class="ps-cart-item__content">
                           <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>">
-                            <?php echo $item['name']; ?>
+                            <?php echo htmlspecialchars($item['name']); ?>
                           </a>
                           <p>
                             <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
@@ -375,8 +284,10 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
             <ul class="breadcrumb">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="product-listing.php">Products</a></li>
-                <li><a href="product-listing.php?category=<?php echo $product['category_id']; ?>"><?php echo $product['category_name']; ?></a></li>
-                <li><?php echo $product['name']; ?></li>
+                <?php if (isset($product['category_name']) && $product['category_name']): ?>
+                <li><a href="product-listing.php?category=<?php echo $product['category_id']; ?>"><?php echo htmlspecialchars($product['category_name']); ?></a></li>
+                <?php endif; ?>
+                <li><?php echo htmlspecialchars($product['name']); ?></li>
             </ul>
         </div>
     </div>
@@ -391,8 +302,10 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
                         <div class="ps-product__image">
                             <?php if (!empty($product['image_data'])): ?>
                                 <?php echo displayImage($product['image_data'], $product['image_mime'], 'img-fluid', $product['name']); ?>
+                            <?php elseif (!empty($product['image'])): ?>
+                                <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" class="img-fluid">
                             <?php else: ?>
-                                <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="img-fluid">
+                                <img src="images/products/default.jpg" alt="<?php echo htmlspecialchars($product['name']); ?>" class="img-fluid">
                             <?php endif; ?>
                         </div>
                     </div>
@@ -401,15 +314,17 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
                 <!-- Product Info -->
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="ps-product__info">
-                        <h1 class="ps-product__name"><?php echo $product['name']; ?></h1>
+                        <h1 class="ps-product__name"><?php echo htmlspecialchars($product['name']); ?></h1>
                         
                         <div class="ps-product__meta">
-                            <p>Category: <a href="product-listing.php?category=<?php echo $product['category_id']; ?>"><?php echo $product['category_name']; ?></a></p>
+                            <?php if (isset($product['category_name']) && $product['category_name']): ?>
+                            <p>Category: <a href="product-listing.php?category=<?php echo $product['category_id']; ?>"><?php echo htmlspecialchars($product['category_name']); ?></a></p>
+                            <?php endif; ?>
                         </div>
 
                         <div class="ps-product__rating">
-                            <?php echo displayRating($product['rating']); ?>
-                            <span class="ps-product__review">(<?php echo $product['rating']; ?> stars)</span>
+                            <?php echo displayRating($product['rating'] ?? 0); ?>
+                            <span class="ps-product__review">(<?php echo $product['rating'] ?? 0; ?> stars)</span>
                         </div>
 
                         <div class="ps-product__price">
@@ -418,14 +333,14 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
 
                         <div class="ps-product__description">
                             <h4>Description</h4>
-                            <p><?php echo $product['description']; ?></p>
+                            <p><?php echo htmlspecialchars($product['description'] ?? ''); ?></p>
                         </div>
 
                         <div class="ps-product__stock">
-                            <p>Stock: <span class="<?php echo $product['stock'] > 0 ? 'in-stock' : 'out-of-stock'; ?>"><?php echo $product['stock'] > 0 ? $product['stock'] . ' available' : 'Out of stock'; ?></span></p>
+                            <p>Stock: <span class="<?php echo ($product['stock'] ?? 0) > 0 ? 'in-stock' : 'out-of-stock'; ?>"><?php echo ($product['stock'] ?? 0) > 0 ? ($product['stock'] . ' available') : 'Out of stock'; ?></span></p>
                         </div>
 
-                        <?php if ($product['stock'] > 0): ?>
+                        <?php if (($product['stock'] ?? 0) > 0): ?>
                         <div class="ps-product__actions">
                             <div class="ps-product__quantity">
                                 <label>Quantity:</label>
@@ -461,20 +376,22 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
                                 <?php echo getProductBadge($related_product); ?>
                                 <?php if (!empty($related_product['image_data'])): ?>
                                     <?php echo displayImage($related_product['image_data'], $related_product['image_mime'], '', $related_product['name']); ?>
+                                <?php elseif (!empty($related_product['image'])): ?>
+                                    <img src="<?php echo htmlspecialchars($related_product['image']); ?>" alt="<?php echo htmlspecialchars($related_product['name']); ?>">
                                 <?php else: ?>
-                                    <img src="<?php echo $related_product['image']; ?>" alt="<?php echo $related_product['name']; ?>">
+                                    <img src="images/products/default.jpg" alt="<?php echo htmlspecialchars($related_product['name']); ?>">
                                 <?php endif; ?>
                                 <a class="ps-product__overlay" href="product-detail.php?id=<?php echo $related_product['id']; ?>"></a>
                                 <ul class="ps-product__actions">
-                                    <!-- <li><a href="#" data-tooltip="Quick View"><i class="ba-magnifying-glass"></i></a></li>
-                                    <li><a href="#" data-tooltip="Favorite"><i class="ba-heart"></i></a></li> -->
                                     <li><a href="cart_actions.php?action=add&id=<?php echo $related_product['id']; ?>" data-tooltip="Add to Cart"><i class="ba-shopping"></i></a></li>
                                 </ul>
                             </div>
                             <div class="ps-product__content">
-                                <a class="ps-product__title" href="product-detail.php?id=<?php echo $related_product['id']; ?>"><?php echo $related_product['name']; ?></a>
-                                <p><a href="product-listing.php?category=<?php echo $related_product['category_id']; ?>"><?php echo $related_product['category_name']; ?></a></p>
-                                <?php echo displayRating($related_product['rating']); ?>
+                                <a class="ps-product__title" href="product-detail.php?id=<?php echo $related_product['id']; ?>"><?php echo htmlspecialchars($related_product['name']); ?></a>
+                                <?php if (isset($related_product['category_name']) && $related_product['category_name']): ?>
+                                <p><a href="product-listing.php?category=<?php echo $related_product['category_id']; ?>"><?php echo htmlspecialchars($related_product['category_name']); ?></a></p>
+                                <?php endif; ?>
+                                <?php echo displayRating($related_product['rating'] ?? 0); ?>
                                 <?php echo displayProductPrice($related_product); ?>
                             </div>
                         </div>
@@ -562,8 +479,36 @@ $related_products = getRelatedProducts($product['category_id'], $product_id);
             var productId = $(this).data('product-id');
             var quantity = $('#product-quantity').val();
             
+            // Validasi quantity
+            if (quantity < 1) {
+                alert('Quantity harus minimal 1');
+                return;
+            }
+            
             // Redirect to cart_actions.php with parameters
             window.location.href = 'cart_actions.php?action=add&id=' + productId + '&quantity=' + quantity;
+        });
+        
+        // Newsletter form handling
+        $('#newsletterForm').on('submit', function(e) {
+            e.preventDefault();
+            var email = $('#newsletterEmail').val();
+            
+            $.ajax({
+                url: 'newsletter_handler.php',
+                type: 'POST',
+                data: {email: email},
+                dataType: 'json',
+                success: function(response) {
+                    $('#newsletterMessage').html('<div class="alert alert-' + (response.success ? 'success' : 'danger') + '">' + response.message + '</div>');
+                    if (response.success) {
+                        $('#newsletterEmail').val('');
+                    }
+                },
+                error: function() {
+                    $('#newsletterMessage').html('<div class="alert alert-danger">Terjadi kesalahan. Silakan coba lagi.</div>');
+                }
+            });
         });
     });
     </script>

@@ -15,8 +15,6 @@ foreach ($_SESSION['cart'] as $item) {
     $cart_count += $item['quantity'];
 }
 
-// Get testimonials from database
-$testimonials = getAllTestimonials();
 ?>
 <!DOCTYPE html>
 <!--[if IE 7]><html class="ie ie7"><![endif]-->
@@ -272,116 +270,8 @@ $testimonials = getAllTestimonials();
         </div>
       </div>
     </div>
-    <!--.ps-our-people-->
-    <div class="ps-our-people">
-      <div class="ps-container">
-        <div class="ps-section__header text-center">
-          <h3 class="ps-section__title">Our Chef</h3>
-          <p>Work with Passion</p><span><img src="images/icons/floral.png" alt=""></span>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-          <div class="ps-block--people">
-            <div class="ps-block__thumbnail"><img src="images/people/1.png" alt=""></div>
-            <div class="ps-block__content">
-              <div class="ps-block__header">
-                <h3>Juan Olson</h3><span>Master Chef</span>
-              </div>
-              <p>"Now, if you are interested in being the best player, getting really good money and knowing some tricks and  …"</p>
-              <div class="ps-block__footer">
-                <p>Tel: 947 577 57 <br><a href="#">juanmaster@bready.com</a></p>
-                <ul class="ps-list--social">
-                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-          <div class="ps-block--people">
-            <div class="ps-block__thumbnail"><img src="images/people/2.png" alt=""></div>
-            <div class="ps-block__content">
-              <div class="ps-block__header">
-                <h3>Harold Santos</h3><span>Manager</span>
-              </div>
-              <p>"Now, if you are interested in being the best player, getting really good money and knowing some tricks and  …"</p>
-              <div class="ps-block__footer">
-                <p>Tel: 947 577 57 <br><a href="#">juanmaster@bready.com</a></p>
-                <ul class="ps-list--social">
-                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-          <div class="ps-block--people">
-            <div class="ps-block__thumbnail"><img src="images/people/3.png" alt=""></div>
-            <div class="ps-block__content">
-              <div class="ps-block__header">
-                <h3>Joel Harmon</h3><span>Master Chef</span>
-              </div>
-              <p>"Now, if you are interested in being the best player, getting really good money and knowing some tricks and  …"</p>
-              <div class="ps-block__footer">
-                <p>Tel: 947 577 57 <br><a href="#">juanmaster@bready.com</a></p>
-                <ul class="ps-list--social">
-                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-          <div class="ps-block--people">
-            <div class="ps-block__thumbnail"><img src="images/people/4.png" alt=""></div>
-            <div class="ps-block__content">
-              <div class="ps-block__header">
-                <h3>Ricardo Manning</h3><span>Master Chef</span>
-              </div>
-              <p>"Now, if you are interested in being the best player, getting really good money and knowing some tricks and  …"</p>
-              <div class="ps-block__footer">
-                <p>Tel: 947 577 57 <br><a href="#">juanmaster@bready.com</a></p>
-                <ul class="ps-list--social">
-                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Testimonials-->
-    <div class="ps-testimonials bg--parallax" data-background="images/bg/testimonials.jpg">
-      <div class="ps-container">
-        <div class="ps-carousel--testimonial owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="false" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="off" data-owl-animate-in="fadeIn" data-owl-animate-out="fadeOut">
-          <?php foreach ($testimonials as $testimonial): ?>
-          <div class="ps-block--tesimonial">
-            <div class="ps-block__user">
-              <?php if (!empty($testimonial['image_data'])): ?>
-                <?php echo displayImage($testimonial['image_data'], $testimonial['image_mime'], '', $testimonial['name']); ?>
-              <?php else: ?>
-                <img src="<?php echo $testimonial['image']; ?>" alt="<?php echo $testimonial['name']; ?>">
-              <?php endif; ?>
-            </div>
-            <div class="ps-block__content">
-              <?php echo displayRating($testimonial['rating']); ?>
-              <p>"<?php echo $testimonial['content']; ?>"</p>
-            </div>
-            <div class="ps-block__footer">
-              <p><strong><?php echo $testimonial['name']; ?></strong>  - <?php echo $testimonial['position']; ?> <?php echo $testimonial['company']; ?></p>
-            </div>
-          </div>
-          <?php endforeach; ?>
-        </div>
-      </div>
-    </div>
+    
+    
     <footer class="ps-footer">
       <div class="ps-footer__content">
         <div class="ps-container">
