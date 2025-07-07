@@ -35,11 +35,11 @@ foreach ($_SESSION['cart'] as $item) {
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="favicon.png" rel="icon">
+    <link href="images/logo-rotio.png" rel="icon">
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>Order Success - Bready</title>
+    <title>Order Success - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -68,90 +68,155 @@ foreach ($_SESSION['cart'] as $item) {
         font-family: inherit;
       }
     </style>
-    <!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
-    <!--WARNING: Respond.js doesn't work if you view the page via file://-->
-    <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
-    <!--[if IE 7]><body class="ie7 lt-ie8 lt-ie9 lt-ie10"><![endif]-->
-    <!--[if IE 8]><body class="ie8 lt-ie9 lt-ie10"><![endif]-->
-    <!--[if IE 9]><body class="ie9 lt-ie10"><![endif]-->
   </head>
   <body>
     
     <!-- Header-->
     <header class="header header--3" data-sticky="false">
-      <nav class="navigation">
-        <div class="ps-container">
-          <a class="ps-logo" href="index.php"><img src="images/logo-light.png" alt=""></a>
-          <div class="menu-toggle"><span></span></div>
-          <div class="header__actions">
-            <a class="ps-search-btn" href="#"><i class="ba-magnifying-glass"></i></a>
-            <a href="#"><i class="ba-profile"></i></a>
-            <div class="ps-cart">
-              <a class="ps-cart__toggle" href="cart.php">
-                <span><i><?php echo $cart_count; ?></i></span>
-                <i class="ba-shopping"></i>
+      <div class="ps-container">
+        <nav class="navigation">
+          <div class="header-wrapper">
+            
+            <!-- Logo Section -->
+            <div class="header-logo">
+              <a class="ps-logo" href="index.php">
+                <img src="images/logo-rotio.png" alt="">
               </a>
-              <div class="ps-cart__listing">
-                <div class="ps-cart__content">
-                  <?php if (!empty($_SESSION['cart'])): ?>
-                    <?php $count = 0; foreach ($_SESSION['cart'] as $item): $count++; if ($count <= 6): ?>
-                    <div class="ps-cart-item">
-                      <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
-                      <div class="ps-cart-item__thumbnail">
-                        <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
-                        <?php if (!empty($item['image_data'])): ?>
-                          <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
-                        <?php else: ?>
-                          <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
-                        <?php endif; ?>
-                      </div>
-                      <div class="ps-cart-item__content">
-                        <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>"><?php echo $item['name']; ?></a>
-                        <p><span>Quantity:<i><?php echo $item['quantity']; ?></i></span><span>Total:<i>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></i></span></p>
-                      </div>
-                    </div>
-                    <?php endif; endforeach; ?>
-                  <?php else: ?>
-                    <div class="ps-cart-item">
-                      <div class="ps-cart-item__content">
-                        <p>Your cart is empty</p>
-                      </div>
-                    </div>
-                  <?php endif; ?>
-                </div>
-                <div class="ps-cart__total">
-                  <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                  <p>Item Total:<span>$<?php echo number_format($cart_total, 2); ?></span></p>
-                </div>
-                <div class="ps-cart__footer"><a href="cart.php">Check out</a></div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <div class="header-nav">
+              <ul class="menu">
+                <li class="menu-item-has-children current-menu-item">
+                  <a href="index.php">Homepage</a>
+                </li>
+                <li>
+                  <a href="about.php">About</a>
+                </li>
+                <li class="menu-item-has-children">
+                  <a href="#">Product</a>
+                  <span class="sub-toggle">
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <ul class="sub-menu">
+                    <li><a href="product-listing.php">Product List</a></li>
+                    <li><a href="order-form.php">Order Form</a></li>
+                  </ul>
+                </li>   
+                <li class="menu-item-has-children">
+                  <a href="#">Others</a>
+                  <span class="sub-toggle">
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <ul class="sub-menu">
+                    <li><a href="blog-grid.php">Blog</a></li>
+                    <li><a href="store.php">Our Stores</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="contact.php">Contact Us</a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="menu-toggle">
+              <span></span>
+            </div>
+            
+            <!-- Header Actions -->
+            <div class="header__actions">
+              
+              <!-- User Profile Dropdown -->
+              <div class="header-profile">
+                <?php if (isset($_SESSION['user_id'])): ?>
+                  <div class="ps-dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <i class="ba-profile"></i>
+                      <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a href="logo-orders.php">My Orders</a>
+                      </li>
+                      <li>
+                        <a href="profile.php">Profile</a>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li>
+                        <a href="logout.php">Logout</a>
+                      </li>
+                    </ul>
+                  </div>
+                <?php else: ?>
+                  <a href="login.php">
+                    <i class="ba-profile"></i>
+                  </a>
+                <?php endif; ?>
               </div>
+              
+              <!-- Shopping Cart -->
+              <div class="header-cart">
+                <div class="ps-cart">
+                  <a class="ps-cart__toggle" href="cart.php">
+                    <span>
+                      <i><?php echo $cart_count; ?></i>
+                    </span>
+                    <i class="ba-shopping"></i>
+                  </a>
+                  
+                  <div class="ps-cart__listing">
+                    <div class="ps-cart__content">
+                      <?php if (!empty($_SESSION['cart'])): ?>
+                        <?php $count = 0; foreach ($_SESSION['cart'] as $item): $count++; if ($count <= 6): ?>
+                          <div class="ps-cart-item">
+                            <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
+                            <div class="ps-cart-item__thumbnail">
+                              <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
+                              <?php if (!empty($item['image_data'])): ?>
+                                <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
+                              <?php else: ?>
+                                <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
+                              <?php endif; ?>
+                            </div>
+                            <div class="ps-cart-item__content">
+                              <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>">
+                                <?php echo $item['name']; ?>
+                              </a>
+                              <p>
+                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
+                              </p>
+                            </div>
+                          </div>
+                        <?php endif; endforeach; ?>
+                      <?php else: ?>
+                        <div class="ps-cart-item">
+                          <div class="ps-cart-item__content">
+                            <p>Your cart is empty</p>
+                          </div>
+                        </div>
+                      <?php endif; ?>
+                    </div>
+                    
+                    <div class="ps-cart__total">
+                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
+                      <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                    </div>
+                    
+                    <div class="ps-cart__footer">
+                      <a href="cart.php">Check out</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
             </div>
           </div>
-          <ul class="menu">
-            <li class="menu-item-has-children">
-              <a href="index.php">Homepage</a>
-            </li>
-            <li><a href="about.php">About</a></li>
-            <li class="menu-item-has-children">
-              <a href="#">product</a>
-              <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-              <ul class="sub-menu">
-                <li><a href="product-listing.php">Product List</a></li>
-                <li><a href="order-form.php">Order Form</a></li>
-              </ul>
-            </li>   
-            <li class="menu-item-has-children">
-              <a href="#">Others</a>
-              <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-              <ul class="sub-menu">
-                <li><a href="blog-grid.php">Blog</a></li>
-                <li><a href="store.php">Our Stores</a></li>
-              </ul>
-            </li>
-            <li><a href="contact.php">Contact Us</a></li>
-          </ul>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
     
     <div class="ps-hero bg--cover" data-background="images/hero/product.jpg">
@@ -241,8 +306,34 @@ foreach ($_SESSION['cart'] as $item) {
         <div class="ps-container">
           <div class="row">
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
-              <div class="ps-site-info"><a class="ps-logo" href="index.php"><img src="images/logo-dark.png" alt=""></a>
-                <p>Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
+              <div class="ps-site-info"><a class="ps-logo" href="index.php"><img src="images/logo-rotio.png" alt=""></a>
+                <p>Roti'O, sahabat setia perjalanan dengan aroma khas kopi dan tekstur renyah lembut.</p>  
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
+              <form class="ps-form--subscribe-offer" id="newsletterForm" method="post">
+                <h4>Dapatkan berita terbaru</h4>
+                <div class="form-group">
+                  <input class="form-control" type="email" name="email" id="newsletterEmail" placeholder="Email Anda..." required>
+                  <button type="submit" id="newsletterBtn">Ikuti Laman</button>
+                </div>
+                <p>* Jangan khawatir, kami tidak pernah spam</p>
+                <div id="newsletterMessage"></div>
+              </form>
+              <div class="ps-footer__contact">
+                <h4>Hubungi Kami</h4>
+                <p>Jl. Raya Cikarang, Kota Bekasi, Jawa Barat</p>
+                <P>(+62) 812-3456-7890</P>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
+              <div class="ps-footer__open">
+                <h4>Jam Buka</h4>
+                <p>
+                  Senin - Jumat: <br>08:00 am - 08:30 pm <br>
+                  Sabtu - Minggu:<br>
+                  10:00 am - 16:30 pm
+                </p>
                 <ul class="ps-list--social">
                   <li><a href="https://www.facebook.com/share/19g2Ds4bML/"><i class="fa fa-facebook"></i></a></li>
                   <li><a href="https://www.tiktok.com/@rotio.indonesia?_t=ZS-8xdJVQ8gKAc&_r=1"><i class="fa-brands fa-tiktok"></i></a></li>
@@ -250,41 +341,10 @@ foreach ($_SESSION['cart'] as $item) {
                 </ul>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <form class="ps-form--subscribe-offer" id="newsletterForm" method="post">
-                <h4>Get news & offer</h4>
-                <div class="form-group">
-                  <input class="form-control" type="email" name="email" id="newsletterEmail" placeholder="Your Email..." required>
-                  <button type="submit" id="newsletterBtn">Subscribe</button>
-                </div>
-                <p>* Don't worry, we never spam</p>
-                <div id="newsletterMessage"></div>
-              </form>
-              <div class="ps-footer__contact">
-                <h4>Contact with me</h4>
-                <p>PO Box 16122 Collins Street West,Victoria 8007 Australia</p>
-                <P>(+84 ) 7534 9773, (+84 ) 874 548</P>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <div class="ps-footer__open">
-                <h4>Time to Open</h4>
-                <p>
-                  Monday - Friday: <br>08:00 am - 08:30 pm <br>
-                  Saturday - Sunday:<br>
-                  10:00 am - 16:30 pm
-                </p>
-              </div>
-              <ul class="ps-list--payment">
-                <li><a href="#"><img src="images/payment-method/visa.png" alt=""></a></li>
-                <li><a href="#"><i class="ba-shopping"></i></a></li>
-                <li><a href="#"><img src="images/payment-method/paypal.png" alt=""></a></li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
-      </footer>
+    </footer>
     
     <div id="back2top"><i class="fa fa-angle-up"></i></div>
     <div class="ps-loading">

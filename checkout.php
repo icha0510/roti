@@ -362,7 +362,7 @@ if ($_POST && isset($_POST['place_order'])) {
                 
                 <div class="ps-cart__total">
                   <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                  <p>Item Total:<span>$<?php echo number_format($cart_total, 2); ?></span></p>
+                  <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                 </div>
                 
                 <div class="ps-cart__footer">
@@ -540,8 +540,34 @@ if ($_POST && isset($_POST['place_order'])) {
         <div class="ps-container">
           <div class="row">
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
-              <div class="ps-site-info"><a class="ps-logo" href="index.php"><img src="images/logo-dark.png" alt=""></a>
-                <p>Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
+              <div class="ps-site-info"><a class="ps-logo" href="index.php"><img src="images/logo-rotio.png" alt=""></a>
+                <p>Roti'O, sahabat setia perjalanan dengan aroma khas kopi dan tekstur renyah lembut.</p>  
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
+              <form class="ps-form--subscribe-offer" id="newsletterForm" method="post">
+                <h4>Dapatkan berita terbaru</h4>
+                <div class="form-group">
+                  <input class="form-control" type="email" name="email" id="newsletterEmail" placeholder="Email Anda..." required>
+                  <button type="submit" id="newsletterBtn">Ikuti Laman</button>
+                </div>
+                <p>* Jangan khawatir, kami tidak pernah spam</p>
+                <div id="newsletterMessage"></div>
+              </form>
+              <div class="ps-footer__contact">
+                <h4>Hubungi Kami</h4>
+                <p>Jl. Raya Cikarang, Kota Bekasi, Jawa Barat</p>
+                <P>(+62) 812-3456-7890</P>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
+              <div class="ps-footer__open">
+                <h4>Jam Buka</h4>
+                <p>
+                  Senin - Jumat: <br>08:00 am - 08:30 pm <br>
+                  Sabtu - Minggu:<br>
+                  10:00 am - 16:30 pm
+                </p>
                 <ul class="ps-list--social">
                   <li><a href="https://www.facebook.com/share/19g2Ds4bML/"><i class="fa fa-facebook"></i></a></li>
                   <li><a href="https://www.tiktok.com/@rotio.indonesia?_t=ZS-8xdJVQ8gKAc&_r=1"><i class="fa-brands fa-tiktok"></i></a></li>
@@ -549,41 +575,10 @@ if ($_POST && isset($_POST['place_order'])) {
                 </ul>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <form class="ps-form--subscribe-offer" id="newsletterForm" method="post">
-                <h4>Get news & offer</h4>
-                <div class="form-group">
-                  <input class="form-control" type="email" name="email" id="newsletterEmail" placeholder="Your Email..." required>
-                  <button type="submit" id="newsletterBtn">Subscribe</button>
-                </div>
-                <p>* Don't worry, we never spam</p>
-                <div id="newsletterMessage"></div>
-              </form>
-              <div class="ps-footer__contact">
-                <h4>Contact with me</h4>
-                <p>PO Box 16122 Collins Street West,Victoria 8007 Australia</p>
-                <P>(+84 ) 7534 9773, (+84 ) 874 548</P>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <div class="ps-footer__open">
-                <h4>Time to Open</h4>
-                <p>
-                  Monday - Friday: <br>08:00 am - 08:30 pm <br>
-                  Saturday - Sunday:<br>
-                  10:00 am - 16:30 pm
-                </p>
-              </div>
-              <ul class="ps-list--payment">
-                <li><a href="#"><img src="images/payment-method/visa.png" alt=""></a></li>
-                <li><a href="#"><i class="ba-shopping"></i></a></li>
-                <li><a href="#"><img src="images/payment-method/paypal.png" alt=""></a></li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
-      </footer>
+    </footer>
 
     <!-- Back to Top -->
     <div id="back2top"><i class="fa fa-angle-up"></i></div>

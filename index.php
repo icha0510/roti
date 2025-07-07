@@ -66,12 +66,6 @@ $categories = getAllCategories();
         font-family: inherit;
       }
     </style>
-    <!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
-    <!--WARNING: Respond.js doesn't work if you view the page via file://-->
-    <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
-    <!--[if IE 7]><body class="ie7 lt-ie8 lt-ie9 lt-ie10"><![endif]-->
-    <!--[if IE 8]><body class="ie8 lt-ie9 lt-ie10"><![endif]-->
-    <!--[if IE 9]><body class="ie9 lt-ie10"><![endif]-->
   </head>
   
     <!-- Header-->
@@ -190,7 +184,7 @@ $categories = getAllCategories();
                           </a>
                           <p>
                             <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
-                            <span>Total:<i>$<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
+                            <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                           </p>
                         </div>
                       </div>
@@ -206,7 +200,7 @@ $categories = getAllCategories();
                 
                 <div class="ps-cart__total">
                   <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                  <p>Item Total:<span>$<?php echo number_format($cart_total, 2); ?></span></p>
+                  <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                 </div>
                 
                 <div class="ps-cart__footer">
@@ -398,6 +392,34 @@ $categories = getAllCategories();
     <!-- Custom scripts-->
     <script src="js/main.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsUcTjt43mTheN9ruCsQVgBE-wgN6_AfY&amp;region=GB"></script>
-
+    <script>
+    $(document).ready(function() {
+        $('#newsletterForm').on('submit', function(e) {
+            e.preventDefault();
+            var email = $('#newsletterEmail').val();
+            $('#newsletterBtn').prop('disabled', true).text('Memproses...');
+            $('#newsletterMessage').html('');
+            $.ajax({
+                url: 'newsletter_handler.php',
+                type: 'POST',
+                data: { email: email, action: 'subscribe' },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        $('#newsletterMessage').html('<span style="color:green;">'+response.message+'</span>');
+                        $('#newsletterForm')[0].reset();
+                    } else {
+                        $('#newsletterMessage').html('<span style="color:red;">'+response.message+'</span>');
+                    }
+                    $('#newsletterBtn').prop('disabled', false).text('Ikuti Laman');
+                },
+                error: function() {
+                    $('#newsletterMessage').html('<span style="color:red;">Terjadi kesalahan. Coba lagi.</span>');
+                    $('#newsletterBtn').prop('disabled', false).text('Ikuti Laman');
+                }
+            });
+        });
+    });
+    </script>
   </body>
 </html> 

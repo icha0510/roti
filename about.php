@@ -17,9 +17,6 @@ foreach ($_SESSION['cart'] as $item) {
 
 ?>
 <!DOCTYPE html>
-<!--[if IE 7]><html class="ie ie7"><![endif]-->
-<!--[if IE 8]><html class="ie ie8"><![endif]-->
-<!--[if IE 9]><html class="ie ie9"><![endif]-->
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -61,12 +58,6 @@ foreach ($_SESSION['cart'] as $item) {
         font-family: inherit;
       }
     </style>
-    <!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
-    <!--WARNING: Respond.js doesn't work if you view the page via file://-->
-    <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
-    <!--[if IE 7]><body class="ie7 lt-ie8 lt-ie9 lt-ie10"><![endif]-->
-    <!--[if IE 8]><body class="ie8 lt-ie9 lt-ie10"><![endif]-->
-    <!--[if IE 9]><body class="ie9 lt-ie10"><![endif]-->
   </head>
   <body>
     
@@ -186,7 +177,7 @@ foreach ($_SESSION['cart'] as $item) {
                               </a>
                               <p>
                                 <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
-                                <span>Total:<i>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></i></span>
+                                <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                               </p>
                             </div>
                           </div>
@@ -202,7 +193,7 @@ foreach ($_SESSION['cart'] as $item) {
                     
                     <div class="ps-cart__total">
                       <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                      <p>Item Total:<span>$<?php echo number_format($cart_total, 2); ?></span></p>
+                      <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                     </div>
                     
                     <div class="ps-cart__footer">
@@ -229,6 +220,77 @@ foreach ($_SESSION['cart'] as $item) {
         </div>
       </div>
     </div>
+    <!-- Tentang Kami Section -->
+    <section class="ps-section--about-tentang" style="background:#fff; border-radius:0; box-shadow:none; padding:80px 0; margin:0 auto; max-width:1170px; position:relative;">
+      <style>
+        .ps-section--about-tentang {
+          background:#fff !important;
+        }
+        .ps-section--about-tentang .ps-section__header {
+          text-align:center;
+          margin-bottom:60px;
+        }
+        .ps-section--about-tentang .ps-section__title {
+          font-family:"Kaushan Script",cursive;
+          font-size:48px;
+          color:#000;
+          font-weight:400;
+          margin-bottom:15px;
+        }
+        .ps-section--about-tentang .ps-section__subtitle {
+          font-size:20px;
+          font-weight:400;
+          color:#000;
+          text-transform:uppercase;
+          margin-bottom:20px;
+        }
+        .ps-section--about-tentang .ps-section__floral {
+          display:block;
+          margin:0 auto;
+        }
+        .ps-section--about-tentang .ps-section__floral img {
+          max-width:75px;
+        }
+        .ps-section--about-tentang .ps-section__content {
+          max-width:900px;
+          margin:0 auto;
+          padding:0 20px;
+        }
+        .ps-section--about-tentang .ps-section__content p {
+          font-size:16px;
+          color:#4e3939;
+          margin-bottom:20px;
+          line-height:1.8em;
+          text-align:justify;
+        }
+        .ps-section--about-tentang .ps-section__content p:first-of-type {
+          font-size:18px;
+          color:#000;
+          font-style:italic;
+          text-align:center;
+          margin-bottom:30px;
+        }
+        @media (max-width: 767px) {
+          .ps-section--about-tentang .ps-section__title { font-size:36px; }
+          .ps-section--about-tentang .ps-section__subtitle { font-size:16px; }
+          .ps-section--about-tentang { padding:60px 0; }
+        }
+      </style>
+      <div class="ps-container">
+        <div class="ps-section__header">
+          <h3 class="ps-section__title">Tentang Kami</h3>
+          <p class="ps-section__subtitle">ROTI'O, AROMA KOPI YANG MEMIKAT HATI</p>
+          <span class="ps-section__floral"><img src="images/icons/floral.png" alt=""></span>
+        </div>
+        <div class="ps-section__content">
+          <p>Selamat datang di dunia Roti'O, di mana setiap gigitan adalah sebuah cerita tentang kehangatan dan kelezatan yang tak terlupakan. Sejak 23 Mei 2012, kami berdedikasi untuk menyajikan roti kopi yang ikonik, dikenal dengan aroma khasnya yang semerbak dan teksturnya yang sempurna: renyah di luar, lembut di dalam.</p>
+          <p>Filosofi kami sederhana namun kuat: <b>"Fresh From The Oven"</b>. Ini bukan sekadar slogan, melainkan janji. Setiap Roti'O yang Anda nikmati selalu dipanggang langsung di gerai kami. Begitu Anda mendekat, aroma perpaduan kopi dan karamel yang hangat akan langsung menyapa, memberikan isyarat bahwa kelezatan yang akan Anda santap baru saja keluar dari pemanggang. Kehangatan ini menciptakan pengalaman yang tak hanya memanjakan lidah, tetapi juga menghangatkan hati.</p>
+          <p>Berawal dari gerai pertama kami di Stasiun Kota, Jakarta, kami melihat bagaimana Roti'O dengan cepat menjadi teman setia bagi para pelancong dan penikmat kuliner. Keberhasilan ini mendorong kami untuk memperluas jangkauan. Kini, Roti'O hadir di berbagai lokasi strategis di seluruh Indonesia, mulai dari bandara, stasiun, pusat perbelanjaan, hingga rest area. Kami bangga dapat menemani setiap perjalanan dan mengisi momen berharga Anda dengan cita rasa yang konsisten dan tak tertandingi.</p>
+          <p>Roti'O adalah tentang menciptakan momen kebahagiaan sederhana. Baik sebagai pengganjal lapar di tengah kesibukan, teman minum kopi di pagi hari, atau sekadar camilan untuk memanjakan diri, Roti'O selalu hadir dengan kualitas terbaik. Kami berkomitmen untuk terus menyajikan kelezatan yang konsisten, menjaga setiap detail proses, agar setiap Roti'O yang sampai di tangan Anda adalah yang terbaik.</p>
+          <p style="margin-bottom:0;">Terima kasih telah menjadikan Roti'O bagian dari kisah Anda. Kami akan terus berinovasi dan menyebarkan aroma kebahagiaan di setiap sudut kota, fresh from our oven to your hands.</p>
+        </div>
+      </div>
+    </section>
     <!-- About Intro-->
     <div class="ps-about-intro">
       <div class="ps-container">
@@ -240,7 +302,7 @@ foreach ($_SESSION['cart'] as $item) {
       <div class="ps-block--signature">
         <div class="ps-block__thumbnail"><img src="images/signature.png" alt=""></div>
         <div class="ps-block__content">
-          <p>"It seems that every country that can get its hands on butter has its opinion of what butter cream frosting should be. Some are made with eggs and butter."</p><small>Sunshine -  CEO Bakery</small><img src="images/signature-2.png" alt="">
+          <p>"Di Roti'O, kami percaya kebahagiaan itu ada di hal-hal kecil. Setiap roti yang baru keluar dari oven kami adalah janji kehangatan yang jujur dan aroma yang pasti bikin kamu tersenyum."</p><small>~ Owner Roti'O ~</small><img src="images/signature-2.png" alt="">
         </div>
       </div>
       <div class="ps-about-number">
@@ -277,8 +339,34 @@ foreach ($_SESSION['cart'] as $item) {
         <div class="ps-container">
           <div class="row">
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
-              <div class="ps-site-info"><a class="ps-logo" href="index.php"><img src="images/logo-dark.png" alt=""></a>
-                <p>Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
+              <div class="ps-site-info"><a class="ps-logo" href="index.php"><img src="images/logo-rotio.png" alt=""></a>
+                <p>Roti'O, sahabat setia perjalanan dengan aroma khas kopi dan tekstur renyah lembut.</p>  
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
+              <form class="ps-form--subscribe-offer" id="newsletterForm" method="post">
+                <h4>Dapatkan berita terbaru</h4>
+                <div class="form-group">
+                  <input class="form-control" type="email" name="email" id="newsletterEmail" placeholder="Email Anda..." required>
+                  <button type="submit" id="newsletterBtn">Ikuti Laman</button>
+                </div>
+                <p>* Jangan khawatir, kami tidak pernah spam</p>
+                <div id="newsletterMessage"></div>
+              </form>
+              <div class="ps-footer__contact">
+                <h4>Hubungi Kami</h4>
+                <p>Jl. Raya Cikarang, Kota Bekasi, Jawa Barat</p>
+                <P>(+62) 812-3456-7890</P>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
+              <div class="ps-footer__open">
+                <h4>Jam Buka</h4>
+                <p>
+                  Senin - Jumat: <br>08:00 am - 08:30 pm <br>
+                  Sabtu - Minggu:<br>
+                  10:00 am - 16:30 pm
+                </p>
                 <ul class="ps-list--social">
                   <li><a href="https://www.facebook.com/share/19g2Ds4bML/"><i class="fa fa-facebook"></i></a></li>
                   <li><a href="https://www.tiktok.com/@rotio.indonesia?_t=ZS-8xdJVQ8gKAc&_r=1"><i class="fa-brands fa-tiktok"></i></a></li>
@@ -286,41 +374,10 @@ foreach ($_SESSION['cart'] as $item) {
                 </ul>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <form class="ps-form--subscribe-offer" id="newsletterForm" method="post">
-                <h4>Get news & offer</h4>
-                <div class="form-group">
-                  <input class="form-control" type="email" name="email" id="newsletterEmail" placeholder="Your Email..." required>
-                  <button type="submit" id="newsletterBtn">Subscribe</button>
-                </div>
-                <p>* Don't worry, we never spam</p>
-                <div id="newsletterMessage"></div>
-              </form>
-              <div class="ps-footer__contact">
-                <h4>Contact with me</h4>
-                <p>PO Box 16122 Collins Street West,Victoria 8007 Australia</p>
-                <P>(+84 ) 7534 9773, (+84 ) 874 548</P>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <div class="ps-footer__open">
-                <h4>Time to Open</h4>
-                <p>
-                  Monday - Friday: <br>08:00 am - 08:30 pm <br>
-                  Saturday - Sunday:<br>
-                  10:00 am - 16:30 pm
-                </p>
-              </div>
-              <ul class="ps-list--payment">
-                <li><a href="#"><img src="images/payment-method/visa.png" alt=""></a></li>
-                <li><a href="#"><i class="ba-shopping"></i></a></li>
-                <li><a href="#"><img src="images/payment-method/paypal.png" alt=""></a></li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
-      </footer>
+    </footer>
     <div id="back2top"><i class="fa fa-angle-up"></i></div>
     <div class="ps-loading">
       <div class="rectangle-bounce">
