@@ -43,7 +43,7 @@ if (isset($_SESSION['cart'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/logo-rotio.png" type="image/x-icon">
-    <title>My Orders - Roti'O</title>
+    <title>Pesanan Saya - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -201,33 +201,33 @@ if (isset($_SESSION['cart'])) {
             <div class="header-nav">
               <ul class="menu">
                 <li class="menu-item-has-children">
-                  <a href="index.php">Homepage</a>
+                  <a href="index.php">Beranda</a>
                 </li>
                 <li>
-                  <a href="about.php">About</a>
+                  <a href="about.php">Tentang</a>
                 </li>
                 <li class="menu-item-has-children">
-                  <a href="#">Product</a>
+                  <a href="#">Produk</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
-                    <li><a href="product-listing.php">Product List</a></li>
-                    <li><a href="order-form.php">Order Form</a></li>
+                    <li><a href="product-listing.php">Daftar Produk</a></li>
+                    <li><a href="order-form.php">Formulir Pesanan</a></li>
                   </ul>
                 </li>   
                 <li class="menu-item-has-children">
-                  <a href="#">Others</a>
+                  <a href="#">Lainnya</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
                     <li><a href="blog-grid.php">Blog</a></li>
-                    <li><a href="store.php">Our Stores</a></li>
+                    <li><a href="store.php">Toko Kami</a></li>
                   </ul>
                 </li>
                 <li>
-                  <a href="contact.php">Contact Us</a>
+                  <a href="contact.php">Hubungi Kami</a>
                 </li>
               </ul>
             </div>
@@ -250,16 +250,16 @@ if (isset($_SESSION['cart'])) {
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="logo-orders.php">My Orders</a>
+                        <a href="logo-orders.php">Pesanan Saya</a>
                       </li>
                       <li>
-                        <a href="profile.php">Profile</a>
+                        <a href="profile.php">Profil</a>
                       </li>
                       <li>
                         <hr class="dropdown-divider">
                       </li>
                       <li>
-                        <a href="logout.php">Logout</a>
+                        <a href="logout.php">Keluar</a>
                       </li>
                     </ul>
                   </div>
@@ -299,7 +299,7 @@ if (isset($_SESSION['cart'])) {
                                 <?php echo $item['name']; ?>
                               </a>
                               <p>
-                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
                                 <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                               </p>
                             </div>
@@ -308,19 +308,19 @@ if (isset($_SESSION['cart'])) {
                       <?php else: ?>
                         <div class="ps-cart-item">
                           <div class="ps-cart-item__content">
-                            <p>Your cart is empty</p>
+                            <p>Keranjang belanja Anda kosong</p>
                           </div>
                         </div>
                       <?php endif; ?>
                     </div>
                     
                     <div class="ps-cart__total">
-                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                      <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                      <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                      <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                     </div>
                     
                     <div class="ps-cart__footer">
-                      <a href="cart.php">Check out</a>
+                      <a href="cart.php">Checkout</a>
                     </div>
                   </div>
                 </div>
@@ -336,8 +336,8 @@ if (isset($_SESSION['cart'])) {
     <div class="hero-section">
         <div class="ps-container">
             <div class="hero-content">
-                <h1>My Orders</h1>
-                <p>Track your delicious orders</p>
+                <h1>Pesanan Saya</h1>
+                <p>Lacak pesanan lezat Anda</p>
             </div>
         </div>
     </div>
@@ -350,22 +350,22 @@ if (isset($_SESSION['cart'])) {
                     <?php if (empty($orders)): ?>
                         <div class="empty-orders">
                             <i class="fa fa-shopping-bag"></i>
-                            <h3>No Orders Yet</h3>
-                            <p>You haven't placed any orders yet. Start shopping to see your orders here!</p>
-                            <a href="product-listing.php" class="ps-btn">Start Shopping</a>
+                            <h3>Belum Ada Pesanan</h3>
+                            <p>Anda belum melakukan pesanan apapun. Mulai berbelanja untuk melihat pesanan Anda di sini!</p>
+                            <a href="product-listing.php" class="ps-btn">Mulai Berbelanja</a>
                         </div>
                     <?php else: ?>
-                        <h2 class="mb-4">Your Order History</h2>
+                        <h2 class="mb-4">Riwayat Pesanan Anda</h2>
                         <?php foreach ($orders as $order): ?>
                             <div class="order-card">
                                 <div class="order-header">
-                                    <h3>Order #<?php echo htmlspecialchars($order['order_number']); ?></h3>
-                                    <p>Placed on <?php echo date('F j, Y', strtotime($order['created_at'])); ?></p>
+                                    <h3>Pesanan #<?php echo htmlspecialchars($order['order_number']); ?></h3>
+                                    <p>Dipesan pada <?php echo date('F j, Y', strtotime($order['created_at'])); ?></p>
                                 </div>
                                 <div class="order-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h5>Order Details</h5>
+                                            <h5>Detail Pesanan</h5>
                                             <?php
                                             // Ambil semua item untuk order ini
                                             $stmt_items = $db->prepare("SELECT oi.*, p.name as product_name FROM order_items oi LEFT JOIN products p ON oi.product_id = p.id WHERE oi.order_id = :order_id");
@@ -377,17 +377,17 @@ if (isset($_SESSION['cart'])) {
                                                 <ul style="padding-left: 18px;">
                                                     <?php foreach ($items as $item): ?>
                                                         <li>
-                                                            <strong><?php echo htmlspecialchars($item['product_name'] ?? 'Product'); ?></strong>
-                                                            (Qty: <?php echo $item['quantity']; ?>) - $<?php echo number_format($item['price'], 2); ?>
+                                                            <strong><?php echo htmlspecialchars($item['product_name'] ?? 'Produk'); ?></strong>
+                                                            (Jml: <?php echo $item['quantity']; ?>) - Rp<?php echo number_format($item['price'], 3); ?>
                                                         </li>
                                                     <?php endforeach; ?>
                                                 </ul>
                                             <?php else: ?>
-                                                <p>No products found for this order.</p>
+                                                <p>Tidak ada produk ditemukan untuk pesanan ini.</p>
                                             <?php endif; ?>
-                                            <p><strong>Total Amount:</strong> $<?php echo number_format($order['total_amount'], 2); ?></p>
+                                            <p><strong>Total Jumlah:</strong> Rp<?php echo number_format($order['total_amount'], 3); ?></p>
                                             <?php if (!empty($order['notes'])): ?>
-                                                <p><strong>Notes:</strong> <?php echo htmlspecialchars($order['notes']); ?></p>
+                                                <p><strong>Catatan:</strong> <?php echo htmlspecialchars($order['notes']); ?></p>
                                             <?php endif; ?>
                                         </div>
                                         <div class="col-md-6">
@@ -400,16 +400,16 @@ if (isset($_SESSION['cart'])) {
                                             <span class="status-badge <?php echo $status_class; ?>"><?php echo $status_text; ?></span>
                                             
                                             <?php if ($order['last_update']): ?>
-                                                <p class="mt-2"><small>Last updated: <?php echo date('M j, Y H:i', strtotime($order['last_update'])); ?></small></p>
+                                                <p class="mt-2"><small>Terakhir diperbarui: <?php echo date('M j, Y H:i', strtotime($order['last_update'])); ?></small></p>
                                             <?php endif; ?>
                                         </div>
                                     </div>
                                     
                                     <div class="order-details">
-                                        <h5>Delivery Information</h5>
-                                        <p><strong>Name:</strong> <?php echo htmlspecialchars($order['customer_name']); ?></p>
-                                        <p><strong>Phone:</strong> <?php echo htmlspecialchars($order['customer_phone']); ?></p>
-                                        <p><strong>Address:</strong> <?php echo htmlspecialchars($order['customer_address']); ?></p>
+                                        <h5>Informasi Pengiriman</h5>
+                                        <p><strong>Nama:</strong> <?php echo htmlspecialchars($order['customer_name']); ?></p>
+                                        <p><strong>Telepon:</strong> <?php echo htmlspecialchars($order['customer_phone']); ?></p>
+                                        <p><strong>Alamat:</strong> <?php echo htmlspecialchars($order['customer_address']); ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -517,7 +517,7 @@ if (isset($_SESSION['cart'])) {
                 
                 // Disable button
                 newsletterBtn.disabled = true;
-                newsletterBtn.textContent = 'Subscribing...';
+                newsletterBtn.textContent = 'Berlangganan...';
                 
                 // Send AJAX request
                 const formData = new FormData();
@@ -543,7 +543,7 @@ if (isset($_SESSION['cart'])) {
                 .finally(() => {
                     // Re-enable button
                     newsletterBtn.disabled = false;
-                    newsletterBtn.textContent = 'Subscribe';
+                    newsletterBtn.textContent = 'Berlangganan';
                 });
             });
         }

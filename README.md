@@ -142,7 +142,7 @@ $_SESSION['cart'] = [
 - `products`: Product information and images
 - `categories`: Product categories
 - `banners`: Homepage banners
-- `testimonials`: Customer testimonials
+
 - `posts`: Blog posts
 - `awards`: Company awards
 

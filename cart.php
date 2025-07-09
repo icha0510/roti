@@ -7,34 +7,34 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = array();
 }
 
-// Handle cart actions
-if (isset($_GET['action'])) {
-    $action = $_GET['action'];
-    $product_id = $_GET['id'] ?? 0;
-    
-    switch ($action) {
-        case 'remove':
-            if (isset($_SESSION['cart'][$product_id])) {
-                unset($_SESSION['cart'][$product_id]);
-                $_SESSION['cart_message'] = "Product removed from cart!";
-            }
-            break;
-        case 'update':
-            $quantity = $_GET['quantity'] ?? 1;
-            if (isset($_SESSION['cart'][$product_id])) {
-                if ($quantity > 0) {
-                    $_SESSION['cart'][$product_id]['quantity'] = $quantity;
-                } else {
-                    unset($_SESSION['cart'][$product_id]);
+            // Handle cart actions
+            if (isset($_GET['action'])) {
+                $action = $_GET['action'];
+                $product_id = $_GET['id'] ?? 0;
+                
+                switch ($action) {
+                    case 'remove':
+                        if (isset($_SESSION['cart'][$product_id])) {
+                            unset($_SESSION['cart'][$product_id]);
+                            $_SESSION['cart_message'] = "Produk dihapus dari keranjang!";
+                        }
+                        break;
+                    case 'update':
+                        $quantity = $_GET['quantity'] ?? 1;
+                        if (isset($_SESSION['cart'][$product_id])) {
+                            if ($quantity > 0) {
+                                $_SESSION['cart'][$product_id]['quantity'] = $quantity;
+                            } else {
+                                unset($_SESSION['cart'][$product_id]);
+                            }
+                            $_SESSION['cart_message'] = "Keranjang berhasil diperbarui!";
+                        }
+                        break;
+                    case 'clear':
+                        $_SESSION['cart'] = array();
+                        $_SESSION['cart_message'] = "Keranjang berhasil dikosongkan!";
+                        break;
                 }
-                $_SESSION['cart_message'] = "Cart updated successfully!";
-            }
-            break;
-        case 'clear':
-            $_SESSION['cart'] = array();
-            $_SESSION['cart_message'] = "Cart cleared successfully!";
-            break;
-    }
     
     // Redirect to remove query parameters
     header('Location: cart.php');
@@ -56,7 +56,7 @@ foreach ($_SESSION['cart'] as $item) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/logo-rotio.png" type="image/x-icon">
-    <title>Shopping Cart - Roti'O</title>
+    <title>Keranjang Belanja - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -105,33 +105,33 @@ foreach ($_SESSION['cart'] as $item) {
             <div class="header-nav">
               <ul class="menu">
                 <li class="menu-item-has-children">
-                  <a href="index.php">Homepage</a>
+                  <a href="index.php">Beranda</a>
                 </li>
                 <li>
-                  <a href="about.php">About</a>
+                  <a href="about.php">Tentang</a>
                 </li>
                 <li class="menu-item-has-children">
-                  <a href="#">Product</a>
+                  <a href="#">Produk</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
-                    <li><a href="product-listing.php">Product List</a></li>
-                    <li><a href="order-form.php">Order Form</a></li>
+                    <li><a href="product-listing.php">Daftar Produk</a></li>
+                    <li><a href="order-form.php">Formulir Pesanan</a></li>
                   </ul>
                 </li>   
                 <li class="menu-item-has-children">
-                  <a href="#">Others</a>
+                  <a href="#">Lainnya</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
                     <li><a href="blog-grid.php">Blog</a></li>
-                    <li><a href="store.php">Our Stores</a></li>
+                    <li><a href="store.php">Toko Kami</a></li>
                   </ul>
                 </li>
                 <li>
-                  <a href="contact.php">Contact Us</a>
+                  <a href="contact.php">Hubungi Kami</a>
                 </li>
               </ul>
             </div>
@@ -154,16 +154,16 @@ foreach ($_SESSION['cart'] as $item) {
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="logo-orders.php">My Orders</a>
+                        <a href="logo-orders.php">Pesanan Saya</a>
                       </li>
                       <li>
-                        <a href="profile.php">Profile</a>
+                        <a href="profile.php">Profil</a>
                       </li>
                       <li>
                         <hr class="dropdown-divider">
                       </li>
                       <li>
-                        <a href="logout.php">Logout</a>
+                        <a href="logout.php">Keluar</a>
                       </li>
                     </ul>
                   </div>
@@ -203,7 +203,7 @@ foreach ($_SESSION['cart'] as $item) {
                                 <?php echo $item['name']; ?>
                               </a>
                               <p>
-                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
                                 <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                               </p>
                             </div>
@@ -212,17 +212,17 @@ foreach ($_SESSION['cart'] as $item) {
                       <?php else: ?>
                         <div class="ps-cart-item">
                           <div class="ps-cart-item__content">
-                            <p>Your cart is empty</p>
+                            <p>Keranjang belanja Anda kosong</p>
                           </div>
                         </div>
                       <?php endif; ?>
                     </div>
                     <div class="ps-cart__total">
-                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                      <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                      <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                      <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                     </div>
                     <div class="ps-cart__footer">
-                      <a href="cart.php">Check out</a>
+                      <a href="cart.php">Checkout</a>
                     </div>
                   </div>
                 </div>
@@ -236,11 +236,11 @@ foreach ($_SESSION['cart'] as $item) {
     <!-- Hero Section -->
     <div class="ps-hero bg--cover" data-background="images/hero/about.jpg">
         <div class="ps-hero__content">
-            <h1>Shopping Cart</h1>
+            <h1>Keranjang Belanja</h1>
             <div class="ps-breadcrumb">
                 <ol class="breadcrumb">
-                    <li><a href="index.php">Home</a></li>
-                    <li class="active">Shopping Cart</li>
+                    <li><a href="index.php">Beranda</a></li>
+                    <li class="active">Keranjang Belanja</li>
                 </ol>
             </div>
         </div>
@@ -261,9 +261,9 @@ foreach ($_SESSION['cart'] as $item) {
                 <div class="ps-cart-listing">
                     <div class="text-center py-5">
                         <i class="fa fa-shopping-cart fa-3x text-muted mb-3"></i>
-                        <h3>Your cart is empty</h3>
-                        <p class="text-muted">Looks like you haven't added any products to your cart yet.</p>
-                        <a href="product-listing.php" class="ps-btn">Continue Shopping</a>
+                        <h3>Keranjang belanja Anda kosong</h3>
+                        <p class="text-muted">Sepertinya Anda belum menambahkan produk apapun ke keranjang belanja.</p>
+                        <a href="product-listing.php" class="ps-btn">Lanjutkan Berbelanja</a>
                     </div>
                 </div>
             <?php else: ?>
@@ -272,9 +272,9 @@ foreach ($_SESSION['cart'] as $item) {
                         <table class="table ps-table ps-table--listing">
                             <thead>
                                 <tr>
-                                    <th>All Products</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
+                                    <th>Semua Produk</th>
+                                    <th>Harga</th>
+                                    <th>Jumlah</th>
                                     <th>Total</th>
                                     <th></th>
                                 </tr>
@@ -292,7 +292,7 @@ foreach ($_SESSION['cart'] as $item) {
                                             <?php echo $item['name']; ?>
                                         </a>
                                     </td>
-                                    <td>$<?php echo number_format($item['price'], 2); ?></td>
+                                    <td>Rp<?php echo number_format($item['price'], 3); ?></td>
                                     <td>
                                         <div class="form-group--number">
                                             <button class="minus" onclick="updateQuantity(<?php echo $product_id; ?>, <?php echo $item['quantity'] - 1; ?>)"><span>-</span></button>
@@ -300,7 +300,7 @@ foreach ($_SESSION['cart'] as $item) {
                                             <button class="plus" onclick="updateQuantity(<?php echo $product_id; ?>, <?php echo $item['quantity'] + 1; ?>)"><span>+</span></button>
                                         </div>
                                     </td>
-                                    <td><strong>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></strong></td>
+                                    <td><strong>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></strong></td>
                                     <td>
                                         <div class="ps-remove" onclick="removeItem(<?php echo $product_id; ?>)"></div>
                                     </td>
@@ -309,22 +309,10 @@ foreach ($_SESSION['cart'] as $item) {
                             </tbody>
                         </table>
                     </div>
-                    <div class="ps-cart__actions">
-                        <div class="ps-cart__promotion">
-                            <div class="form-group">
-                                <div class="ps-form--icon">
-                                    <i class="fa fa-angle-right"></i>
-                                    <input class="form-control" type="text" placeholder="Promo Code">
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <a href="product-listing.php" class="ps-btn ps-btn--gray">Continue Shopping</a>
-                            </div>
-                        </div>
+                    <div class="ps-cart__actions" style="display: flex; justify-content: flex-end;">                      
                         <div class="ps-cart__total">
-                            <h3>Total Price: <span>Rp <?php echo number_format($cart_total, 3); ?></span></h3>
-                            <a class="ps-btn" href="checkout.php">Process to checkout</a>
+                            <h3>Total Harga: <span>Rp <?php echo number_format($cart_total, 3); ?></span></h3>
+                            <a class="ps-btn" href="checkout.php">Proses ke checkout</a>
                         </div>
                     </div>
                 </div>
@@ -339,29 +327,29 @@ foreach ($_SESSION['cart'] as $item) {
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
                     <div class="ps-block--iconbox">
                         <i class="ba-delivery-truck-2"></i>
-                        <h4>Free Shipping <span> On Order Over$199</h4>
-                        <p>Want to track a package? Find tracking information and order details from Your Orders.</p>
+                        <h4>Pengiriman Gratis <span> Untuk Pesanan Di Atas Rp199.000</h4>
+                        <p>Ingin melacak paket? Temukan informasi pelacakan dan detail pesanan dari Pesanan Saya.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
                     <div class="ps-block--iconbox">
                         <i class="ba-biscuit-1"></i>
-                        <h4>Master Chef<span> WITH PASSION</h4>
-                        <p>Shop zillions of finds, with new arrivals added daily.</p>
+                        <h4>Koki Master<span> DENGAN PASSION</h4>
+                        <p>Belanja ribuan temuan, dengan kedatangan baru ditambahkan setiap hari.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
                     <div class="ps-block--iconbox">
                         <i class="ba-flour"></i>
-                        <h4>Natural Materials<span> protect your family</h4>
-                        <p>We always ensure the safety of all products of store</p>
+                        <h4>Bahan Alami<span> melindungi keluarga Anda</h4>
+                        <p>Kami selalu memastikan keamanan semua produk toko</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
                     <div class="ps-block--iconbox">
                         <i class="ba-cake-3"></i>
-                        <h4>Attractive Flavor <span>ALWAYS LISTEN</span></h4>
-                        <p>We offer a 24/7 customer hotline so you're never alone if you have a question.</p>
+                        <h4>Cita Rasa Menarik <span>SELALU MENDENGARKAN</span></h4>
+                        <p>Kami menawarkan hotline pelanggan 24/7 sehingga Anda tidak pernah sendirian jika memiliki pertanyaan.</p>
                     </div>
                 </div>
             </div>
@@ -465,7 +453,7 @@ foreach ($_SESSION['cart'] as $item) {
                 
                 // Disable button
                 newsletterBtn.disabled = true;
-                newsletterBtn.textContent = 'Subscribing...';
+                newsletterBtn.textContent = 'Berlangganan...';
                 
                 // Send AJAX request
                 const formData = new FormData();
@@ -491,7 +479,7 @@ foreach ($_SESSION['cart'] as $item) {
                 .finally(() => {
                     // Re-enable button
                     newsletterBtn.disabled = false;
-                    newsletterBtn.textContent = 'Subscribe';
+                    newsletterBtn.textContent = 'Berlangganan';
                 });
             });
         }
@@ -515,7 +503,7 @@ foreach ($_SESSION['cart'] as $item) {
     }
     
     function removeItem(productId) {
-        if (confirm('Are you sure you want to remove this item?')) {
+        if (confirm('Apakah Anda yakin ingin menghapus item ini?')) {
             window.location.href = 'cart.php?action=remove&id=' + productId;
         }
     }

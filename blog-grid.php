@@ -87,33 +87,33 @@ $posts = getAllPosts(9); // Get 9 posts for grid layout
             <div class="header-nav">
               <ul class="menu">
                 <li class="menu-item-has-children">
-                  <a href="index.php">Homepage</a>
+                  <a href="index.php">Beranda</a>
                 </li>
                 <li>
-                  <a href="about.php">About</a>
+                  <a href="about.php">Tentang</a>
                 </li>
                 <li class="menu-item-has-children">
-                  <a href="#">Product</a>
+                  <a href="#">Produk</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
-                    <li><a href="product-listing.php">Product List</a></li>
-                    <li><a href="order-form.php">Order Form</a></li>
+                    <li><a href="product-listing.php">Daftar Produk</a></li>
+                    <li><a href="order-form.php">Formulir Pesanan</a></li>
                   </ul>
                 </li>
                 <li class="menu-item-has-children current-menu-item">
-                  <a href="#">Others</a>
+                  <a href="#">Lainnya</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
                     <li><a href="blog-grid.php">Blog</a></li>
-                    <li><a href="store.php">Our Stores</a></li>
+                    <li><a href="store.php">Toko Kami</a></li>
                   </ul>
                 </li>
                 <li>
-                  <a href="contact.php">Contact Us</a>
+                  <a href="contact.php">Hubungi Kami</a>
                 </li>
               </ul>
             </div>
@@ -133,16 +133,16 @@ $posts = getAllPosts(9); // Get 9 posts for grid layout
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="logo-orders.php">My Orders</a>
+                        <a href="logo-orders.php">Pesanan Saya</a>
                       </li>
                       <li>
-                        <a href="profile.php">Profile</a>
+                        <a href="profile.php">Profil</a>
                       </li>
                       <li>
                         <hr class="dropdown-divider">
                       </li>
                       <li>
-                        <a href="logout.php">Logout</a>
+                        <a href="logout.php">Keluar</a>
                       </li>
                     </ul>
                   </div>
@@ -180,7 +180,7 @@ $posts = getAllPosts(9); // Get 9 posts for grid layout
                                 <?php echo $item['name']; ?>
                               </a>
                               <p>
-                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
                                 <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                               </p>
                             </div>
@@ -189,17 +189,17 @@ $posts = getAllPosts(9); // Get 9 posts for grid layout
                       <?php else: ?>
                         <div class="ps-cart-item">
                           <div class="ps-cart-item__content">
-                            <p>Your cart is empty</p>
+                            <p>Keranjang belanja Anda kosong</p>
                           </div>
                         </div>
                       <?php endif; ?>
                     </div>
                     <div class="ps-cart__total">
-                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                      <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                      <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                      <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                     </div>
                     <div class="ps-cart__footer">
-                      <a href="cart.php">Check out</a>
+                      <a href="cart.php">Checkout</a>
                     </div>
                   </div>
                 </div>
@@ -212,11 +212,11 @@ $posts = getAllPosts(9); // Get 9 posts for grid layout
     
     <div class="ps-hero bg--cover" data-background="images/hero/blog.jpg">
       <div class="ps-hero__content">
-        <h1> Blog grid</h1>
+        <h1>Blog Grid</h1>
         <div class="ps-breadcrumb">
           <ol class="breadcrumb">
-            <li><a href="index.php">Home</a></li>
-            <li class="active">Blog grid</li>
+            <li><a href="index.php">Beranda</a></li>
+            <li class="active">Blog Grid</li>
           </ol>
         </div>
       </div>
@@ -238,9 +238,9 @@ $posts = getAllPosts(9); // Get 9 posts for grid layout
                 <div class="ps-post__content">
                   <span class="ps-post__posted"><?php echo date('F j, Y', strtotime($post['created_at'])); ?></span>
                   <a class="ps-post__title" href="blog-detail.php?id=<?php echo $post['id']; ?>"><?php echo htmlspecialchars($post['title']); ?></a>
-                  <span class="ps-post__byline">By<a href="#"> <?php echo htmlspecialchars($post['author']); ?></a></span>
+                  <span class="ps-post__byline">Oleh<a href="#"> <?php echo htmlspecialchars($post['author']); ?></a></span>
                   <p><?php echo htmlspecialchars($post['excerpt']); ?></p>
-                  <a class="ps-post__morelink" href="blog-detail.php?id=<?php echo $post['id']; ?>">Read more</a>
+                  <a class="ps-post__morelink" href="blog-detail.php?id=<?php echo $post['id']; ?>">Baca selengkapnya</a>
                 </div>
               </div>
             </div>
@@ -351,7 +351,7 @@ $posts = getAllPosts(9); // Get 9 posts for grid layout
                 
                 // Disable button
                 newsletterBtn.disabled = true;
-                newsletterBtn.textContent = 'Subscribing...';
+                newsletterBtn.textContent = 'Berlangganan...';
                 
                 // Send AJAX request
                 const formData = new FormData();
@@ -377,7 +377,7 @@ $posts = getAllPosts(9); // Get 9 posts for grid layout
                 .finally(() => {
                     // Re-enable button
                     newsletterBtn.disabled = false;
-                    newsletterBtn.textContent = 'Subscribe';
+                    newsletterBtn.textContent = 'Berlangganan';
                 });
             });
         }

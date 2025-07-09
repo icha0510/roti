@@ -396,48 +396,7 @@ function deleteCategory($id) {
     return $stmt->execute();
 }
 
-// Fungsi untuk mengambil semua testimonial
-function getAllTestimonials() {
-    global $pdo;
-    
-    $sql = "SELECT * FROM testimonials ORDER BY created_at DESC";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
 
-// Fungsi untuk menambah testimonial
-function addTestimonial($data) {
-    $database = new Database();
-    $db = $database->getConnection();
-    
-    $sql = "INSERT INTO testimonials (name, position, content, rating, image_data, image_mime) 
-            VALUES (:name, :position, :content, :rating, :image_data, :image_mime)";
-    
-    $stmt = $db->prepare($sql);
-    
-    $stmt->bindParam(':name', $data['name']);
-    $stmt->bindParam(':position', $data['position']);
-    $stmt->bindParam(':content', $data['content']);
-    $stmt->bindParam(':rating', $data['rating']);
-    $stmt->bindParam(':image_data', $data['image_data']);
-    $stmt->bindParam(':image_mime', $data['image_mime']);
-    
-    return $stmt->execute();
-}
-
-// Fungsi untuk menghapus testimonial
-function deleteTestimonial($id) {
-    $database = new Database();
-    $db = $database->getConnection();
-    
-    $sql = "DELETE FROM testimonials WHERE id = :id";
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam(':id', $id);
-    
-    return $stmt->execute();
-}
 
 // Fungsi untuk mengambil semua posts
 function getAllPosts() {

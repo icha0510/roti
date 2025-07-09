@@ -95,7 +95,7 @@ if (isset($_SESSION['cart'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/logo-rotio.png" type="image/x-icon">
-    <title>Profile - Roti'O</title>
+    <title>Profil - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -567,33 +567,33 @@ if (isset($_SESSION['cart'])) {
             <div class="header-nav">
               <ul class="menu">
                 <li class="menu-item-has-children">
-                  <a href="index.php">Homepage</a>
+                  <a href="index.php">Beranda</a>
                 </li>
                 <li>
-                  <a href="about.php">About</a>
+                  <a href="about.php">Tentang</a>
                 </li>
                 <li class="menu-item-has-children">
-                  <a href="#">Product</a>
+                  <a href="#">Produk</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
-                    <li><a href="product-listing.php">Product List</a></li>
-                    <li><a href="order-form.php">Order Form</a></li>
+                    <li><a href="product-listing.php">Daftar Produk</a></li>
+                    <li><a href="order-form.php">Formulir Pesanan</a></li>
                   </ul>
                 </li>   
                 <li class="menu-item-has-children">
-                  <a href="#">Others</a>
+                  <a href="#">Lainnya</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
                     <li><a href="blog-grid.php">Blog</a></li>
-                    <li><a href="store.php">Our Stores</a></li>
+                    <li><a href="store.php">Toko Kami</a></li>
                   </ul>
                 </li>
                 <li>
-                  <a href="contact.php">Contact Us</a>
+                  <a href="contact.php">Hubungi Kami</a>
                 </li>
               </ul>
             </div>
@@ -616,16 +616,16 @@ if (isset($_SESSION['cart'])) {
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="logo-orders.php">My Orders</a>
+                        <a href="logo-orders.php">Pesanan Saya</a>
                       </li>
                       <li>
-                        <a href="profile.php">Profile</a>
+                        <a href="profile.php">Profil</a>
                       </li>
                       <li>
                         <hr class="dropdown-divider">
                       </li>
                       <li>
-                        <a href="logout.php">Logout</a>
+                        <a href="logout.php">Keluar</a>
                       </li>
                     </ul>
                   </div>
@@ -665,7 +665,7 @@ if (isset($_SESSION['cart'])) {
                                 <?php echo $item['name']; ?>
                               </a>
                               <p>
-                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
                                 <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                               </p>
                             </div>
@@ -674,19 +674,19 @@ if (isset($_SESSION['cart'])) {
                       <?php else: ?>
                         <div class="ps-cart-item">
                           <div class="ps-cart-item__content">
-                            <p>Your cart is empty</p>
+                            <p>Keranjang belanja Anda kosong</p>
                           </div>
                         </div>
                       <?php endif; ?>
                     </div>
                     
                     <div class="ps-cart__total">
-                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                      <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                      <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                      <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                     </div>
                     
                     <div class="ps-cart__footer">
-                      <a href="cart.php">Check out</a>
+                      <a href="cart.php">Checkout</a>
                     </div>
                   </div>
                 </div>
@@ -714,28 +714,28 @@ if (isset($_SESSION['cart'])) {
                             <div class="profile-stats">
                                 <div class="stat-item">
                                     <i class="fa fa-shopping-bag"></i>
-                                    <span>Orders</span>
+                                    <span>Pesanan</span>
                                 </div>
                                 <div class="stat-item">
                                     <i class="fa fa-heart"></i>
-                                    <span>Favorites</span>
+                                    <span>Favorit</span>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="quick-actions">
-                            <h4>Quick Actions</h4>
+                            <h4>Aksi Cepat</h4>
                             <a href="logo-orders.php" class="quick-action-btn">
                                 <i class="fa fa-list"></i>
-                                <span>My Orders</span>
+                                <span>Pesanan Saya</span>
                             </a>
                             <a href="cart.php" class="quick-action-btn">
                                 <i class="fa fa-shopping-cart"></i>
-                                <span>Shopping Cart</span>
+                                <span>Keranjang Belanja</span>
                             </a>
                             <a href="index.php" class="quick-action-btn">
                                 <i class="fa fa-home"></i>
-                                <span>Back to Home</span>
+                                <span>Kembali ke Beranda</span>
                             </a>
                         </div>
                     </div>
@@ -762,8 +762,8 @@ if (isset($_SESSION['cart'])) {
                         <!-- Profile Form -->
                         <div class="profile-form-card">
                             <div class="form-header">
-                                <h2><i class="fa fa-edit"></i> Edit Profile</h2>
-                                <p>Update your personal information and account settings</p>
+                                <h2><i class="fa fa-edit"></i> Edit Profil</h2>
+                                <p>Perbarui informasi pribadi dan pengaturan akun Anda</p>
                             </div>
                             
                             <form method="POST" action="">
@@ -771,14 +771,14 @@ if (isset($_SESSION['cart'])) {
                                 <div class="form-section">
                                     <div class="section-header">
                                         <i class="fa fa-user-circle"></i>
-                                        <h3>Personal Information</h3>
+                                        <h3>Informasi Pribadi</h3>
                                     </div>
                                     
                                     <div class="row">
                                         <div class="col-md-6">
                                 <div class="form-group">
                                                 <label for="name">
-                                                    <i class="fa fa-user"></i> Full Name
+                                                    <i class="fa fa-user"></i> Nama Lengkap
                                                 </label>
                                     <input type="text" class="form-control" id="name" name="name" 
                                            value="<?php echo htmlspecialchars($user['name']); ?>" required>
@@ -788,11 +788,11 @@ if (isset($_SESSION['cart'])) {
                                         <div class="col-md-6">
                                 <div class="form-group">
                                                 <label for="email">
-                                                    <i class="fa fa-envelope"></i> Email Address
+                                                    <i class="fa fa-envelope"></i> Alamat Email
                                                 </label>
                                                 <input type="email" class="form-control" id="email" 
                                                        value="<?php echo htmlspecialchars($user['email']); ?>" readonly>
-                                    <small class="text-muted">Email cannot be changed</small>
+                                    <small class="text-muted">Email tidak dapat diubah</small>
                                             </div>
                                         </div>
                                 </div>
@@ -801,7 +801,7 @@ if (isset($_SESSION['cart'])) {
                                         <div class="col-md-6">
                                 <div class="form-group">
                                                 <label for="phone">
-                                                    <i class="fa fa-phone"></i> Phone Number
+                                                    <i class="fa fa-phone"></i> Nomor Telepon
                                                 </label>
                                     <input type="tel" class="form-control" id="phone" name="phone" 
                                            value="<?php echo htmlspecialchars($user['phone'] ?? ''); ?>">
@@ -811,7 +811,7 @@ if (isset($_SESSION['cart'])) {
                                         <div class="col-md-6">
                                 <div class="form-group">
                                                 <label for="address">
-                                                    <i class="fa fa-map-marker"></i> Address
+                                                    <i class="fa fa-map-marker"></i> Alamat
                                                 </label>
                                     <textarea class="form-control" id="address" name="address" rows="3"><?php echo htmlspecialchars($user['address'] ?? ''); ?></textarea>
                                             </div>
@@ -823,15 +823,15 @@ if (isset($_SESSION['cart'])) {
                                 <div class="form-section">
                                     <div class="section-header">
                                         <i class="fa fa-lock"></i>
-                                        <h3>Change Password</h3>
+                                        <h3>Ubah Password</h3>
                                     </div>
-                                    <p class="section-description">Leave blank if you don't want to change your password</p>
+                                    <p class="section-description">Kosongkan jika Anda tidak ingin mengubah password</p>
                                     
                                     <div class="row">
                                         <div class="col-md-4">
                                 <div class="form-group">
                                                 <label for="current_password">
-                                                    <i class="fa fa-key"></i> Current Password
+                                                    <i class="fa fa-key"></i> Password Saat Ini
                                                 </label>
                                     <input type="password" class="form-control" id="current_password" name="current_password">
                                             </div>
@@ -840,7 +840,7 @@ if (isset($_SESSION['cart'])) {
                                         <div class="col-md-4">
                                 <div class="form-group">
                                                 <label for="new_password">
-                                                    <i class="fa fa-lock"></i> New Password
+                                                    <i class="fa fa-lock"></i> Password Baru
                                                 </label>
                                     <input type="password" class="form-control" id="new_password" name="new_password">
                                             </div>
@@ -849,7 +849,7 @@ if (isset($_SESSION['cart'])) {
                                         <div class="col-md-4">
                                 <div class="form-group">
                                                 <label for="confirm_password">
-                                                    <i class="fa fa-check-circle"></i> Confirm Password
+                                                    <i class="fa fa-check-circle"></i> Konfirmasi Password
                                                 </label>
                                     <input type="password" class="form-control" id="confirm_password" name="confirm_password">
                                             </div>
@@ -860,10 +860,10 @@ if (isset($_SESSION['cart'])) {
                                 <!-- Action Buttons -->
                                 <div class="form-actions">
                                     <button type="submit" class="btn btn-update">
-                                        <i class="fa fa-save"></i> Update Profile
+                                        <i class="fa fa-save"></i> Perbarui Profil
                                     </button>
                                     <button type="reset" class="btn btn-reset">
-                                        <i class="fa fa-undo"></i> Reset Form
+                                        <i class="fa fa-undo"></i> Reset Formulir
                                     </button>
                                 </div>
                             </form>
@@ -971,7 +971,7 @@ if (isset($_SESSION['cart'])) {
                 
                 // Disable button
                 newsletterBtn.disabled = true;
-                newsletterBtn.textContent = 'Subscribing...';
+                newsletterBtn.textContent = 'Berlangganan...';
                 
                 // Send AJAX request
                 const formData = new FormData();
@@ -997,7 +997,7 @@ if (isset($_SESSION['cart'])) {
                 .finally(() => {
                     // Re-enable button
                     newsletterBtn.disabled = false;
-                    newsletterBtn.textContent = 'Subscribe';
+                    newsletterBtn.textContent = 'Berlangganan';
                 });
             });
         }

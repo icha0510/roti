@@ -33,15 +33,12 @@ if ($category_id) {
     }
 } else {
     $products = getAllProducts();
-    $category_name = 'All Products';
+    $category_name = 'Semua Produk';
 }
 
 $featuredProducts = getAllProducts(6);
 ?>
 <!DOCTYPE html>
-<!--[if IE 7]><html class="ie ie7"><![endif]-->
-<!--[if IE 8]><html class="ie ie8"><![endif]-->
-<!--[if IE 9]><html class="ie ie9"><![endif]-->
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -54,7 +51,7 @@ $featuredProducts = getAllProducts(6);
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>Product Listing - Roti'O</title>
+    <title>Daftar Produk - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -222,15 +219,9 @@ $featuredProducts = getAllProducts(6);
         }
       }
     </style>
-    <!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
-    <!--WARNING: Respond.js doesn't work if you view the page via file://-->
-    <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
-    <!--[if IE 7]><body class="ie7 lt-ie8 lt-ie9 lt-ie10"><![endif]-->
-    <!--[if IE 8]><body class="ie8 lt-ie9 lt-ie10"><![endif]-->
-    <!--[if IE 9]><body class="ie9 lt-ie10"><![endif]-->
   </head>
-  <body>
-    
+
+  <body>  
     <!-- Header-->
     <header class="header header--3" data-sticky="false">
       <div class="ps-container">
@@ -246,33 +237,33 @@ $featuredProducts = getAllProducts(6);
             <div class="header-nav">
               <ul class="menu">
                 <li class="menu-item-has-children">
-                  <a href="index.php">Homepage</a>
+                  <a href="index.php">Beranda</a>
                 </li>
                 <li>
-                  <a href="about.php">About</a>
+                  <a href="about.php">Tentang</a>
                 </li>
                 <li class="menu-item-has-children current-menu-item">
-                  <a href="#">Product</a>
+                  <a href="#">Produk</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
-                    <li><a href="product-listing.php">Product List</a></li>
-                    <li><a href="order-form.php">Order Form</a></li>
+                    <li><a href="product-listing.php">Daftar Produk</a></li>
+                    <li><a href="order-form.php">Formulir Pesanan</a></li>
                   </ul>
                 </li>
                 <li class="menu-item-has-children">
-                  <a href="#">Others</a>
+                  <a href="#">Lainnya</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
                     <li><a href="blog-grid.php">Blog</a></li>
-                    <li><a href="store.php">Our Stores</a></li>
+                    <li><a href="store.php">Toko Kami</a></li>
                   </ul>
                 </li>
                 <li>
-                  <a href="contact.php">Contact Us</a>
+                  <a href="contact.php">Hubungi Kami</a>
                 </li>
               </ul>
             </div>
@@ -292,16 +283,16 @@ $featuredProducts = getAllProducts(6);
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="logo-orders.php">My Orders</a>
+                        <a href="logo-orders.php">Pesanan Saya</a>
                       </li>
                       <li>
-                        <a href="profile.php">Profile</a>
+                        <a href="profile.php">Profil</a>
                       </li>
                       <li>
                         <hr class="dropdown-divider">
                       </li>
                       <li>
-                        <a href="logout.php">Logout</a>
+                        <a href="logout.php">Keluar</a>
                       </li>
                     </ul>
                   </div>
@@ -339,7 +330,7 @@ $featuredProducts = getAllProducts(6);
                                 <?php echo $item['name']; ?>
                               </a>
                               <p>
-                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
                                 <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                               </p>
                             </div>
@@ -348,17 +339,17 @@ $featuredProducts = getAllProducts(6);
                       <?php else: ?>
                         <div class="ps-cart-item">
                           <div class="ps-cart-item__content">
-                            <p>Your cart is empty</p>
+                            <p>Keranjang belanja Anda kosong</p>
                           </div>
                         </div>
                       <?php endif; ?>
                     </div>
                     <div class="ps-cart__total">
-                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                      <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                      <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                      <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                     </div>
                     <div class="ps-cart__footer">
-                      <a href="cart.php">Check out</a>
+                      <a href="cart.php">Checkout</a>
                     </div>
                   </div>
                 </div>
@@ -375,12 +366,12 @@ $featuredProducts = getAllProducts(6);
         <h1><?php echo $category_name; ?></h1>
         <div class="ps-breadcrumb">
           <ol class="breadcrumb">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="product-listing.php">Products</a></li>
-            <?php if ($category_name != 'All Products'): ?>
+            <li><a href="index.php">Beranda</a></li>
+            <li><a href="product-listing.php">Produk</a></li>
+            <?php if ($category_name != 'Semua Produk'): ?>
             <li class="active"><?php echo $category_name; ?></li>
             <?php else: ?>
-            <li class="active">All Products</li>
+            <li class="active">Semua Produk</li>
             <?php endif; ?>
           </ol>
         </div>
@@ -392,7 +383,7 @@ $featuredProducts = getAllProducts(6);
       <div class="ps-container">
         <div class="ps-section__header text-center">
           <h3 class="ps-section__title"><?php echo $category_name; ?></h3>
-          <p>Showing <?php echo count($products); ?> products</p><span><img src="images/icons/floral.png" alt=""></span>
+          <p>Menampilkan <?php echo count($products); ?> produk</p><span><img src="images/icons/floral.png" alt=""></span>
         </div>
         
         <div class="row">
@@ -402,15 +393,15 @@ $featuredProducts = getAllProducts(6);
               <div class="ps-sidebar__block">
                 <h4 class="ps-sidebar__title">
                   <i class="ba-bread-2" style="margin-right: 10px; color: #cd9b33;"></i>
-                  Categories
+                  Kategori
                 </h4>
                 <div class="ps-sidebar__content">
                   <ul class="ps-list--arrow">
-                    <li class="<?php echo ($category_name == 'All Products') ? 'current' : ''; ?>">
+                    <li class="<?php echo ($category_name == 'Semua Produk') ? 'current' : ''; ?>">
                       <a href="product-listing.php">
                         <i class="fa fa-th-large" style="margin-right: 8px; color: #cd9b33;"></i>
-                        All Products
-                        <?php if ($category_name == 'All Products'): ?>
+                        Semua Produk
+                        <?php if ($category_name == 'Semua Produk'): ?>
                           <span class="badge" style="background-color: #cd9b33; color: white; float: right; margin-top: 2px;"><?php echo count($products); ?></span>
                         <?php endif; ?>
                       </a>
@@ -434,29 +425,29 @@ $featuredProducts = getAllProducts(6);
               <div class="ps-sidebar__block" style="margin-top: 30px;">
                 <h4 class="ps-sidebar__title">
                   <i class="ba-heart" style="margin-right: 10px; color: #cd9b33;"></i>
-                  Quick Info
+                  Informasi Cepat
                 </h4>
                 <div class="ps-sidebar__content">
                   <div class="ps-block--info" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 8px; border-left: 4px solid #cd9b33;">
                     <h5 style="color: #cd9b33; margin-bottom: 10px; font-weight: 600;">
                       <i class="fa fa-info-circle" style="margin-right: 5px;"></i>
-                      Product Guide
+                      Panduan Produk
                     </h5>
                     <p style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 15px;">
-                      Browse through our delicious selection of fresh baked goods. Each category offers unique flavors and specialties.
+                    Jelajahi aroma kopi yang memikat dan kelezatan tiada tara dari Roti'O, sajian yang selalu baru dipanggang untuk Anda. Setiap gigitan menawarkan cita rasa kopi yang unik dan kehangatan yang istimewa.
                     </p>
                     <div style="border-top: 1px solid #dee2e6; padding-top: 15px;">
                       <p style="font-size: 12px; color: #999; margin-bottom: 5px;">
                         <i class="fa fa-clock-o" style="margin-right: 5px;"></i>
-                        Fresh daily
+                        Diperbarui Setiap Hari
                       </p>
                       <p style="font-size: 12px; color: #999; margin-bottom: 5px;">
                         <i class="fa fa-leaf" style="margin-right: 5px;"></i>
-                        Natural ingredients
+                        Bahan-bahan alami
                       </p>
                       <p style="font-size: 12px; color: #999;">
                         <i class="fa fa-star" style="margin-right: 5px;"></i>
-                        Premium quality
+                        Kualitas premium
                       </p>
                     </div>
                   </div>
@@ -472,8 +463,8 @@ $featuredProducts = getAllProducts(6);
                 <?php if (empty($products)): ?>
                 <div class="col-12">
                   <div class="ps-block--empty">
-                    <h4>No products found</h4>
-                    <p>Sorry, no products available in this category at the moment.</p>
+                    <h4>Tidak ada produk ditemukan</h4>
+                    <p>Maaf, tidak ada produk yang tersedia dalam kategori ini saat ini.</p>
                   </div>
                 </div>
                 <?php else: ?>
@@ -491,7 +482,7 @@ $featuredProducts = getAllProducts(6);
                         <ul class="ps-product__actions">
                           <!-- <li><a href="#" data-tooltip="Quick View"><i class="ba-magnifying-glass"></i></a></li>
                           <li><a href="#" data-tooltip="Favorite"><i class="ba-heart"></i></a></li> -->
-                          <li><a href="cart_actions.php?action=add&id=<?php echo $product['id']; ?>" data-tooltip="Add to Cart"><i class="ba-shopping"></i></a></li>
+                          <li><a href="cart_actions.php?action=add&id=<?php echo $product['id']; ?>" data-tooltip="Tambah ke Keranjang"><i class="ba-shopping"></i></a></li>
                         </ul>
                       </div>
                       <div class="ps-product__content">
@@ -517,26 +508,26 @@ $featuredProducts = getAllProducts(6);
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-delivery-truck-2"></i>
-              <h4>Free Shipping <span> On Order Over$199</h4>
-              <p>Want to track a package? Find tracking information and order details from Your Orders.</p>
+              <h4>Pengiriman Gratis <span>Untuk Pesanan Di Atas Rp199.000</span></h4>
+              <p>Ingin melacak paket? Temukan informasi pelacakan dan detail pesanan dari Pesanan Anda.</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-biscuit-1"></i>
-              <h4>Master Chef<span> WITH PASSION</h4>
-              <p>Shop zillions of finds, with new arrivals added daily.</p>
+              <h4>Koki Master<span> DENGAN PASSION</span></h4>
+              <p>Belanja ribuan produk, dengan kedatangan baru ditambahkan setiap hari.</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-flour"></i>
-              <h4>Natural Materials<span> protect your family</h4>
-              <p>We always ensure the safety of all products of store</p>
+              <h4>Bahan Alami<span> melindungi keluarga Anda</span></h4>
+              <p>Kami selalu memastikan keamanan semua produk toko</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-cake-3"></i>
-              <h4>Attractive Flavor <span>ALWAYS LISTEN</span></h4>
-              <p>We offer a 24/7 customer hotline so you're never alone if you have a question.</p>
+              <h4>Rasa Menarik <span>SELALU MENDENGARKAN</span></h4>
+              <p>Kami menawarkan hotline pelanggan 24/7 sehingga Anda tidak pernah sendirian jika memiliki pertanyaan.</p>
             </div>
           </div>
         </div>

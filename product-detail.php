@@ -146,33 +146,33 @@ if (isset($product['category_id']) && $product['category_id']) {
         <div class="header-nav">
           <ul class="menu">
             <li class="menu-item-has-children">
-              <a href="index.php">Homepage</a>
+              <a href="index.php">Beranda</a>
             </li>
             <li>
-              <a href="about.php">About</a>
+              <a href="about.php">Tentang</a>
             </li>
             <li class="menu-item-has-children current-menu-item">
-              <a href="#">Product</a>
+              <a href="#">Produk</a>
               <span class="sub-toggle">
                 <i class="fa fa-angle-down"></i>
               </span>
               <ul class="sub-menu">
-                <li><a href="product-listing.php">Product List</a></li>
-                <li><a href="order-form.php">Order Form</a></li>
+                <li><a href="product-listing.php">Daftar Produk</a></li>
+                <li><a href="order-form.php">Formulir Pesanan</a></li>
               </ul>
             </li>   
             <li class="menu-item-has-children">
-              <a href="#">Others</a>
+              <a href="#">Lainnya</a>
               <span class="sub-toggle">
                 <i class="fa fa-angle-down"></i>
               </span>
               <ul class="sub-menu">
                 <li><a href="blog-grid.php">Blog</a></li>
-                <li><a href="store.php">Our Stores</a></li>
+                <li><a href="store.php">Toko Kami</a></li>
               </ul>
             </li>
             <li>
-              <a href="contact.php">Contact Us</a>
+              <a href="contact.php">Hubungi Kami</a>
             </li>
           </ul>
         </div>
@@ -196,16 +196,16 @@ if (isset($product['category_id']) && $product['category_id']) {
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a href="logo-orders.php">My Orders</a>
+                    <a href="logo-orders.php">Pesanan Saya</a>
                   </li>
                   <li>
-                    <a href="profile.php">Profile</a>
+                    <a href="profile.php">Profil</a>
                   </li>
                   <li>
                     <hr class="dropdown-divider">
                   </li>
                   <li>
-                    <a href="logout.php">Logout</a>
+                    <a href="logout.php">Keluar</a>
                   </li>
                 </ul>
               </div>
@@ -245,7 +245,7 @@ if (isset($product['category_id']) && $product['category_id']) {
                             <?php echo htmlspecialchars($item['name']); ?>
                           </a>
                           <p>
-                            <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                            <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
                             <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                           </p>
                         </div>
@@ -254,19 +254,19 @@ if (isset($product['category_id']) && $product['category_id']) {
                   <?php else: ?>
                     <div class="ps-cart-item">
                       <div class="ps-cart-item__content">
-                        <p>Your cart is empty</p>
+                        <p>Keranjang belanja Anda kosong</p>
                       </div>
                     </div>
                   <?php endif; ?>
                 </div>
                 
                 <div class="ps-cart__total">
-                  <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                  <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                  <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                  <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                 </div>
                 
                 <div class="ps-cart__footer">
-                  <a href="cart.php">Check out</a>
+                  <a href="cart.php">Checkout</a>
                 </div>
               </div>
             </div>
@@ -282,8 +282,8 @@ if (isset($product['category_id']) && $product['category_id']) {
     <div class="ps-breadcrumb">
         <div class="ps-container">
             <ul class="breadcrumb">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="product-listing.php">Products</a></li>
+                <li><a href="index.php">Beranda</a></li>
+                <li><a href="product-listing.php">Produk</a></li>
                 <?php if (isset($product['category_name']) && $product['category_name']): ?>
                 <li><a href="product-listing.php?category=<?php echo $product['category_id']; ?>"><?php echo htmlspecialchars($product['category_name']); ?></a></li>
                 <?php endif; ?>
@@ -318,7 +318,7 @@ if (isset($product['category_id']) && $product['category_id']) {
                         
                         <div class="ps-product__meta">
                             <?php if (isset($product['category_name']) && $product['category_name']): ?>
-                            <p>Category: <a href="product-listing.php?category=<?php echo $product['category_id']; ?>"><?php echo htmlspecialchars($product['category_name']); ?></a></p>
+                            <p>Kategori: <a href="product-listing.php?category=<?php echo $product['category_id']; ?>"><?php echo htmlspecialchars($product['category_name']); ?></a></p>
                             <?php endif; ?>
                         </div>
 
@@ -332,21 +332,21 @@ if (isset($product['category_id']) && $product['category_id']) {
                         </div>
 
                         <div class="ps-product__description">
-                            <h4>Description</h4>
+                            <h4>Deskripsi</h4>
                             <p><?php echo htmlspecialchars($product['description'] ?? ''); ?></p>
                         </div>
 
                         <div class="ps-product__stock">
-                            <p>Stock: <span class="<?php echo ($product['stock'] ?? 0) > 0 ? 'in-stock' : 'out-of-stock'; ?>"><?php echo ($product['stock'] ?? 0) > 0 ? ($product['stock'] . ' available') : 'Out of stock'; ?></span></p>
+                            <p>Stok: <span class="<?php echo ($product['stock'] ?? 0) > 0 ? 'in-stock' : 'out-of-stock'; ?>"><?php echo ($product['stock'] ?? 0) > 0 ? ($product['stock'] . ' tersedia') : 'Habis'; ?></span></p>
                         </div>
 
                         <?php if (($product['stock'] ?? 0) > 0): ?>
                         <div class="ps-product__actions">
                             <div class="ps-product__quantity">
-                                <label>Quantity:</label>
+                                <label>Jumlah:</label>
                                 <input type="number" min="1" max="<?php echo $product['stock']; ?>" value="1" class="form-control" id="product-quantity">
                             </div>
-                            <a href="#" class="ps-btn ps-btn--fullwidth" id="add-to-cart-btn" data-product-id="<?php echo $product['id']; ?>">Add to Cart</a>
+                            <a href="#" class="ps-btn ps-btn--fullwidth" id="add-to-cart-btn" data-product-id="<?php echo $product['id']; ?>">Tambah ke Keranjang</a>
                         </div>
                         <?php endif; ?>
 
@@ -364,8 +364,8 @@ if (isset($product['category_id']) && $product['category_id']) {
     <div class="ps-related-products">
         <div class="ps-container">
             <div class="ps-section__header">
-                <h3 class="ps-section__title">Related Products</h3>
-                <p>You might also like</p>
+                <h3 class="ps-section__title">Produk Terkait</h3>
+                <p>Anda mungkin juga menyukai</p>
             </div>
             <div class="ps-section__content">
                 <div class="row">
@@ -383,7 +383,7 @@ if (isset($product['category_id']) && $product['category_id']) {
                                 <?php endif; ?>
                                 <a class="ps-product__overlay" href="product-detail.php?id=<?php echo $related_product['id']; ?>"></a>
                                 <ul class="ps-product__actions">
-                                    <li><a href="cart_actions.php?action=add&id=<?php echo $related_product['id']; ?>" data-tooltip="Add to Cart"><i class="ba-shopping"></i></a></li>
+                                    <li><a href="cart_actions.php?action=add&id=<?php echo $related_product['id']; ?>" data-tooltip="Tambah ke Keranjang"><i class="ba-shopping"></i></a></li>
                                 </ul>
                             </div>
                             <div class="ps-product__content">
@@ -476,7 +476,7 @@ if (isset($product['category_id']) && $product['category_id']) {
             
             // Validasi quantity
             if (quantity < 1) {
-                alert('Quantity harus minimal 1');
+                alert('Jumlah harus minimal 1');
                 return;
             }
             

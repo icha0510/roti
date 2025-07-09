@@ -24,9 +24,6 @@ foreach ($_SESSION['cart'] as $item) {
 }
 ?>
 <!DOCTYPE html>
-<!--[if IE 7]><html class="ie ie7"><![endif]-->
-<!--[if IE 8]><html class="ie ie8"><![endif]-->
-<!--[if IE 9]><html class="ie ie9"><![endif]-->
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -88,33 +85,33 @@ foreach ($_SESSION['cart'] as $item) {
             <div class="header-nav">
               <ul class="menu">
                 <li class="menu-item-has-children current-menu-item">
-                  <a href="index.php">Homepage</a>
+                  <a href="index.php">Beranda</a>
                 </li>
                 <li>
-                  <a href="about.php">About</a>
+                  <a href="about.php">Tentang</a>
                 </li>
                 <li class="menu-item-has-children">
-                  <a href="#">Product</a>
+                  <a href="#">Produk</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
-                    <li><a href="product-listing.php">Product List</a></li>
-                    <li><a href="order-form.php">Order Form</a></li>
+                    <li><a href="product-listing.php">Daftar Produk</a></li>
+                    <li><a href="order-form.php">Formulir Pesanan</a></li>
                   </ul>
                 </li>   
                 <li class="menu-item-has-children">
-                  <a href="#">Others</a>
+                  <a href="#">Lainnya</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
                     <li><a href="blog-grid.php">Blog</a></li>
-                    <li><a href="store.php">Our Stores</a></li>
+                    <li><a href="store.php">Toko Kami</a></li>
                   </ul>
                 </li>
                 <li>
-                  <a href="contact.php">Contact Us</a>
+                  <a href="contact.php">Hubungi Kami</a>
                 </li>
               </ul>
             </div>
@@ -137,16 +134,16 @@ foreach ($_SESSION['cart'] as $item) {
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="logo-orders.php">My Orders</a>
+                        <a href="logo-orders.php">Pesanan Saya</a>
                       </li>
                       <li>
-                        <a href="profile.php">Profile</a>
+                        <a href="profile.php">Profil</a>
                       </li>
                       <li>
                         <hr class="dropdown-divider">
                       </li>
                       <li>
-                        <a href="logout.php">Logout</a>
+                        <a href="logout.php">Keluar</a>
                       </li>
                     </ul>
                   </div>
@@ -186,7 +183,7 @@ foreach ($_SESSION['cart'] as $item) {
                                 <?php echo $item['name']; ?>
                               </a>
                               <p>
-                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
                                 <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                               </p>
                             </div>
@@ -195,19 +192,19 @@ foreach ($_SESSION['cart'] as $item) {
                       <?php else: ?>
                         <div class="ps-cart-item">
                           <div class="ps-cart-item__content">
-                            <p>Your cart is empty</p>
+                            <p>Keranjang belanja Anda kosong</p>
                           </div>
                         </div>
                       <?php endif; ?>
                     </div>
                     
                     <div class="ps-cart__total">
-                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                      <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                      <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                      <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                     </div>
                     
                     <div class="ps-cart__footer">
-                      <a href="cart.php">Check out</a>
+                      <a href="cart.php">Checkout</a>
                     </div>
                   </div>
                 </div>
@@ -224,9 +221,9 @@ foreach ($_SESSION['cart'] as $item) {
         <h1>Order Success</h1>
         <div class="ps-breadcrumb">
           <ol class="breadcrumb">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="order-form.php">Order Form</a></li>
-            <li class="active">Order Success</li>
+            <li><a href="index.php">Beranda</a></li>
+            <li><a href="order-form.php">Formulir Pesanan</a></li>
+            <li class="active">Pesanan Berhasil</li>
           </ol>
         </div>
       </div>
@@ -235,24 +232,22 @@ foreach ($_SESSION['cart'] as $item) {
     <main class="ps-main">
       <div class="ps-container">
         <div class="ps-section--success">
-          <div class="row">
-            <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 center-block">
-              <div class="ps-success">
+          <div class="ps-success">
                 <div class="ps-success__icon">
                   <i class="fa fa-check-circle"></i>
                 </div>
-                <h1>Order Berhasil!</h1>
+                <h1>Pesanan Berhasil!</h1>
                 <h3>Terima kasih atas pesanan Anda</h3>
                 
                 <div class="ps-success__details">
                   <div class="row">
                     <div class="col-md-6">
-                      <p><strong>Order Number:</strong><br><?php echo $order_data['order_number']; ?></p>
-                      <p><strong>Total Amount:</strong><br>£<?php echo number_format($order_data['total_amount'], 2); ?></p>
+                      <p><strong>Nomor Pesanan:</strong><br><?php echo $order_data['order_number']; ?></p>
+                      <p><strong>Total Pembayaran:</strong><br>Rp<?php echo number_format($order_data['total_amount'], 3); ?></p>
                     </div>
                     <div class="col-md-6">
-                      <p><strong>Order ID:</strong><br><?php echo $order_data['order_id']; ?></p>
-                      <p><strong>Status:</strong><br><span class="badge bg-warning">Pending</span></p>
+                      <p><strong>ID Pesanan:</strong><br><?php echo $order_data['order_id']; ?></p>
+                      <p><strong>Status:</strong><br><span class="badge bg-warning">Menunggu</span></p>
                     </div>
                   </div>
                 </div>
@@ -260,8 +255,8 @@ foreach ($_SESSION['cart'] as $item) {
                 <p>Kami telah menerima pesanan Anda dan akan segera memprosesnya. Tim kami akan menghubungi Anda segera untuk konfirmasi lebih lanjut.</p>
                 
                 <div class="ps-success__actions">
-                  <a class="ps-btn" href="index.php">Kembali ke Homepage</a>
-                  <a class="ps-btn ps-btn--outline" href="order-form.php">Order Lagi</a>
+                  <a class="ps-btn" href="index.php">Kembali ke Beranda</a>
+                  <a class="ps-btn ps-btn--outline" href="order-form.php">Pesan Lagi</a>
                 </div>
               </div>
             </div>
@@ -275,26 +270,26 @@ foreach ($_SESSION['cart'] as $item) {
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-delivery-truck-2"></i>
-              <h4>Free Shipping <span> On Order Over$199</h4>
-              <p>Want to track a package? Find tracking information and order details from Your Orders.</p>
+              <h4>Pengiriman Gratis <span> Untuk Pesanan Di Atas Rp199.000</h4>
+              <p>Ingin melacak paket? Temukan informasi pelacakan dan detail pesanan dari Pesanan Saya.</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-biscuit-1"></i>
-              <h4>Master Chef<span> WITH PASSION</h4>
-              <p>Shop zillions of finds, with new arrivals added daily.</p>
+              <h4>Koki Master<span> DENGAN PASSION</h4>
+              <p>Belanja ribuan temuan, dengan kedatangan baru ditambahkan setiap hari.</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-flour"></i>
-              <h4>Natural Materials<span> protect your family</h4>
-              <p>We always ensure the safety of all products of store</p>
+              <h4>Bahan Alami<span> melindungi keluarga Anda</h4>
+              <p>Kami selalu memastikan keamanan semua produk toko</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-cake-3"></i>
-              <h4>Attractive Flavor <span>ALWAYS LISTEN</span></h4>
-              <p>We offer a 24/7 customer hotline so you're never alone if you have a question.</p>
+              <h4>Rasa Menarik <span>SELALU MENDENGARKAN</span></h4>
+              <p>Kami menawarkan hotline pelanggan 24/7 sehingga Anda tidak pernah sendirian jika memiliki pertanyaan.</p>
             </div>
           </div>
         </div>

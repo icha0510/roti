@@ -5,7 +5,7 @@ Admin panel untuk mengelola website Bready Bakery.
 ## Fitur yang Tersedia
 
 ### 1. Dashboard
-- Statistik produk, kategori, banner, testimonial, dan blog posts
+- Statistik produk, kategori, banner, dan blog posts
 - Tabel produk terbaru
 - Quick actions untuk menambah konten baru
 - Informasi sistem
@@ -27,11 +27,7 @@ Admin panel untuk mengelola website Bready Bakery.
 - Pengaturan link dan badge
 - Sort order untuk urutan tampilan
 
-### 5. Testimonials Management
-- Menambah dan menghapus testimonial
-- Upload foto profil customer
-- Rating sistem (1-5 bintang)
-- Nama dan posisi customer
+
 
 ### 6. Blog Posts Management
 - Menambah dan menghapus blog posts
@@ -59,7 +55,7 @@ admin/
 ├── products.php           # Manajemen produk
 ├── categories.php         # Manajemen kategori
 ├── banners.php           # Manajemen banner
-├── testimonials.php      # Manajemen testimonial
+
 ├── posts.php             # Manajemen blog posts
 ├── awards.php            # Manajemen awards
 ├── orders.php            # Manajemen pesanan
@@ -125,9 +121,7 @@ admin/
 - id, title, subtitle, image_data, image_mime
 - link, badge_text, badge_type, sort_order, is_active
 
-### testimonials
-- id, name, position, content, rating
-- image_data, image_mime, created_at
+
 
 ### posts
 - id, title, slug, content, excerpt, author

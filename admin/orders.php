@@ -22,12 +22,12 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <link href="../images/logo-rotio.png" rel="icon">
-    <title>Admin - Order Management Dashboard</title>
+    <title>Admin - Dashboard Manajemen Pesanan</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
         body {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #F2CB05 0%, #D97E4A 100%);
             min-height: 100vh;
             padding: 20px;
             margin: 0;
@@ -65,12 +65,12 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             color: white;
         }
         .btn-primary {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            background: linear-gradient(45deg, #F2CB05, #D97E4A);
+            box-shadow: 0 4px 15px rgba(242, 203, 5, 0.3);
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(242, 203, 5, 0.4);
         }
         .btn-success {
             background: linear-gradient(45deg, #28a745, #20c997);
@@ -109,8 +109,8 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             font-size: 13px;
         }
         th {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
+            background: linear-gradient(45deg, #F2CB05, #D97E4A);
+            color: #402401;
             font-weight: 600;
             text-align: left;
         }
@@ -171,8 +171,8 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             background: linear-gradient(45deg, #17a2b8, #3498db);
         }
         tr.selected {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
-            border-left: 4px solid #667eea;
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
+            border-left: 4px solid #F2CB05;
         }
         .user-info {
             font-size: 10px;
@@ -190,12 +190,12 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 6px;
         }
         .btn-view {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
+            background: linear-gradient(45deg, #F2CB05,rgb(220, 147, 104));
+            color:rgb(85, 48, 2);
         }
         .btn-update {
-            background: linear-gradient(45deg, #28a745, #20c997);
-            color: white;
+            background: linear-gradient(45deg,rgb(211, 196, 25),rgba(255, 217, 1, 0.68));
+            color: rgb(85, 48, 2);
         }
         .order-count {
             text-align: center;
@@ -203,11 +203,11 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             padding: 15px;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 15px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #F2CB05;
         }
         .order-count h3 {
             margin: 0;
-            color: #667eea;
+            color: #D97E4A;
             font-size: 1.2rem;
         }
         .order-count p {
@@ -252,8 +252,8 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         
         .modal-header {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
+            background: linear-gradient(45deg, #F2CB05, #D97E4A);
+            color: #402401;
             padding: 20px 25px;
             border-radius: 20px 20px 0 0;
             display: flex;
@@ -268,7 +268,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         
         .close {
-            color: white;
+            color: #402401;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
@@ -279,7 +279,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.3);
         }
         
         .close:hover {
@@ -315,8 +315,8 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         .form-group select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #F2CB05;
+            box-shadow: 0 0 0 3px rgba(242, 203, 5, 0.1);
         }
         
         .modal-footer {
@@ -392,11 +392,11 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <div class="container">
-        <h2>📋 Order Management Dashboard</h2>
+        <h2>📋 Dashboard Manajemen Pesanan</h2>
         
         <div class="order-count">
-            <h3>📊 Total Orders: <?php echo count($orders); ?></h3>
-            <p>Klik tombol "Update Status (Fixed)" untuk mengupdate status order dengan interface yang diperbaiki</p>
+            <h3>📊 Total Pesanan: <?php echo count($orders); ?></h3>
+            <!-- <p>Klik tombol "Update Status (Fixed)" untuk mengupdate status pesanan dengan interface yang diperbaiki</p> -->
         </div>
         
         <div class="flex-container">
@@ -405,9 +405,9 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <table>
                     <thead>
                         <tr>
-                            <th>No. Order</th>
-                            <th>Customer</th>
-                            <th>User</th>
+                            <th>No. Pesanan</th>
+                            <th>Pelanggan</th>
+                            <th>Pengguna</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -480,7 +480,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 ?>
                                 <span class="badge <?php echo $badge; ?>"><?php echo $display_status; ?></span>
                                 <?php if ($order['last_update']): ?>
-                                    <div class="user-info">Updated: <?php echo date('d/m/Y H:i', strtotime($order['last_update'])); ?></div>
+                                    <div class="user-info">Diperbarui: <?php echo date('d/m/Y H:i', strtotime($order['last_update'])); ?></div>
                                 <?php endif; ?>
                             </td>
                             <td>
@@ -497,9 +497,9 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Kanan: Detail Order -->
             <div class="order-detail" id="order-detail">
                 <div style="text-align: center; padding: 50px; color: #666;">
-                    <h3 style="font-size: 2rem; margin-bottom: 20px; background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">📋 Detail Order</h3>
-                    <p style="font-size: 16px; margin-bottom: 15px;">Pilih salah satu order untuk melihat detail dan tracking...</p>
-                    <p style="font-size: 14px; color: #888;"><small>Atau gunakan tombol "Update Status (Fixed)" untuk mengupdate status order</small></p>
+                    <h3 style="font-size: 2rem; margin-bottom: 20px; background: linear-gradient(45deg, #F2CB05, #D97E4A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">📋 Detail Pesanan</h3>
+                    <p style="font-size: 16px; margin-bottom: 15px;">Pilih salah satu pesanan untuk melihat detail dan tracking...</p>
+                    <!-- <p style="font-size: 14px; color: #888;"><small>Atau gunakan tombol "Update Status (Fixed)" untuk mengupdate status pesanan</small></p> -->
                 </div>
             </div>
         </div>
@@ -509,7 +509,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div id="updateModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">🔄 Update Status Order</h3>
+                <h3 class="modal-title">🔄 Update Status Pesanan</h3>
                 <span class="close">&times;</span>
             </div>
             <div id="modalBody">
@@ -517,7 +517,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <form id="updateStatusForm">
                     <input type="hidden" id="orderId" name="order_id">
                     <div class="form-group">
-                        <label>Order Number:</label>
+                        <label>Nomor Pesanan:</label>
                         <div id="orderNumber" style="padding: 15px; background: rgba(248, 249, 250, 0.8); border-radius: 10px; font-weight: bold; border: 1px solid rgba(233, 236, 239, 0.5);"></div>
                     </div>
                     <div class="form-group">

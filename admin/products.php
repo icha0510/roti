@@ -30,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ];
                 
                 if (addProduct($data)) {
-                    $message = showAlert('Product added successfully!', 'success');
+                    $message = showAlert('Produk berhasil ditambahkan!', 'success');
                 } else {
-                    $message = showAlert('Error adding product!', 'danger');
+                    $message = showAlert('Error menambahkan produk!', 'danger');
                 }
             }
         } elseif ($_POST['action'] == 'edit') {
@@ -64,9 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             
             if (updateProduct($id, $data)) {
-                $message = showAlert('Product updated successfully!', 'success');
+                $message = showAlert('Produk berhasil diperbarui!', 'success');
             } else {
-                $message = showAlert('Error updating product!', 'danger');
+                $message = showAlert('Error memperbarui produk!', 'danger');
             }
         }
     }
@@ -76,9 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
     if (deleteProduct($id)) {
-        $message = showAlert('Product deleted successfully!', 'success');
+        $message = showAlert('Produk berhasil dihapus!', 'success');
     } else {
-        $message = showAlert('Error deleting product!', 'danger');
+        $message = showAlert('Error menghapus produk!', 'danger');
     }
 }
 
@@ -98,7 +98,7 @@ if (isset($_GET['edit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../images/logo-rotio.png" rel="icon">
-    <title>Manage Products - Admin Dashboard</title>
+    <title>Kelola Produk - Beranda Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -114,7 +114,7 @@ if (isset($_GET['edit'])) {
             background: #495057;
         }
         .sidebar .nav-link.active {
-            background: #F2E205;
+            background: #F2CB05;
         }
         .main-content {
             margin-left: 250px;
@@ -136,56 +136,51 @@ if (isset($_GET['edit'])) {
     <nav class="sidebar position-fixed top-0 start-0 d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 250px;">
         <a href="index.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <img src="../images/logo-rotio.png" alt="Roti'O" class="me-2" style="width: 30px; height: 30px;">
-            <span class="fs-4">Roti'O Admin</span>
+            <span class="fs-4">Admin Roti'O</span>
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
                 <a href="index.php" class="nav-link text-white">
                     <i class="fas fa-tachometer-alt me-2"></i>
-                    Dashboard
+                    Beranda
                 </a>
             </li>
             <li>
                 <a href="products.php" class="nav-link active">
                     <i class="fas fa-box me-2"></i>
-                    Products
+                    Produk
                 </a>
             </li>
             <li>
                 <a href="categories.php" class="nav-link text-white">
                     <i class="fas fa-tags me-2"></i>
-                    Categories
+                    Kategori
                 </a>
             </li>
-            <li>
-                <a href="testimonials.php" class="nav-link text-white">
-                    <i class="fas fa-comments me-2"></i>
-                    Testimonials
-                </a>
-            </li>
+
             <li>
                 <a href="posts.php" class="nav-link text-white">
                     <i class="fas fa-newspaper me-2"></i>
-                    Blog Posts
+                    Artikel Blog
                 </a>
             </li>
             <li>
                 <a href="newsletter.php" class="nav-link text-white">
                     <i class="fas fa-envelope me-2"></i>
-                    Newsletter
+                    Buletin
                 </a>
             </li>
             <li>
                 <a href="orders.php" class="nav-link text-white">
                     <i class="fas fa-clipboard-list me-2"></i>
-                    Orders
+                    Pesanan
                 </a>
             </li>
             <li>
                 <a href="register.php" class="nav-link text-white">
                     <i class="fas fa-user-plus me-2"></i>
-                    Add Admin
+                    Tambah Admin
                 </a>
             </li>
         </ul>
@@ -196,9 +191,9 @@ if (isset($_GET['edit'])) {
                 <strong><?php echo htmlspecialchars($_SESSION['admin_name'] ?? 'Admin'); ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="../index.php" target="_blank">View Website</a></li>
+                <li><a class="dropdown-item" href="../index.php" target="_blank">Lihat Website</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
+                <li><a class="dropdown-item" href="logout.php">Keluar</a></li>
             </ul>
         </div>
     </nav>
@@ -207,9 +202,9 @@ if (isset($_GET['edit'])) {
     <div class="main-content">
         <div class="container-fluid p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3 mb-0">Manage Products</h1>
+                <h1 class="h3 mb-0">Kelola Produk</h1>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
-                    <i class="fas fa-plus me-2"></i>Add New Product
+                    <i class="fas fa-plus me-2"></i>Tambah Produk Baru
                 </button>
             </div>
 
@@ -222,13 +217,13 @@ if (isset($_GET['edit'])) {
                         <table class="table table-bordered table-hover">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Stock</th>
+                                    <th>Gambar</th>
+                                    <th>Nama</th>
+                                    <th>Kategori</th>
+                                    <th>Harga</th>
+                                    <th>Stok</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -258,20 +253,20 @@ if (isset($_GET['edit'])) {
                                     </td>
                                     <td>
                                         <?php if ($product['is_featured']): ?>
-                                            <span class="badge bg-primary">Featured</span>
+                                            <span class="badge bg-primary">Unggulan</span>
                                         <?php endif; ?>
                                         <?php if ($product['is_new']): ?>
-                                            <span class="badge bg-success">New</span>
+                                            <span class="badge bg-success">Baru</span>
                                         <?php endif; ?>
                                         <?php if ($product['is_sale']): ?>
-                                            <span class="badge bg-danger">Sale</span>
+                                            <span class="badge bg-danger">Diskon</span>
                                         <?php endif; ?>
                                     </td>
                                     <td>
                                         <button class="btn btn-sm btn-primary" onclick="editProduct(<?php echo $product['id']; ?>)">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <a href="?delete=<?php echo $product['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                        <a href="?delete=<?php echo $product['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin?')">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -290,7 +285,7 @@ if (isset($_GET['edit'])) {
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New Product</h5>
+                    <h5 class="modal-title">Tambah Produk Baru</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST" enctype="multipart/form-data">
@@ -300,15 +295,15 @@ if (isset($_GET['edit'])) {
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Product Name</label>
+                                    <label class="form-label">Nama Produk</label>
                                     <input type="text" class="form-control" name="name" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Category</label>
+                                    <label class="form-label">Kategori</label>
                                     <select class="form-select" name="category_id" required>
-                                        <option value="">Select Category</option>
+                                        <option value="">Pilih Kategori</option>
                                         <?php foreach ($categories as $category): ?>
                                         <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
                                         <?php endforeach; ?>
@@ -318,35 +313,35 @@ if (isset($_GET['edit'])) {
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Description</label>
+                            <label class="form-label">Deskripsi</label>
                             <textarea class="form-control" name="description" rows="3" required></textarea>
                         </div>
 
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">Price</label>
+                                    <label class="form-label">Harga</label>
                                     <input type="number" class="form-control" name="price" step="0.01" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">Sale Price (Optional)</label>
+                                    <label class="form-label">Harga Diskon (Opsional)</label>
                                     <input type="number" class="form-control" name="sale_price" step="0.01">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">Stock</label>
+                                    <label class="form-label">Stok</label>
                                     <input type="number" class="form-control" name="stock" required>
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Product Image</label>
+                            <label class="form-label">Gambar Produk</label>
                             <input type="file" class="form-control" name="image" accept="image/*" required>
-                            <small class="text-muted">Max size: 5MB. Supported: JPG, PNG, GIF, WebP</small>
+                            <small class="text-muted">Ukuran maksimal: 5MB. Format: JPG, PNG, GIF, WebP</small>
                         </div>
 
                         <div class="row">
@@ -358,26 +353,26 @@ if (isset($_GET['edit'])) {
                             </div>
                             <div class="col-md-9">
                                 <div class="mb-3">
-                                    <label class="form-label">Options</label>
+                                    <label class="form-label">Opsi</label>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="is_featured" value="1">
-                                        <label class="form-check-label">Featured Product</label>
+                                        <label class="form-check-label">Produk Unggulan</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="is_new" value="1">
-                                        <label class="form-check-label">New Product</label>
+                                        <label class="form-check-label">Produk Baru</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="is_sale" value="1">
-                                        <label class="form-check-label">On Sale</label>
+                                        <label class="form-check-label">Sedang Diskon</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Add Product</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Tambah Produk</button>
                     </div>
                 </form>
             </div>
@@ -389,7 +384,7 @@ if (isset($_GET['edit'])) {
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Product</h5>
+                    <h5 class="modal-title">Edit Produk</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST" enctype="multipart/form-data" id="editForm">

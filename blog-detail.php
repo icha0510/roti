@@ -99,33 +99,33 @@ $recent_posts = getAllPosts(3);
             <div class="header-nav">
               <ul class="menu">
                 <li class="menu-item-has-children">
-                  <a href="index.php">Homepage</a>
+                  <a href="index.php">Beranda</a>
                 </li>
                 <li>
-                  <a href="about.php">About</a>
+                  <a href="about.php">Tentang</a>
                 </li>
                 <li class="menu-item-has-children">
-                  <a href="#">Product</a>
+                  <a href="#">Produk</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
-                    <li><a href="product-listing.php">Product List</a></li>
-                    <li><a href="order-form.php">Order Form</a></li>
+                    <li><a href="product-listing.php">Daftar Produk</a></li>
+                    <li><a href="order-form.php">Formulir Pesanan</a></li>
                   </ul>
                 </li>
                 <li class="menu-item-has-children current-menu-item">
-                  <a href="#">Others</a>
+                  <a href="#">Lainnya</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
                     <li><a href="blog-grid.php">Blog</a></li>
-                    <li><a href="store.php">Our Stores</a></li>
+                    <li><a href="store.php">Toko Kami</a></li>
                   </ul>
                 </li>
                 <li>
-                  <a href="contact.php">Contact Us</a>
+                  <a href="contact.php">Hubungi Kami</a>
                 </li>
               </ul>
             </div>
@@ -145,16 +145,16 @@ $recent_posts = getAllPosts(3);
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="logo-orders.php">My Orders</a>
+                        <a href="logo-orders.php">Pesanan Saya</a>
                       </li>
                       <li>
-                        <a href="profile.php">Profile</a>
+                        <a href="profile.php">Profil</a>
                       </li>
                       <li>
                         <hr class="dropdown-divider">
                       </li>
                       <li>
-                        <a href="logout.php">Logout</a>
+                        <a href="logout.php">Keluar</a>
                       </li>
                     </ul>
                   </div>
@@ -192,7 +192,7 @@ $recent_posts = getAllPosts(3);
                                 <?php echo $item['name']; ?>
                               </a>
                               <p>
-                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
                                 <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                               </p>
                             </div>
@@ -201,17 +201,17 @@ $recent_posts = getAllPosts(3);
                       <?php else: ?>
                         <div class="ps-cart-item">
                           <div class="ps-cart-item__content">
-                            <p>Your cart is empty</p>
+                            <p>Keranjang belanja Anda kosong</p>
                           </div>
                         </div>
                       <?php endif; ?>
                     </div>
                     <div class="ps-cart__total">
-                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                      <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                      <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                      <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                     </div>
                     <div class="ps-cart__footer">
-                      <a href="cart.php">Check out</a>
+                      <a href="cart.php">Checkout</a>
                     </div>
                   </div>
                 </div>
@@ -224,10 +224,10 @@ $recent_posts = getAllPosts(3);
     
     <div class="ps-hero bg--cover" data-background="images/hero/blog.jpg">
       <div class="ps-hero__content">
-        <h1>Blog Detail</h1>
+        <h1>Detail Blog</h1>
         <div class="ps-breadcrumb">
           <ol class="breadcrumb">
-            <li><a href="index.php">Home</a></li>
+            <li><a href="index.php">Beranda</a></li>
             <li><a href="blog-grid.php">Blog</a></li>
             <li class="active"><?php echo htmlspecialchars($post['title']); ?></li>
           </ol>
@@ -266,7 +266,7 @@ $recent_posts = getAllPosts(3);
                 </div>
                 <div class="ps-post__container">
                   <h3 class="ps-post__title"><?php echo htmlspecialchars($post['title']); ?></h3>
-                  <p class="ps-post__info">Posted by <a href="blog-grid.php" class="author"><?php echo htmlspecialchars($post['author']); ?></a> - <a href="blog-grid.php">Blog</a></p>
+                  <p class="ps-post__info">Diposting oleh <a href="blog-grid.php" class="author"><?php echo htmlspecialchars($post['author']); ?></a> - <a href="blog-grid.php">Blog</a></p>
                   <div class="ps-post__content-text">
                     <?php echo nl2br(htmlspecialchars($post['content'])); ?>
                   </div>
@@ -281,7 +281,7 @@ $recent_posts = getAllPosts(3);
             <div class="ps-blog__sidebar">
               <div class="widget widget_search">
                 <form class="ps-form--widget-search" action="do_action" method="post">
-                  <input class="form-control" type="text" placeholder="Search Post...">
+                  <input class="form-control" type="text" placeholder="Cari Postingan...">
                   <button><i class="ba-magnifying-glass"></i></button>
                 </form>
               </div>
@@ -316,7 +316,7 @@ $recent_posts = getAllPosts(3);
                 <?php endforeach; ?>
               </div>
               <div class="widget widget_tags">
-                <h3 class="widget-title">Tags</h3><a href="#">Blog</a><a href="#">Bakery</a><a href="#">Food</a><a href="#">Bread</a><a href="#">Cake</a><a href="#">Pastry</a><a href="#">Recipe</a>
+                <h3 class="widget-title">Tag</h3><a href="#">Blog</a><a href="#">Bakery</a><a href="#">Makanan</a><a href="#">Roti</a><a href="#">Kue</a><a href="#">Pastry</a><a href="#">Resep</a>
               </div>
             </div>
           </div>
@@ -415,7 +415,7 @@ $recent_posts = getAllPosts(3);
                 
                 // Disable button
                 newsletterBtn.disabled = true;
-                newsletterBtn.textContent = 'Subscribing...';
+                newsletterBtn.textContent = 'Berlangganan...';
                 
                 // Send AJAX request
                 const formData = new FormData();
@@ -441,7 +441,7 @@ $recent_posts = getAllPosts(3);
                 .finally(() => {
                     // Re-enable button
                     newsletterBtn.disabled = false;
-                    newsletterBtn.textContent = 'Subscribe';
+                    newsletterBtn.textContent = 'Berlangganan';
                 });
             });
         }

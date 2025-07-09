@@ -29,7 +29,7 @@ foreach ($_SESSION['cart'] as $item) {
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>About - Roti'O</title>
+    <title>Tentang - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -59,8 +59,8 @@ foreach ($_SESSION['cart'] as $item) {
       }
     </style>
   </head>
+
   <body>
-    
     <!-- Header-->
     <header class="header header--3" data-sticky="false">
       <div class="ps-container">
@@ -78,33 +78,33 @@ foreach ($_SESSION['cart'] as $item) {
             <div class="header-nav">
               <ul class="menu">
                 <li class="menu-item-has-children">
-                  <a href="index.php">Homepage</a>
+                  <a href="index.php">Beranda</a>
                 </li>
                 <li class="menu-item-has-children current-menu-item">
-                  <a href="about.php">About</a>
+                  <a href="about.php">Tentang</a>
                 </li>
                 <li class="menu-item-has-children">
-                  <a href="#">Product</a>
+                  <a href="#">Produk</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
-                    <li><a href="product-listing.php">Product List</a></li>
-                    <li><a href="order-form.php">Order Form</a></li>
+                    <li><a href="product-listing.php">Daftar Produk</a></li>
+                    <li><a href="order-form.php">Formulir Pesanan</a></li>
                   </ul>
                 </li>   
                 <li class="menu-item-has-children">
-                  <a href="#">Others</a>
+                  <a href="#">Lainnya</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
                     <li><a href="blog-grid.php">Blog</a></li>
-                    <li><a href="store.php">Our Stores</a></li>
+                    <li><a href="store.php">Toko Kami</a></li>
                   </ul>
                 </li>
                 <li>
-                  <a href="contact.php">Contact Us</a>
+                  <a href="contact.php">Hubungi Kami</a>
                 </li>
               </ul>
             </div>
@@ -127,16 +127,16 @@ foreach ($_SESSION['cart'] as $item) {
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="logo-orders.php">My Orders</a>
+                        <a href="logo-orders.php">Pesanan Saya</a>
                       </li>
                       <li>
-                        <a href="profile.php">Profile</a>
+                        <a href="profile.php">Profil</a>
                       </li>
                       <li>
                         <hr class="dropdown-divider">
                       </li>
                       <li>
-                        <a href="logout.php">Logout</a>
+                        <a href="logout.php">Keluar</a>
                       </li>
                     </ul>
                   </div>
@@ -176,7 +176,7 @@ foreach ($_SESSION['cart'] as $item) {
                                 <?php echo $item['name']; ?>
                               </a>
                               <p>
-                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
                                 <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                               </p>
                             </div>
@@ -185,19 +185,19 @@ foreach ($_SESSION['cart'] as $item) {
                       <?php else: ?>
                         <div class="ps-cart-item">
                           <div class="ps-cart-item__content">
-                            <p>Your cart is empty</p>
+                            <p>Keranjang belanja Anda kosong</p>
                           </div>
                         </div>
                       <?php endif; ?>
                     </div>
                     
                     <div class="ps-cart__total">
-                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                      <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                      <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                      <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                     </div>
                     
                     <div class="ps-cart__footer">
-                      <a href="cart.php">Check out</a>
+                      <a href="cart.php">Checkout</a>
                     </div>
                   </div>
                 </div>
@@ -211,15 +211,31 @@ foreach ($_SESSION['cart'] as $item) {
     
     <div class="ps-hero bg--cover" data-background="images/hero/about.jpg">
       <div class="ps-hero__content">
-        <h1> About Us</h1>
+        <h1> Tentang Kami</h1>
         <div class="ps-breadcrumb">
           <ol class="breadcrumb">
-            <li><a href="index.php">Home</a></li>
-            <li class="active">About Us</li>
+            <li><a href="index.php">Beranda</a></li>
+            <li class="active">Tentang Kami</li>
           </ol>
         </div>
       </div>
     </div>
+
+    <!-- About Intro-->
+    <div class="ps-about-intro">
+      <div class="ps-container">
+        <div class="ps-section__header text-center">
+          <h3 class="ps-section__title">Selamat Datang</h3>
+          <p>DI TOKO ROTI'O KAMI</p><span><img src="images/icons/floral.png" alt=""></span>
+        </div>
+      </div>
+      <div class="ps-block--signature">
+        <div class="ps-block__thumbnail"><img src="images/signature.png" alt=""></div>
+        <div class="ps-block__content">
+          <p>"Di Roti'O, kami percaya kebahagiaan itu ada di hal-hal kecil. Setiap roti yang baru keluar dari oven kami adalah janji kehangatan yang jujur dan aroma yang pasti bikin kamu tersenyum."</p><small>~ Owner Roti'O ~</small><img src="images/signature-2.png" alt="">
+        </div>
+      </div>
+
     <!-- Tentang Kami Section -->
     <section class="ps-section--about-tentang" style="background:#fff; border-radius:0; box-shadow:none; padding:80px 0; margin:0 auto; max-width:1170px; position:relative;">
       <style>
@@ -291,41 +307,28 @@ foreach ($_SESSION['cart'] as $item) {
         </div>
       </div>
     </section>
-    <!-- About Intro-->
-    <div class="ps-about-intro">
-      <div class="ps-container">
-        <div class="ps-section__header text-center">
-          <h3 class="ps-section__title">Delicieux</h3>
-          <p>WELCOME TO THE STORE</p><span><img src="images/icons/floral.png" alt=""></span>
-        </div>
-      </div>
-      <div class="ps-block--signature">
-        <div class="ps-block__thumbnail"><img src="images/signature.png" alt=""></div>
-        <div class="ps-block__content">
-          <p>"Di Roti'O, kami percaya kebahagiaan itu ada di hal-hal kecil. Setiap roti yang baru keluar dari oven kami adalah janji kehangatan yang jujur dan aroma yang pasti bikin kamu tersenyum."</p><small>~ Owner Roti'O ~</small><img src="images/signature-2.png" alt="">
-        </div>
-      </div>
+    
       <div class="ps-about-number">
         <div class="ps-container">
           <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 ">
               <div class="ps-block--countdown"><i class="ba-biscuit-1"></i><span class="number ps-block__number" data-from="0" data-to="165"> 165</span>
-                <h4>Baker & Chef</h4>
+                <h4>Koki</h4>
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 ">
               <div class="ps-block--countdown"><i class="ba-mixer"></i><span class="number ps-block__number" data-from="0" data-to="2130"> 2130</span>
-                <h4>Recepies</h4>
+                <h4>Resep</h4>
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 ">
               <div class="ps-block--countdown"><i class="ba-bread-2"></i><span class="number ps-block__number" data-from="0" data-to="3450"> 3450</span>
-                <h4>Bread per day</h4>
+                <h4>Roti per hari</h4>
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 ">
               <div class="ps-block--countdown"><i class="ba-flour"></i><span class="number ps-block__number" data-from="0" data-to="345"> 345</span>
-                <h4>Kilos of flour</h4>
+                <h4>Tepung</h4>
               </div>
             </div>
           </div>
@@ -427,7 +430,7 @@ foreach ($_SESSION['cart'] as $item) {
                 
                 // Disable button
                 newsletterBtn.disabled = true;
-                newsletterBtn.textContent = 'Subscribing...';
+                newsletterBtn.textContent = 'Berlangganan...';
                 
                 // Send AJAX request
                 const formData = new FormData();
@@ -453,7 +456,7 @@ foreach ($_SESSION['cart'] as $item) {
                 .finally(() => {
                     // Re-enable button
                     newsletterBtn.disabled = false;
-                    newsletterBtn.textContent = 'Subscribe';
+                    newsletterBtn.textContent = 'Berlangganan';
                 });
             });
         }

@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .login-card {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(96, 77, 19, 0.48);
             overflow: hidden;
             max-width: 400px;
             width: 100%;
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         .form-control:focus {
             border-color: #F2CB05;
-            box-shadow: 0 0 0 0.2rem rgba(242, 203, 5, 0.25);
+            box-shadow: 0 0 0 0.2rem rgba(242, 203, 5, 0.56);
         }
         .btn-login {
             background: linear-gradient(135deg, #F2CB05 0%, #D97E4A 100%);
@@ -145,8 +145,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <h2>Welcome Back</h2>
-                <p class="text-muted">Sign in to your account</p>
+                <h2>Selamat Datang </h2>
+                <p class="text-muted">Masuk ke akun Anda</p>
             </div>
             <div class="login-body">
                 <?php if ($error): ?>
@@ -157,25 +157,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 
                 <form method="POST" action="">
                     <div class="form-group">
-                        <label for="email">Email Address</label>
+                        <label for="email">Alamat Email</label>
                         <input type="email" class="form-control" id="email" name="email" 
                                value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>" 
                                required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label for="password">Kata Sandi</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
                     
                     <div class="form-group">
-                        <button type="submit" class="btn btn-login">Sign In</button>
+                        <button type="submit" class="btn btn-login">Masuk</button>
                     </div>
                 </form>
             </div>
             <div class="login-footer">
-                <p>Don't have an account? <a href="signup.php">Sign up here</a></p>
-                <p><a href="index.php" class="back-home">← Back to Home</a></p>
+                <p>Belum punya akun? <a href="signup.php">Daftar di sini</a></p>
+                <p><a href="index.php" class="back-home">← Kembali ke Beranda</a></p>
             </div>
         </div>
     </div>

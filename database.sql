@@ -44,18 +44,7 @@ CREATE TABLE banners (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabel untuk testimonial
-CREATE TABLE testimonials (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    position VARCHAR(100),
-    company VARCHAR(100),
-    content TEXT NOT NULL,
-    rating INT DEFAULT 5,
-    image VARCHAR(255),
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+
 
 -- Tabel untuk blog/posts
 CREATE TABLE posts (
@@ -103,12 +92,7 @@ INSERT INTO banners (title, subtitle, image, link, badge_text, badge_type, sort_
 ('Special Offer', '50% Off', 'images/banner/slider-5.png', 'order-form.html', '50%', 'sale', 1),
 ('New Product', 'Fresh Baked', 'images/banner/slider-6.png', 'order-form.html', 'New', 'new', 2);
 
--- Insert data testimonial
-INSERT INTO testimonials (name, position, company, content, rating, image) VALUES
-('Logan May', 'CEO & Founder', 'Invision', 'Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant.', 5, 'images/user/1.jpg'),
-('Sarah Johnson', 'Marketing Director', 'TechCorp', 'Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant.', 5, 'images/user/2.jpg'),
-('Mike Chen', 'Product Manager', 'StartupXYZ', 'Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant.', 5, 'images/user/3.jpg'),
-('Emily Davis', 'Creative Director', 'DesignStudio', 'Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant.', 5, 'images/user/4.jpg');
+
 
 -- Insert data posts
 INSERT INTO posts (title, slug, content, excerpt, image, author, status) VALUES

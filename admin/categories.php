@@ -14,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
         
         if (addCategory($data)) {
-            $message = 'Category added successfully!';
+            $message = 'Kategori berhasil ditambahkan!';
             $action = 'list';
         } else {
-            $message = 'Error adding category.';
+            $message = 'Error menambahkan kategori.';
         }
     } elseif ($action === 'edit' && isset($_POST['id'])) {
         $id = $_POST['id'];
@@ -28,10 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
         
         if (updateCategory($id, $data)) {
-            $message = 'Category updated successfully!';
+            $message = 'Kategori berhasil diperbarui!';
             $action = 'list';
         } else {
-            $message = 'Error updating category.';
+            $message = 'Error memperbarui kategori.';
         }
     }
 }
@@ -40,9 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     if (deleteCategory($id)) {
-        $message = 'Category deleted successfully!';
+        $message = 'Kategori berhasil dihapus!';
     } else {
-        $message = 'Error deleting category.';
+        $message = 'Error menghapus kategori.';
     }
     $action = 'list';
 }
@@ -55,7 +55,7 @@ $categories = getAllCategories();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../images/logo-rotio.png" rel="icon">
-    <title>Categories - Roti'O Admin</title>
+    <title>Kategori - Admin Roti'O</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -88,56 +88,51 @@ $categories = getAllCategories();
     <nav class="sidebar position-fixed top-0 start-0 d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 250px;">
         <a href="index.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <img src="../images/logo-rotio.png" alt="Roti'O" class="me-2" style="width: 30px; height: 30px;">
-            <span class="fs-4">Roti'O Admin</span>
+            <span class="fs-4">Admin Roti'O</span>
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
                 <a href="index.php" class="nav-link text-white">
                     <i class="fas fa-tachometer-alt me-2"></i>
-                    Dashboard
+                    Beranda
                 </a>
             </li>
             <li>
                 <a href="products.php" class="nav-link text-white">
                     <i class="fas fa-box me-2"></i>
-                    Products
+                    Produk
                 </a>
             </li>
             <li>
                 <a href="categories.php" class="nav-link active">
                     <i class="fas fa-tags me-2"></i>
-                    Categories
+                    Kategori
                 </a>
             </li>
-            <li>
-                <a href="testimonials.php" class="nav-link text-white">
-                    <i class="fas fa-comments me-2"></i>
-                    Testimonials
-                </a>
-            </li>
+
             <li>
                 <a href="posts.php" class="nav-link text-white">
                     <i class="fas fa-newspaper me-2"></i>
-                    Blog Posts
+                    Artikel Blog
                 </a>
             </li>
             <li>
                 <a href="newsletter.php" class="nav-link text-white">
                     <i class="fas fa-envelope me-2"></i>
-                    Newsletter
+                    Buletin
                 </a>
             </li>
             <li>
                 <a href="orders.php" class="nav-link text-white">
                     <i class="fas fa-clipboard-list me-2"></i>
-                    Orders
+                    Pesanan
                 </a>
             </li>
             <li>
                 <a href="register.php" class="nav-link text-white">
                     <i class="fas fa-user-plus me-2"></i>
-                    Add Admin
+                    Tambah Admin
                 </a>
             </li>
         </ul>
@@ -148,9 +143,9 @@ $categories = getAllCategories();
                 <strong><?php echo htmlspecialchars($_SESSION['admin_name'] ?? 'Admin'); ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="../index.php" target="_blank">View Website</a></li>
+                <li><a class="dropdown-item" href="../index.php" target="_blank">Lihat Website</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
+                <li><a class="dropdown-item" href="logout.php">Keluar</a></li>
             </ul>
         </div>
     </nav>
@@ -159,9 +154,9 @@ $categories = getAllCategories();
     <div class="main-content">
         <div class="container-fluid p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3 mb-0">Categories</h1>
+                <h1 class="h3 mb-0">Kategori</h1>
                 <a href="?action=add" class="btn btn-primary">
-                    <i class="fas fa-plus me-2"></i>Add New Category
+                    <i class="fas fa-plus me-2"></i>Tambah Kategori Baru
                 </a>
             </div>
 
@@ -176,7 +171,7 @@ $categories = getAllCategories();
                 <!-- Categories List -->
                 <div class="card shadow">
                     <div class="card-header">
-                        <h5 class="mb-0">All Categories</h5>
+                        <h5 class="mb-0">Semua Kategori</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -184,10 +179,10 @@ $categories = getAllCategories();
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
+                                        <th>Nama</th>
                                         <th>Slug</th>
-                                        <th>Description</th>
-                                        <th>Actions</th>
+                                        <th>Deskripsi</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -201,7 +196,7 @@ $categories = getAllCategories();
                                             <a href="?action=edit&id=<?php echo $category['id']; ?>" class="btn btn-sm btn-warning">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a href="?delete=<?php echo $category['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                            <a href="?delete=<?php echo $category['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin?')">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>

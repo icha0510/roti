@@ -166,11 +166,11 @@ if ($_POST && isset($_POST['place_order'])) {
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="favicon.png" rel="icon">
+    <link rel="icon" href="images/logo-rotio.png" type="image/x-icon">
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>Checkout - Bready</title>
+    <title>Checkout - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -182,6 +182,96 @@ if ($_POST && isset($_POST['place_order'])) {
     <link rel="stylesheet" href="plugins/slick/slick/slick.css">
     <link rel="stylesheet" href="plugins/lightGallery-master/dist/css/lightgallery.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Custom styling untuk checkout order */
+        .ps-form__orders {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ps-form__orders::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(230, 126, 34, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .ps-product--cart:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-left-color: #f39c12;
+        }
+        
+        .ps-product--cart {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ps-product--cart::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .ps-product--cart:hover::after {
+            left: 100%;
+        }
+        
+        .ps-btn--yellow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4);
+        }
+        
+        .ps-link:hover {
+            color: #e67e22 !important;
+        }
+        
+        /* Custom scrollbar */
+        .ps-block--checkout-orders::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .ps-block--checkout-orders::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .ps-block--checkout-orders::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #e67e22, #f39c12);
+            border-radius: 3px;
+        }
+        
+        .ps-block--checkout-orders::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #d35400, #e67e22);
+        }
+        
+        /* Pulse animation untuk total */
+        .ps-block__footer {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(52, 73, 94, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(52, 73, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 73, 94, 0); }
+        }
+    </style>
     <style>
       /* Custom CSS untuk TikTok icon */
       .fa-tiktok:before {
@@ -243,40 +333,40 @@ if ($_POST && isset($_POST['place_order'])) {
           </a>
         </div>
 
-        <!-- Navigation Menu -->
-        <div class="header-nav">
-          <ul class="menu">
-            <li class="menu-item-has-children">
-              <a href="index.php">Homepage</a>
-            </li>
-            <li>
-              <a href="about.php">About</a>
-            </li>
-            <li class="menu-item-has-children">
-              <a href="#">Product</a>
-              <span class="sub-toggle">
-                <i class="fa fa-angle-down"></i>
-              </span>
-              <ul class="sub-menu">
-                <li><a href="product-listing.php">Product List</a></li>
-                <li><a href="order-form.php">Order Form</a></li>
+                    <!-- Navigation Menu -->
+            <div class="header-nav">
+              <ul class="menu">
+                <li class="menu-item-has-children">
+                  <a href="index.php">Beranda</a>
+                </li>
+                <li>
+                  <a href="about.php">Tentang</a>
+                </li>
+                <li class="menu-item-has-children">
+                  <a href="#">Produk</a>
+                  <span class="sub-toggle">
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <ul class="sub-menu">
+                    <li><a href="product-listing.php">Daftar Produk</a></li>
+                    <li><a href="order-form.php">Formulir Pesanan</a></li>
+                  </ul>
+                </li>   
+                <li class="menu-item-has-children">
+                  <a href="#">Lainnya</a>
+                  <span class="sub-toggle">
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <ul class="sub-menu">
+                    <li><a href="blog-grid.php">Blog</a></li>
+                    <li><a href="store.php">Toko Kami</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="contact.php">Hubungi Kami</a>
+                </li>
               </ul>
-            </li>   
-            <li class="menu-item-has-children">
-              <a href="#">Others</a>
-              <span class="sub-toggle">
-                <i class="fa fa-angle-down"></i>
-              </span>
-              <ul class="sub-menu">
-                <li><a href="blog-grid.php">Blog</a></li>
-                <li><a href="store.php">Our Stores</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="contact.php">Contact Us</a>
-            </li>
-          </ul>
-        </div>
+            </div>
 
         <!-- Mobile Menu Toggle -->
         <div class="menu-toggle">
@@ -294,20 +384,20 @@ if ($_POST && isset($_POST['place_order'])) {
                   <i class="ba-profile"></i>
                   <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
                 </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a href="logo-orders.php">My Orders</a>
-                  </li>
-                  <li>
-                    <a href="profile.php">Profile</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li>
-                    <a href="logout.php">Logout</a>
-                  </li>
-                </ul>
+                                    <ul class="dropdown-menu">
+                      <li>
+                        <a href="logo-orders.php">Pesanan Saya</a>
+                      </li>
+                      <li>
+                        <a href="profile.php">Profil</a>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li>
+                        <a href="logout.php">Keluar</a>
+                      </li>
+                    </ul>
               </div>
             <?php else: ?>
               <a href="login.php">
@@ -345,28 +435,28 @@ if ($_POST && isset($_POST['place_order'])) {
                             <?php echo $item['name']; ?>
                           </a>
                           <p>
-                            <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
-                            <span>Total:<i>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></i></span>
+                            <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
+                            <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                           </p>
                         </div>
                       </div>
                     <?php endif; endforeach; ?>
                   <?php else: ?>
-                    <div class="ps-cart-item">
-                      <div class="ps-cart-item__content">
-                        <p>Your cart is empty</p>
-                      </div>
-                    </div>
+                                            <div class="ps-cart-item">
+                          <div class="ps-cart-item__content">
+                            <p>Keranjang belanja Anda kosong</p>
+                          </div>
+                        </div>
                   <?php endif; ?>
                 </div>
                 
                 <div class="ps-cart__total">
-                  <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                  <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                  <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                  <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                 </div>
                 
                 <div class="ps-cart__footer">
-                  <a href="cart.php">Check out</a>
+                  <a href="cart.php">Checkout</a>
                 </div>
               </div>
             </div>
@@ -384,8 +474,8 @@ if ($_POST && isset($_POST['place_order'])) {
             <h1>Checkout</h1>
             <div class="ps-breadcrumb">
                 <ol class="breadcrumb">
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="cart.php">Cart</a></li>
+                    <li><a href="index.php">Beranda</a></li>
+                    <li><a href="cart.php">Keranjang</a></li>
                     <li class="active">Checkout</li>
                 </ol>
             </div>
@@ -454,40 +544,53 @@ if ($_POST && isset($_POST['place_order'])) {
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="ps-form__orders">
-                                    <h3>Your Order</h3>
-                                    <div class="ps-block--checkout-orders">
+                                <div class="ps-form__orders" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #dee2e6;">
+                                    <h3 style="color: #2c3e50; font-weight: 700; margin-bottom: 25px; text-align: center; position: relative;">
+                                        <i class="fa fa-shopping-bag" style="margin-right: 10px; color: #e67e22;"></i>
+                                        Pesanan Anda
+                                        <div style="position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: linear-gradient(90deg, #e67e22, #f39c12); border-radius: 2px;"></div>
+                                    </h3>
+                                    <div class="ps-block--checkout-orders" style="max-height: 400px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #e67e22 #f8f9fa;">
                                         <div class="ps-block__content">
                                             <?php foreach ($_SESSION['cart'] as $item): ?>
-                                                <div class="ps-product--cart">
-                                                    <div class="ps-product__thumbnail">
+                                                <div class="ps-product--cart" style="background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: all 0.3s ease; border-left: 4px solid #e67e22;">
+                                                    <div class="ps-product__thumbnail" style="float: left; margin-right: 15px;">
                                                         <?php if (!empty($item['image_data'])): ?>
                                                             <?php echo displayImage($item['image_data'], $item['image_mime'], 'checkout-item-image', $item['name']); ?>
                                                         <?php else: ?>
-                                                            <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>" class="checkout-item-image">
+                                                            <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>" class="checkout-item-image" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
                                                         <?php endif; ?>
                                                     </div>
-                                                    <div class="ps-product__content">
-                                                        <a class="ps-product__title" href="product-detail.php?id=<?php echo $item['id']; ?>">
+                                                    <div class="ps-product__content" style="overflow: hidden;">
+                                                        <a class="ps-product__title" href="product-detail.php?id=<?php echo $item['id']; ?>" style="color: #2c3e50; font-weight: 600; text-decoration: none; display: block; margin-bottom: 5px; font-size: 14px;">
                                                             <?php echo htmlspecialchars($item['name']); ?>
                                                         </a>
-                                                        <p><span>Quantity:<i><?php echo $item['quantity']; ?></i></span></p>
+                                                        <p style="margin: 0; color: #6c757d; font-size: 12px;">
+                                                            <span>Jumlah: <i style="color: #e67e22; font-weight: 600;"><?php echo $item['quantity']; ?></i></span>
+                                                        </p>
                                                     </div>
-                                                    <div class="ps-product__price">
-                                                        $<?php echo number_format($item['price'] * $item['quantity'], 2); ?>
+                                                    <div class="ps-product__price" style="float: right; color: #e67e22; font-weight: 700; font-size: 16px; margin-top: 5px;">
+                                                        Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?>
                                                     </div>
+                                                    <div style="clear: both;"></div>
                                                 </div>
                                             <?php endforeach; ?>
                                         </div>
-                                        <div class="ps-block__footer">
-                                            <h3>Total <span>Rp <?php echo number_format($cart_total, 3); ?></span></h3>
+                                        <div class="ps-block__footer" style="background: linear-gradient(135deg, #2c3e50, #34495e); border-radius: 10px; padding: 20px; margin-top: 20px; text-align: center;">
+                                            <h3 style="color: white; margin: 0; font-size: 18px;">
+                                                Total <span style="color: #f39c12; font-weight: 700; font-size: 24px;">Rp <?php echo number_format($cart_total, 3); ?></span>
+                                            </h3>
                                         </div>
                                     </div>
-                                    <div class="ps-form__footer">
-                                        <button type="submit" name="place_order" class="ps-btn ps-btn--yellow ps-btn--fullwidth">
+                                    <div class="ps-form__footer" style="margin-top: 25px;">
+                                        <button type="submit" name="place_order" class="ps-btn ps-btn--yellow ps-btn--fullwidth" style="background: linear-gradient(135deg, #e67e22, #f39c12); border: none; border-radius: 25px; padding: 15px; font-weight: 600; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3); transition: all 0.3s ease;">
+                                            <i class="fa fa-check-circle" style="margin-right: 8px;"></i>
                                             Kirim Pesanan
                                         </button>
-                                        <a class="ps-link" href="cart.php">Back to Cart</a>
+                                        <a class="ps-link" href="cart.php" style="display: block; text-align: center; margin-top: 15px; color: #6c757d; text-decoration: none; font-weight: 500; transition: color 0.3s ease;">
+                                            <i class="fa fa-arrow-left" style="margin-right: 5px;"></i>
+                                            Kembali ke Keranjang
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -505,29 +608,29 @@ if ($_POST && isset($_POST['place_order'])) {
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
                     <div class="ps-block--iconbox">
                         <i class="ba-delivery-truck-2"></i>
-                        <h4>Free Shipping <span> On Order Over$199</h4>
-                        <p>Want to track a package? Find tracking information and order details from Your Orders.</p>
+                        <h4>Pengiriman Gratis <span> Untuk Pesanan Di Atas Rp199.000</h4>
+                        <p>Ingin melacak paket? Temukan informasi pelacakan dan detail pesanan dari Pesanan Saya.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
                     <div class="ps-block--iconbox">
                         <i class="ba-biscuit-1"></i>
-                        <h4>Master Chef<span> WITH PASSION</h4>
-                        <p>Shop zillions of finds, with new arrivals added daily.</p>
+                        <h4>Koki Master<span> DENGAN PASSION</h4>
+                        <p>Belanja ribuan temuan, dengan kedatangan baru ditambahkan setiap hari.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
                     <div class="ps-block--iconbox">
                         <i class="ba-flour"></i>
-                        <h4>Natural Materials<span> protect your family</h4>
-                        <p>We always ensure the safety of all products of store</p>
+                        <h4>Bahan Alami<span> melindungi keluarga Anda</h4>
+                        <p>Kami selalu memastikan keamanan semua produk toko</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
                     <div class="ps-block--iconbox">
                         <i class="ba-cake-3"></i>
-                        <h4>Attractive Flavor <span>ALWAYS LISTEN</span></h4>
-                        <p>We offer a 24/7 customer hotline so you're never alone if you have a question.</p>
+                        <h4>Rasa Menarik <span>SELALU MENDENGARKAN</span></h4>
+                        <p>Kami menawarkan hotline pelanggan 24/7 sehingga Anda tidak pernah sendirian jika memiliki pertanyaan.</p>
                     </div>
                 </div>
             </div>

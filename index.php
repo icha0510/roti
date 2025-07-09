@@ -22,9 +22,6 @@ $posts = getAllPosts(3);
 $categories = getAllCategories();
 ?>
 <!DOCTYPE html>
-<!--[if IE 7]><html class="ie ie7"><![endif]-->
-<!--[if IE 8]><html class="ie ie8"><![endif]-->
-<!--[if IE 9]><html class="ie ie9"><![endif]-->
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -85,33 +82,33 @@ $categories = getAllCategories();
         <div class="header-nav">
           <ul class="menu">
             <li class="menu-item-has-children current-menu-item">
-              <a href="index.php">Homepage</a>
+              <a href="index.php">Beranda</a>
             </li>
             <li>
-              <a href="about.php">About</a>
+              <a href="about.php">Tentang</a>
             </li>
             <li class="menu-item-has-children">
-              <a href="#">Product</a>
+              <a href="#">Produk</a>
               <span class="sub-toggle">
                 <i class="fa fa-angle-down"></i>
               </span>
               <ul class="sub-menu">
-                <li><a href="product-listing.php">Product List</a></li>
-                <li><a href="order-form.php">Order Form</a></li>
+                <li><a href="product-listing.php">Daftar Produk</a></li>
+                <li><a href="order-form.php">Formulir Pesanan</a></li>
               </ul>
             </li>   
             <li class="menu-item-has-children">
-              <a href="#">Others</a>
+              <a href="#">Lainnya</a>
               <span class="sub-toggle">
                 <i class="fa fa-angle-down"></i>
               </span>
               <ul class="sub-menu">
                 <li><a href="blog-grid.php">Blog</a></li>
-                <li><a href="store.php">Our Stores</a></li>
+                <li><a href="store.php">Toko Kami</a></li>
               </ul>
             </li>
             <li>
-              <a href="contact.php">Contact Us</a>
+              <a href="contact.php">Hubungi Kami</a>
             </li>
           </ul>
         </div>
@@ -134,16 +131,16 @@ $categories = getAllCategories();
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a href="logo-orders.php">My Orders</a>
+                    <a href="logo-orders.php">Pesanan Saya</a>
                   </li>
                   <li>
-                    <a href="profile.php">Profile</a>
+                    <a href="profile.php">Profil</a>
                   </li>
                   <li>
                     <hr class="dropdown-divider">
                   </li>
                   <li>
-                    <a href="logout.php">Logout</a>
+                    <a href="logout.php">Keluar</a>
                   </li>
                 </ul>
               </div>
@@ -183,7 +180,7 @@ $categories = getAllCategories();
                             <?php echo $item['name']; ?>
                           </a>
                           <p>
-                            <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                            <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
                             <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                           </p>
                         </div>
@@ -192,19 +189,19 @@ $categories = getAllCategories();
                   <?php else: ?>
                     <div class="ps-cart-item">
                       <div class="ps-cart-item__content">
-                        <p>Your cart is empty</p>
+                        <p>Keranjang belanja Anda kosong</p>
                       </div>
                     </div>
                   <?php endif; ?>
                 </div>
                 
                 <div class="ps-cart__total">
-                  <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                  <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                  <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                  <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                 </div>
                 
                 <div class="ps-cart__footer">
-                  <a href="cart.php">Check out</a>
+                  <a href="cart.php">Checkout</a>
                 </div>
               </div>
             </div>
@@ -233,7 +230,7 @@ $categories = getAllCategories();
               <img src="<?php echo $banner['image']; ?>" alt="<?php echo $banner['title']; ?>">
             <?php endif; ?>
             <div class="ps-product__footer">
-              <a class="ps-btn" href="order-form.php">Order Now</a>
+              <a class="ps-btn" href="order-form.php">Pesan Sekarang</a>
             </div>
           </div>
         </div>
@@ -244,8 +241,8 @@ $categories = getAllCategories();
     <div class="ps-home-product bg--cover" data-background="images/bg/home-product.jpg">
       <div class="ps-container">
         <div class="ps-section__header">
-          <h3 class="ps-section__title">Deal of the day</h3>
-          <p>breads every day</p><span><img src="images/icons/floral.png" alt=""></span>
+          <h3 class="ps-section__title">Menu Hari Ini</h3>
+          <p>Roti'o setiap hari</p><span><img src="images/icons/floral.png" alt=""></span>
         </div>
         <div class="ps-section__content">
           <div class="row">
@@ -284,9 +281,9 @@ $categories = getAllCategories();
     <div class="ps-home-blog">
       <div class="ps-container">
         <div class="ps-section__header">
-          <h3 class="ps-section__title">Our history</h3>
-          <p>Live with passion</p><span><img src="images/icons/floral.png" alt=""></span>
-          
+          <h3 class="ps-section__title">Blog Kami</h3>
+          <!-- <p>Live with passion</p>
+          <span><img src="images/icons/floral.png" alt=""></span>   -->
         </div>
         
         <div class="ps-section__content">
@@ -305,9 +302,9 @@ $categories = getAllCategories();
                 <div class="ps-post__content">
                   <span class="ps-post__posted"><?php echo date('F j, Y', strtotime($post['created_at'])); ?></span>
                   <a class="ps-post__title" href="blog-detail.php?id=<?php echo $post['id']; ?>"><?php echo $post['title']; ?></a>
-                  <span class="ps-post__byline">By<a href="#"> <?php echo $post['author']; ?></a></span>
+                  <span class="ps-post__byline">Oleh<a href="#"> <?php echo $post['author']; ?></a></span>
                   <p><?php echo $post['excerpt']; ?></p>
-                  <a class="ps-post__morelink" href="blog-detail.php?id=<?php echo $post['id']; ?>">Read more</a>
+                  <a class="ps-post__morelink" href="blog-detail.php?id=<?php echo $post['id']; ?>">Baca selengkapnya</a>
                 </div>
               </div>
             </div>

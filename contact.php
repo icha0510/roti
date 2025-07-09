@@ -31,7 +31,7 @@ foreach ($_SESSION['cart'] as $item) {
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>Contact Us - Roti'O</title>
+    <title>Hubungi Kami - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
@@ -97,33 +97,33 @@ foreach ($_SESSION['cart'] as $item) {
             <div class="header-nav">
               <ul class="menu">
                 <li class="menu-item-has-children">
-                  <a href="index.php">Homepage</a>
+                  <a href="index.php">Beranda</a>
                 </li>
                 <li>
-                  <a href="about.php">About</a>
+                  <a href="about.php">Tentang</a>
                 </li>
                 <li class="menu-item-has-children">
-                  <a href="#">Product</a>
+                  <a href="#">Produk</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
-                    <li><a href="product-listing.php">Product List</a></li>
-                    <li><a href="order-form.php">Order Form</a></li>
+                    <li><a href="product-listing.php">Daftar Produk</a></li>
+                    <li><a href="order-form.php">Formulir Pesanan</a></li>
                   </ul>
                 </li>
                 <li class="menu-item-has-children">
-                  <a href="#">Others</a>
+                  <a href="#">Lainnya</a>
                   <span class="sub-toggle">
                     <i class="fa fa-angle-down"></i>
                   </span>
                   <ul class="sub-menu">
                     <li><a href="blog-grid.php">Blog</a></li>
-                    <li><a href="store.php">Our Stores</a></li>
+                    <li><a href="store.php">Toko Kami</a></li>
                   </ul>
                 </li>
                 <li>
-                  <a href="contact.php">Contact Us</a>
+                  <a href="contact.php">Hubungi Kami</a>
                 </li>
               </ul>
             </div>
@@ -143,16 +143,16 @@ foreach ($_SESSION['cart'] as $item) {
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="logo-orders.php">My Orders</a>
+                        <a href="logo-orders.php">Pesanan Saya</a>
                       </li>
                       <li>
-                        <a href="profile.php">Profile</a>
+                        <a href="profile.php">Profil</a>
                       </li>
                       <li>
                         <hr class="dropdown-divider">
                       </li>
                       <li>
-                        <a href="logout.php">Logout</a>
+                        <a href="logout.php">Keluar</a>
                       </li>
                     </ul>
                   </div>
@@ -190,7 +190,7 @@ foreach ($_SESSION['cart'] as $item) {
                                 <?php echo $item['name']; ?>
                               </a>
                               <p>
-                                <span>Quantity:<i><?php echo $item['quantity']; ?></i></span>
+                                <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
                                 <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
                               </p>
                             </div>
@@ -199,17 +199,17 @@ foreach ($_SESSION['cart'] as $item) {
                       <?php else: ?>
                         <div class="ps-cart-item">
                           <div class="ps-cart-item__content">
-                            <p>Your cart is empty</p>
+                            <p>Keranjang belanja Anda kosong</p>
                           </div>
                         </div>
                       <?php endif; ?>
                     </div>
                     <div class="ps-cart__total">
-                      <p>Number of items:<span><?php echo $cart_count; ?></span></p>
-                      <p>Item Total:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+                      <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                      <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
                     </div>
                     <div class="ps-cart__footer">
-                      <a href="cart.php">Check out</a>
+                      <a href="cart.php">Checkout</a>
                     </div>
                   </div>
                 </div>
@@ -221,11 +221,11 @@ foreach ($_SESSION['cart'] as $item) {
     </header>
     <div class="ps-hero bg--cover" data-background="images/hero/contact.jpg">
       <div class="ps-hero__content">
-        <h1>Contact Us</h1>
+        <h1>Hubungi Kami</h1>
         <div class="ps-breadcrumb">
           <ol class="breadcrumb">
-            <li><a href="index.php">Home</a></li>
-            <li class="active">Contact Us</li>
+            <li><a href="index.php">Beranda</a></li>
+            <li class="active">Hubungi Kami</li>
           </ol>
         </div>
       </div>
@@ -241,7 +241,7 @@ foreach ($_SESSION['cart'] as $item) {
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                   <div class="form-group">
-                    <label>Name <sup>*</sup></label>
+                    <label>Nama <sup>*</sup></label>
                     <input class="form-control" type="text" placeholder="">
                   </div>
                 </div>
@@ -253,11 +253,11 @@ foreach ($_SESSION['cart'] as $item) {
                 </div>
               </div>
               <div class="form-group">
-                <label>Your Message <sup>*</sup></label>
+                <label>Pesan Anda <sup>*</sup></label>
                 <textarea class="form-control" rows="7"></textarea>
               </div>
               <div class="form-group submit">
-                <button class="ps-btn ps-btn--yellow">Submit</button>
+                <button class="ps-btn ps-btn--yellow">Kirim</button>
               </div>
             </form>
           </div>
@@ -266,7 +266,7 @@ foreach ($_SESSION['cart'] as $item) {
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                   <div class="ps-block--contact-2">
-                    <h3>OFFICE AT JAKARTA</h3>
+                    <h3>KANTOR DI JAKARTA</h3>
                     <h4>PT. Sebastian Citra Indonesia</h4>
                     <p>Jl. Semanan Raya No.27, RT.4/RW.8, Semanan, Kec. Kalideres, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11850</p>
                     <p><i class="fa fa-envelope-o"></i><a href="#">hello@example.com</a></p>
@@ -291,7 +291,7 @@ foreach ($_SESSION['cart'] as $item) {
                 </div> -->
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                   <div class="ps-block--contact-2">
-                    <h3>FOLLOW US</h3>
+                    <h3>IKUTI KAMI</h3>
                     <ul class="ps-list--social ps-list--social-simple">
                       <li><a href="https://www.facebook.com/share/19g2Ds4bML/"><i class="fa fa-facebook"></i></a></li>
                       <li><a href="https://www.instagram.com/rotio.indonesia?igsh=N2NqdTIwcWFoc2h5"><i class="fa fa-instagram"></i></a></li>
@@ -309,26 +309,26 @@ foreach ($_SESSION['cart'] as $item) {
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-delivery-truck-2"></i>
-              <h4>Free Shipping <span> On Order Over$199</h4>
-              <p>Want to track a package? Find tracking information and order details from Your Orders.</p>
+              <h4>Pengiriman Gratis <span>Untuk Pesanan Di Atas Rp199.000</span></h4>
+              <p>Ingin melacak paket? Temukan informasi pelacakan dan detail pesanan dari Pesanan Anda.</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-biscuit-1"></i>
-              <h4>Master Chef<span> WITH PASSION</h4>
-              <p>Shop zillions of finds, with new arrivals added daily.</p>
+              <h4>Koki Master<span> DENGAN PASSION</span></h4>
+              <p>Belanja ribuan produk, dengan kedatangan baru ditambahkan setiap hari.</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-flour"></i>
-              <h4>Natural Materials<span> protect your family</h4>
-              <p>We always ensure the safety of all products of store</p>
+              <h4>Bahan Alami<span> melindungi keluarga Anda</span></h4>
+              <p>Kami selalu memastikan keamanan semua produk toko</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-cake-3"></i>
-              <h4>Attractive Flavor <span>ALWAYS LISTEN</span></h4>
-              <p>We offer a 24/7 customer hotline so you're never alone if you have a question.</p>
+              <h4>Rasa Menarik <span>SELALU MENDENGARKAN</span></h4>
+              <p>Kami menawarkan hotline pelanggan 24/7 sehingga Anda tidak pernah sendirian jika memiliki pertanyaan.</p>
             </div>
           </div>
         </div>
@@ -426,7 +426,7 @@ foreach ($_SESSION['cart'] as $item) {
                 
                 // Disable button
                 newsletterBtn.disabled = true;
-                newsletterBtn.textContent = 'Subscribing...';
+                newsletterBtn.textContent = 'Berlangganan...';
                 
                 // Send AJAX request
                 const formData = new FormData();
@@ -452,7 +452,7 @@ foreach ($_SESSION['cart'] as $item) {
                 .finally(() => {
                     // Re-enable button
                     newsletterBtn.disabled = false;
-                    newsletterBtn.textContent = 'Subscribe';
+                    newsletterBtn.textContent = 'Berlangganan';
                 });
             });
         }

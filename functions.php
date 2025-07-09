@@ -86,22 +86,7 @@ function getAllBanners() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Fungsi untuk mengambil semua testimonial
-function getAllTestimonials($limit = null) {
-    $database = new Database();
-    $db = $database->getConnection();
-    
-    $sql = "SELECT * FROM testimonials WHERE is_active = 1 ORDER BY created_at DESC";
-    
-    if ($limit) {
-        $sql .= " LIMIT " . $limit;
-    }
-    
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-    
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+
 
 // Fungsi untuk mengambil semua posts
 function getAllPosts($limit = 3) {
