@@ -23,7 +23,7 @@ try {
         }
         
         // Validasi status yang diizinkan
-        $allowed_statuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+        $allowed_statuses = ['pending', 'processing', 'shipped', 'completed', 'cancelled'];
         if (!in_array($status, $allowed_statuses)) {
             echo json_encode([
                 'success' => false,

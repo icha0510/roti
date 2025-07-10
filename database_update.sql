@@ -52,6 +52,16 @@ CREATE TABLE `order_items` (
   CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Rename kolom customer_address menjadi nomor_meja di tabel orders
+ALTER TABLE orders CHANGE customer_address nomor_meja VARCHAR(10) NOT NULL;
+
+-- Buat tabel tables untuk daftar meja
+CREATE TABLE IF NOT EXISTS tables (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    kode_meja VARCHAR(10) NOT NULL UNIQUE,
+    status ENUM('aktif', 'nonaktif') NOT NULL DEFAULT 'aktif'
+);
+
 -- Step 3: Insert sample data
 INSERT INTO `orders` (`order_number`, `customer_name`, `customer_email`, `customer_phone`, `customer_address`, `status`, `total_amount`, `notes`) VALUES
 ('ORD-2024-001', 'John Doe', 'john@example.com', '+1234567890', '123 Main St, City, Country', 'pending', 45.98, 'Please deliver in the morning'),

@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status'])) {
     $desc = $_POST['description'] ?? '';
     
     // Validasi status yang diizinkan
-    $allowed_statuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+    $allowed_statuses = ['pending', 'processing', 'shipped', 'completed', 'cancelled'];
     if (!in_array($status, $allowed_statuses)) {
         $error = "Status tidak valid. Status yang diizinkan: " . implode(', ', $allowed_statuses);
     } else {
@@ -85,7 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status'])) {
     }
 }
 
-// Ambil riwayat tracking
 $stmt = $db->prepare("SELECT * FROM order_tracking WHERE order_id = :order_id ORDER BY created_at DESC");
 $stmt->bindParam(':order_id', $order_id);
 $stmt->execute();
@@ -93,11 +92,22 @@ $trackings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 function status_badge($status) {
     $badge = 'badge-pending';
-    if ($status == 'delivered') $badge = 'badge-success';
+    if ($status == 'completed') $badge = 'badge-success';
     if ($status == 'cancelled') $badge = 'badge-cancel';
     if ($status == 'processing') $badge = 'badge-process';
     if ($status == 'shipped') $badge = 'badge-shipped';
-    return '<span class="badge '.$badge.'">'.ucfirst($status).'</span>';
+    
+    // Mapping status ke bahasa Indonesia
+    $status_labels = [
+        'pending' => 'Pesanan Masuk',
+        'processing' => 'Pesanan Diproses',
+        'shipped' => 'Pesanan Dikirim',
+        'completed' => 'Pesanan Selesai',
+        'cancelled' => 'Pesanan Dibatalkan'
+    ];
+    
+    $label = $status_labels[$status] ?? ucfirst($status);
+    return '<span class="badge '.$badge.'">'.$label.'</span>';
 }
 
 if (!$isAjax) {
@@ -736,7 +746,7 @@ if (!$isAjax) {
     <p><strong>Nama:</strong> <?php echo htmlspecialchars($order['customer_name']); ?></p>
     <p><strong>Email:</strong> <?php echo htmlspecialchars($order['customer_email']); ?></p>
     <p><strong>Telepon:</strong> <?php echo htmlspecialchars($order['customer_phone']); ?></p>
-    <p><strong>Alamat:</strong> <?php echo htmlspecialchars($order['customer_address']); ?></p>
+    <p><strong>Nomor Meja:</strong> <?php echo htmlspecialchars($order['nomor_meja']); ?></p>
     
     <?php if ($order['user_name']): ?>
         <h4>🔐 Informasi User Account</h4>
@@ -764,8 +774,8 @@ if (!$isAjax) {
                     <tr>
                         <td><?php echo htmlspecialchars($item['product_name']); ?></td>
                         <td style="text-align: center;"><?php echo htmlspecialchars($item['quantity']); ?></td>
-                        <td style="text-align: right;">Rp<?php echo number_format($item['price'], 2); ?></td>
-                        <td style="text-align: right;">Rp<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
+                        <td style="text-align: right;">Rp<?php echo number_format($item['price'], 3); ?></td>
+                        <td style="text-align: right;">Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -780,7 +790,7 @@ if (!$isAjax) {
     <div class="info-grid">
         <div class="info-card">
             <h5>Total Order</h5>
-            <p>Rp<?php echo number_format($order['total_amount'], 2); ?></p>
+            <p>Rp<?php echo number_format($order['total_amount'], 3); ?></p>
         </div>
         <div class="info-card">
             <h5>Tanggal Order</h5>
@@ -816,6 +826,28 @@ if (!$isAjax) {
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
+
+<div class="status-update-form">
+    <h3>🔄 Update Status Order</h3>
+    <form method="POST">
+        <div class="form-group">
+            <label>Status:</label>
+            <select name="status" required>
+                <option value="">-- Pilih Status --</option>
+                <option value="pending">Pesanan Masuk</option>
+                <option value="processing">Pesanan Diproses</option>
+                <option value="shipped">Pesanan Dikirim</option>
+                <option value="completed">Pesanan Selesai</option>
+                <option value="cancelled">Pesanan Dibatalkan</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Deskripsi (opsional):</label>
+            <textarea name="description" placeholder="Tambahkan catatan untuk status ini..."></textarea>
+        </div>
+        <button type="submit">Update Status</button>
+    </form>
+</div>
 
 <a href="orders.php" class="back-link">← Kembali ke Daftar Order</a>
 

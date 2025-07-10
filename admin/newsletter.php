@@ -97,6 +97,12 @@ $subscribers = getAllNewsletterSubscribers();
                 </a>
             </li>
             <li>
+                <a href="tables.php" class="nav-link text-white">
+                    <i class="fas fa-chair me-2"></i>
+                    Manajemen Meja
+                </a>
+            </li>
+            <li>
                 <a href="register.php" class="nav-link text-white">
                     <i class="fas fa-user-plus me-2"></i>
                     Tambah Admin

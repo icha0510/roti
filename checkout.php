@@ -41,6 +41,11 @@ foreach ($_SESSION['cart'] as $item) {
     $cart_count += $item['quantity'];
 }
 
+// Ambil daftar meja aktif dan tidak terisi
+$meja_stmt = $db->prepare('SELECT t.kode_meja FROM tables t WHERE t.status = "aktif" AND t.kode_meja NOT IN (SELECT nomor_meja FROM orders WHERE status NOT IN ("completed", "cancelled")) ORDER BY t.kode_meja ASC');
+$meja_stmt->execute();
+$meja_tersedia = $meja_stmt->fetchAll(PDO::FETCH_COLUMN);
+
 // Initialize variables for form data
 $order_data = array();
 $errors = array();
@@ -50,7 +55,7 @@ if ($_POST && isset($_POST['place_order'])) {
     $customer_name = trim($_POST['customer_name']);
     $customer_email = trim($_POST['customer_email']);
     $customer_phone = trim($_POST['customer_phone']);
-    $customer_address = trim($_POST['customer_address']);
+    $nomor_meja = trim($_POST['nomor_meja']);
     $notes = trim($_POST['notes'] ?? '');
     $user_id = $_SESSION['user_id'];
     
@@ -59,7 +64,7 @@ if ($_POST && isset($_POST['place_order'])) {
         'customer_name' => $customer_name,
         'customer_email' => $customer_email,
         'customer_phone' => $customer_phone,
-        'customer_address' => $customer_address,
+        'nomor_meja' => $nomor_meja,
         'notes' => $notes
     );
     
@@ -68,7 +73,19 @@ if ($_POST && isset($_POST['place_order'])) {
     if (empty($customer_email)) $errors[] = "Email wajib diisi";
     if (!filter_var($customer_email, FILTER_VALIDATE_EMAIL)) $errors[] = "Format email tidak valid";
     if (empty($customer_phone)) $errors[] = "Nomor telepon wajib diisi";
-    if (empty($customer_address)) $errors[] = "Alamat wajib diisi";
+    if (empty($nomor_meja)) $errors[] = "Nomor meja wajib dipilih";
+    // Validasi meja tersedia
+    $cek_meja = $db->prepare('SELECT COUNT(*) FROM tables t WHERE t.kode_meja = ? AND t.status = "aktif"');
+    $cek_meja->execute([$nomor_meja]);
+    if ($cek_meja->fetchColumn() == 0) {
+        $errors[] = "Nomor meja tidak tersedia.";
+    } else {
+        $cek_isi = $db->prepare('SELECT COUNT(*) FROM orders WHERE nomor_meja = ? AND status NOT IN ("completed", "cancelled")');
+        $cek_isi->execute([$nomor_meja]);
+        if ($cek_isi->fetchColumn() > 0) {
+            $errors[] = "Meja sudah terisi, silakan pilih meja lain.";
+        }
+    }
     
     // Validate cart items
     if (empty($_SESSION['cart'])) {
@@ -85,7 +102,7 @@ if ($_POST && isset($_POST['place_order'])) {
             // Insert order
             $stmt = $db->prepare("
                 INSERT INTO orders (
-                    order_number, user_id, customer_name, customer_email, customer_phone, customer_address,
+                    order_number, user_id, customer_name, customer_email, customer_phone, nomor_meja,
                     notes, total_amount, status, created_at
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())
             ");
@@ -96,7 +113,7 @@ if ($_POST && isset($_POST['place_order'])) {
                 $customer_name,
                 $customer_email,
                 $customer_phone,
-                $customer_address,
+                $nomor_meja,
                 $notes,
                 $cart_total
             ]);
@@ -139,7 +156,8 @@ if ($_POST && isset($_POST['place_order'])) {
                 'order_id' => $order_id,
                 'order_number' => $order_number,
                 'customer_name' => $customer_name,
-                'total_amount' => $cart_total
+                'total_amount' => $cart_total,
+                'nomor_meja' => $nomor_meja
             ];
             
             // Redirect to success page
@@ -522,9 +540,13 @@ if ($_POST && isset($_POST['place_order'])) {
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
-                                                <label>Alamat Lengkap <sup>*</sup></label>
-                                                <input class="form-control" type="text" name="customer_address" placeholder="Masukkan alamat lengkap" 
-                                                       value="<?php echo isset($order_data['customer_address']) ? htmlspecialchars($order_data['customer_address']) : htmlspecialchars($user['address'] ?? ''); ?>" required>
+                                                <label>Nomor Meja <sup>*</sup></label>
+                                                <select class="form-control" name="nomor_meja" required>
+                                                    <option value="">-- Pilih Nomor Meja --</option>
+                                                    <?php foreach ($meja_tersedia as $meja): ?>
+                                                        <option value="<?php echo htmlspecialchars($meja); ?>" <?php echo (isset($order_data['nomor_meja']) && $order_data['nomor_meja'] == $meja) ? 'selected' : ''; ?>><?php echo htmlspecialchars($meja); ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">

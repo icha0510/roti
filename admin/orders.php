@@ -425,11 +425,12 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <?php echo htmlspecialchars($order['user_name']); ?>
                                     <div class="user-info"><?php echo htmlspecialchars($order['user_email']); ?></div>
                                 <?php else: ?>
-                                    <em>Guest</em>
+                                    <em>Tamu</em>
                                 <?php endif; ?>
                             </td>
                             <td>
                                 <?php
+                                    // Perbaiki status default
                                     $status = $order['last_status'];
                                     if (!$status) {
                                         $status = $order['status'] ?? 'pending';
@@ -437,45 +438,41 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     
                                     // Mapping status yang benar sesuai enum database
                                     $badge = 'badge-pending';
-                                    $display_status = 'Pending';
+                                    $display_status = 'Pesanan Masuk';
                                     
                                     switch ($status) {
                                         case 'processing':
                                             $badge = 'badge-processing';
-                                            $display_status = 'Processing';
+                                            $display_status = 'Pesanan Diproses';
                                             break;
                                         case 'shipped':
                                             $badge = 'badge-shipped';
-                                            $display_status = 'Shipped';
+                                            $display_status = 'Pesanan Dikirim';
                                             break;
-                                        case 'delivered':
+                                        case 'completed':
                                             $badge = 'badge-delivered';
-                                            $display_status = 'Delivered';
+                                            $display_status = 'Pesanan Selesai';
                                             break;
                                         case 'cancelled':
                                             $badge = 'badge-cancelled';
-                                            $display_status = 'Cancelled';
+                                            $display_status = 'Pesanan Dibatalkan';
                                             break;
                                         // Fallback untuk status lama
                                         case 'process':
                                             $badge = 'badge-process';
-                                            $display_status = 'Processing';
+                                            $display_status = 'Pesanan Diproses';
                                             break;
                                         case 'success':
                                             $badge = 'badge-success';
-                                            $display_status = 'Delivered';
+                                            $display_status = 'Pesanan Selesai';
                                             break;
                                         case 'cancel':
                                             $badge = 'badge-cancel';
-                                            $display_status = 'Cancelled';
-                                            break;
-                                        case 'completed':
-                                            $badge = 'badge-delivered';
-                                            $display_status = 'Delivered';
+                                            $display_status = 'Pesanan Dibatalkan';
                                             break;
                                         default:
                                             $badge = 'badge-pending';
-                                            $display_status = ucfirst($status);
+                                            $display_status = 'Pesanan Masuk';
                                     }
                                 ?>
                                 <span class="badge <?php echo $badge; ?>"><?php echo $display_status; ?></span>
@@ -486,7 +483,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td>
                                 <div class="action-buttons">
                                     <button class="btn btn-small btn-view show-detail-btn" data-order-id="<?php echo $order['id']; ?>">👁️ Lihat</button>
-                                    <button class="btn btn-small btn-update" onclick="openUpdateModal(<?php echo $order['id']; ?>, '<?php echo htmlspecialchars($order['order_number']); ?>', '<?php echo $status; ?>')">🔄 Update</button>
+                                    <button class="btn btn-small btn-update" onclick="openUpdateModal(<?php echo $order['id']; ?>, '<?php echo htmlspecialchars($order['order_number']); ?>', '<?php echo $status; ?>')">🔄 Ubah Status</button>
                                 </div>
                             </td>
                         </tr>
@@ -509,7 +506,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div id="updateModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">🔄 Update Status Pesanan</h3>
+                <h3 class="modal-title">🔄 Ubah Status Pesanan</h3>
                 <span class="close">&times;</span>
             </div>
             <div id="modalBody">
@@ -524,16 +521,16 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <label>Status:</label>
                         <select name="status" id="statusSelect" required>
                             <option value="">-- Pilih Status --</option>
-                            <option value="pending">Pending</option>
-                            <option value="processing">Processing</option>
-                            <option value="shipped">Shipped</option>
-                            <option value="delivered">Delivered</option>
-                            <option value="cancelled">Cancelled</option>
+                            <option value="pending">Pesanan Masuk</option>
+                            <option value="processing">Pesanan Diproses</option>
+                            <option value="shipped">Pesanan Dikirim</option>
+                            <option value="completed">Pesanan Selesai</option>
+                            <option value="cancelled">Pesanan Dibatalkan</option>
                         </select>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-cancel" onclick="closeModal()">Batal</button>
-                        <button type="submit" class="btn btn-success">Update Status</button>
+                        <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                     </div>
                 </form>
             </div>
@@ -632,28 +629,29 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     var statusCell = row.querySelector('td:nth-child(4)');
                     var status = document.getElementById('statusSelect').value;
                     var badgeClass = 'badge-pending';
-                    var displayStatus = 'Pending';
+                    var displayStatus = 'Menunggu';
                     
+                    // Perbaiki JavaScript untuk update badge
                     switch (status) {
                         case 'processing':
                             badgeClass = 'badge-processing';
-                            displayStatus = 'Processing';
+                            displayStatus = 'Pesanan Diproses';
                             break;
                         case 'shipped':
                             badgeClass = 'badge-shipped';
-                            displayStatus = 'Shipped';
+                            displayStatus = 'Pesanan Dikirim';
                             break;
-                        case 'delivered':
+                        case 'completed':
                             badgeClass = 'badge-delivered';
-                            displayStatus = 'Delivered';
+                            displayStatus = 'Pesanan Selesai';
                             break;
                         case 'cancelled':
                             badgeClass = 'badge-cancelled';
-                            displayStatus = 'Cancelled';
+                            displayStatus = 'Pesanan Dibatalkan';
                             break;
                         default:
                             badgeClass = 'badge-pending';
-                            displayStatus = status.charAt(0).toUpperCase() + status.slice(1);
+                            displayStatus = 'Pesanan Masuk';
                     }
                     
                     // Update badge dengan waktu update

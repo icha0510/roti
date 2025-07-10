@@ -243,6 +243,7 @@ foreach ($_SESSION['cart'] as $item) {
                   <div class="row">
                     <div class="col-md-6">
                       <p><strong>Nomor Pesanan:</strong><br><?php echo $order_data['order_number']; ?></p>
+                      <p><strong>Nomor Meja:</strong><br><?php echo isset($order_data['nomor_meja']) ? htmlspecialchars($order_data['nomor_meja']) : '-'; ?></p>
                       <p><strong>Total Pembayaran:</strong><br>Rp<?php echo number_format($order_data['total_amount'], 3); ?></p>
                     </div>
                     <div class="col-md-6">
