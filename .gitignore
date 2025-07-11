@@ -1,0 +1,14 @@
+# Ignore .htaccess files
+.htaccess
+**/.htaccess
+
+# Ignore database configuration files
+config/database.php
+admin/config/database.php
+**/database.php
+
+# Ignore connection files
+koneksi
+**/koneksi
+
+

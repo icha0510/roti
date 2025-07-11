@@ -369,7 +369,7 @@ unset($_SESSION['order_errors']);
       <div class="ps-container">
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-            <div class="ps-block--iconbox"><i class="ba-delivery-truck-2"></i>
+            <div class="ps-block--iconbox"><i class="ba-oven2"></i>
               <h4>Pengiriman Gratis <span>Untuk Pesanan Di Atas Rp199.000</span></h4>
               <p>Ingin melacak paket? Temukan informasi pelacakan dan detail pesanan dari Pesanan Anda.</p>
             </div>

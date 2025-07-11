@@ -1,441 +1,166 @@
 <?php
 session_start();
 require_once 'includes/functions.php';
+require_once 'generate_qr.php';
 
-// Cek apakah ada data order sukses
+// Cek apakah ada data order success
 if (!isset($_SESSION['order_success'])) {
-    header('Location: order-form.php');
+    header('Location: index.php');
     exit;
 }
 
 $order_data = $_SESSION['order_success'];
-
-// Initialize cart if not exists
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = array();
-}
-
-// Calculate cart totals
-$cart_total = 0;
-$cart_count = 0;
-foreach ($_SESSION['cart'] as $item) {
-    $cart_total += $item['price'] * $item['quantity'];
-    $cart_count += $item['quantity'];
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link href="apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="images/logo-rotio.png" rel="icon">
-    <meta name="author" content="">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <title>Order Success - Roti'O</title>
+    <title>Pesanan Berhasil - Roti'O</title>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CLora:400,700" rel="stylesheet">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="plugins/bakery-icon/style.css">
     <link rel="stylesheet" href="plugins/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="plugins/owl-carousel/assets/owl.carousel.css">
-    <link rel="stylesheet" href="plugins/jquery-bar-rating/dist/themes/fontawesome-stars.css">
-    <link rel="stylesheet" href="plugins/bootstrap-select/dist/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.min.css">
-    <link rel="stylesheet" href="plugins/slick/slick/slick.css">
-    <link rel="stylesheet" href="plugins/lightGallery-master/dist/css/lightgallery.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
-      /* Custom CSS untuk TikTok icon */
-      .fa-tiktok:before {
-        content: "";
-        background-image: url("data:image/svg+xml,%3Csvg id='fi_3046120' enable-background='new 0 0 512 512' height='512' viewBox='0 0 512 512' width='512' xmlns='http://www.w3.org/2000/svg'%3E%3Cg%3E%3Cpath d='m480.32 128.39c-29.22 0-56.18-9.68-77.83-26.01-24.83-18.72-42.67-46.18-48.97-77.83-1.56-7.82-2.4-15.89-2.48-24.16h-83.47v228.08l-.1 124.93c0 33.4-21.75 61.72-51.9 71.68-8.75 2.89-18.2 4.26-28.04 3.72-12.56-.69-24.33-4.48-34.56-10.6-21.77-13.02-36.53-36.64-36.93-63.66-.63-42.23 33.51-76.66 75.71-76.66 8.33 0 16.33 1.36 23.82 3.83v-62.34-22.41c-7.9-1.17-15.94-1.78-24.07-1.78-46.19 0-89.39 19.2-120.27 53.79-23.34 26.14-37.34 59.49-39.5 94.46-2.83 45.94 13.98 89.61 46.58 121.83 4.79 4.73 9.82 9.12 15.08 13.17 27.95 21.51 62.12 33.17 98.11 33.17 8.13 0 16.17-.6 24.07-1.77 33.62-4.98 64.64-20.37 89.12-44.57 30.08-29.73 46.7-69.2 46.88-111.21l-.43-186.56c14.35 11.07 30.04 20.23 46.88 27.34 26.19 11.05 53.96 16.65 82.54 16.64v-60.61-22.49c.02.02-.22.02-.24.02z'/%3E%3C/g%3E%3C/svg%3E");
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        vertical-align: middle;
-      }
-      .fa-brands.fa-tiktok {
-        font-family: inherit;
-      }
+        .success-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            margin: 50px auto;
+            max-width: 800px;
+        }
+        .success-icon {
+            font-size: 80px;
+            color: #27ae60;
+            margin-bottom: 20px;
+        }
+        .qr-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid #e67e22;
+        }
+        .order-details {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
     </style>
-  </head>
-  <body>
-    
-    <!-- Header-->
-    <header class="header header--3" data-sticky="false">
-      <div class="ps-container">
-        <nav class="navigation">
-          <div class="header-wrapper">
-            
-            <!-- Logo Section -->
-            <div class="header-logo">
-              <a class="ps-logo" href="index.php">
-                <img src="images/logo-rotio.png" alt="">
-              </a>
-            </div>
-
-            <!-- Navigation Menu -->
-            <div class="header-nav">
-              <ul class="menu">
-                <li class="menu-item-has-children current-menu-item">
-                  <a href="index.php">Beranda</a>
-                </li>
-                <li>
-                  <a href="about.php">Tentang</a>
-                </li>
-                <li class="menu-item-has-children">
-                  <a href="#">Produk</a>
-                  <span class="sub-toggle">
-                    <i class="fa fa-angle-down"></i>
-                  </span>
-                  <ul class="sub-menu">
-                    <li><a href="product-listing.php">Daftar Produk</a></li>
-                    <li><a href="order-form.php">Formulir Pesanan</a></li>
-                  </ul>
-                </li>   
-                <li class="menu-item-has-children">
-                  <a href="#">Lainnya</a>
-                  <span class="sub-toggle">
-                    <i class="fa fa-angle-down"></i>
-                  </span>
-                  <ul class="sub-menu">
-                    <li><a href="blog-grid.php">Blog</a></li>
-                    <li><a href="store.php">Toko Kami</a></li>
-                  </ul>
-                </li>
-                <li>
-                  <a href="contact.php">Hubungi Kami</a>
-                </li>
-              </ul>
-            </div>
-
-            <!-- Mobile Menu Toggle -->
-            <div class="menu-toggle">
-              <span></span>
-            </div>
-            
-            <!-- Header Actions -->
-            <div class="header__actions">
-              
-              <!-- User Profile Dropdown -->
-              <div class="header-profile">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                  <div class="ps-dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      <i class="ba-profile"></i>
-                      <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a href="logo-orders.php">Pesanan Saya</a>
-                      </li>
-                      <li>
-                        <a href="profile.php">Profil</a>
-                      </li>
-                      <li>
-                        <hr class="dropdown-divider">
-                      </li>
-                      <li>
-                        <a href="logout.php">Keluar</a>
-                      </li>
-                    </ul>
-                  </div>
-                <?php else: ?>
-                  <a href="login.php">
-                    <i class="ba-profile"></i>
-                  </a>
-                <?php endif; ?>
-              </div>
-              
-              <!-- Shopping Cart -->
-              <div class="header-cart">
-                <div class="ps-cart">
-                  <a class="ps-cart__toggle" href="cart.php">
-                    <span>
-                      <i><?php echo $cart_count; ?></i>
-                    </span>
-                    <i class="ba-shopping"></i>
-                  </a>
-                  
-                  <div class="ps-cart__listing">
-                    <div class="ps-cart__content">
-                      <?php if (!empty($_SESSION['cart'])): ?>
-                        <?php $count = 0; foreach ($_SESSION['cart'] as $item): $count++; if ($count <= 6): ?>
-                          <div class="ps-cart-item">
-                            <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
-                            <div class="ps-cart-item__thumbnail">
-                              <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
-                              <?php if (!empty($item['image_data'])): ?>
-                                <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
-                              <?php else: ?>
-                                <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
-                              <?php endif; ?>
-                            </div>
-                            <div class="ps-cart-item__content">
-                              <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>">
-                                <?php echo $item['name']; ?>
-                              </a>
-                              <p>
-                                <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
-                                <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
-                              </p>
-                            </div>
-                          </div>
-                        <?php endif; endforeach; ?>
-                      <?php else: ?>
-                        <div class="ps-cart-item">
-                          <div class="ps-cart-item__content">
-                            <p>Keranjang belanja Anda kosong</p>
-                          </div>
-                        </div>
-                      <?php endif; ?>
-                    </div>
-                    
-                    <div class="ps-cart__total">
-                      <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
-                      <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
-                    </div>
-                    
-                    <div class="ps-cart__footer">
-                      <a href="cart.php">Checkout</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-            </div>
-          </div>
-        </nav>
-      </div>
-    </header>
-    
-    <div class="ps-hero bg--cover" data-background="images/hero/product.jpg">
-      <div class="ps-hero__content">
-        <h1>Order Success</h1>
-        <div class="ps-breadcrumb">
-          <ol class="breadcrumb">
-            <li><a href="index.php">Beranda</a></li>
-            <li><a href="order-form.php">Formulir Pesanan</a></li>
-            <li class="active">Pesanan Berhasil</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-    
-    <main class="ps-main">
-      <div class="ps-container">
-        <div class="ps-section--success">
-          <div class="ps-success">
-                <div class="ps-success__icon">
-                  <i class="fa fa-check-circle"></i>
-                </div>
-                <h1>Pesanan Berhasil!</h1>
-                <h3>Terima kasih atas pesanan Anda</h3>
-                
-                <div class="ps-success__details">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <p><strong>Nomor Pesanan:</strong><br><?php echo $order_data['order_number']; ?></p>
-                      <p><strong>Nomor Meja:</strong><br><?php echo isset($order_data['nomor_meja']) ? htmlspecialchars($order_data['nomor_meja']) : '-'; ?></p>
-                      <p><strong>Total Pembayaran:</strong><br>Rp<?php echo number_format($order_data['total_amount'], 3); ?></p>
-                    </div>
-                    <div class="col-md-6">
-                      <p><strong>ID Pesanan:</strong><br><?php echo $order_data['order_id']; ?></p>
-                      <p><strong>Status:</strong><br><span class="badge bg-warning">Menunggu</span></p>
-                    </div>
-                  </div>
-                </div>
-                
-                <p>Kami telah menerima pesanan Anda dan akan segera memprosesnya. Tim kami akan menghubungi Anda segera untuk konfirmasi lebih lanjut.</p>
-                
-                <div class="ps-success__actions">
-                  <a class="ps-btn" href="index.php">Kembali ke Beranda</a>
-                  <a class="ps-btn ps-btn--outline" href="order-form.php">Pesan Lagi</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-    
-    <div class="ps-site-features">
-      <div class="ps-container">
-        <div class="row">
-          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-            <div class="ps-block--iconbox"><i class="ba-delivery-truck-2"></i>
-              <h4>Pengiriman Gratis <span> Untuk Pesanan Di Atas Rp199.000</h4>
-              <p>Ingin melacak paket? Temukan informasi pelacakan dan detail pesanan dari Pesanan Saya.</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-            <div class="ps-block--iconbox"><i class="ba-biscuit-1"></i>
-              <h4>Koki Master<span> DENGAN PASSION</h4>
-              <p>Belanja ribuan temuan, dengan kedatangan baru ditambahkan setiap hari.</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-            <div class="ps-block--iconbox"><i class="ba-flour"></i>
-              <h4>Bahan Alami<span> melindungi keluarga Anda</h4>
-              <p>Kami selalu memastikan keamanan semua produk toko</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-            <div class="ps-block--iconbox"><i class="ba-cake-3"></i>
-              <h4>Rasa Menarik <span>SELALU MENDENGARKAN</span></h4>
-              <p>Kami menawarkan hotline pelanggan 24/7 sehingga Anda tidak pernah sendirian jika memiliki pertanyaan.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <footer class="ps-footer">
-      <div class="ps-footer__content">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header header--3">
         <div class="ps-container">
-          <div class="row">
-            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
-              <div class="ps-site-info"><a class="ps-logo" href="index.php"><img src="images/logo-rotio.png" alt=""></a>
-                <p>Roti'O, sahabat setia perjalanan dengan aroma khas kopi dan tekstur renyah lembut.</p>  
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <form class="ps-form--subscribe-offer" id="newsletterForm" method="post">
-                <h4>Dapatkan berita terbaru</h4>
-                <div class="form-group">
-                  <input class="form-control" type="email" name="email" id="newsletterEmail" placeholder="Email Anda..." required>
-                  <button type="submit" id="newsletterBtn">Ikuti Laman</button>
+            <nav class="navigation">
+                <div class="header-wrapper">
+                    <div class="header-logo">
+                        <a class="ps-logo" href="index.php">
+                            <img src="images/logo-rotio.png" alt="">
+                        </a>
+                    </div>
                 </div>
-                <p>* Jangan khawatir, kami tidak pernah spam</p>
-                <div id="newsletterMessage"></div>
-              </form>
-              <div class="ps-footer__contact">
-                <h4>Hubungi Kami</h4>
-                <p>Jl. Raya Cikarang, Kota Bekasi, Jawa Barat</p>
-                <P>(+62) 812-3456-7890</P>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 ">
-              <div class="ps-footer__open">
-                <h4>Jam Buka</h4>
-                <p>
-                  Senin - Jumat: <br>08:00 am - 08:30 pm <br>
-                  Sabtu - Minggu:<br>
-                  10:00 am - 16:30 pm
-                </p>
-                <ul class="ps-list--social">
-                  <li><a href="https://www.facebook.com/share/19g2Ds4bML/"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="https://www.tiktok.com/@rotio.indonesia?_t=ZS-8xdJVQ8gKAc&_r=1"><i class="fa-brands fa-tiktok"></i></a></li>
-                  <li><a href="https://www.instagram.com/rotio.indonesia?igsh=N2NqdTIwcWFoc2h5"><i class="fa fa-instagram"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
+            </nav>
         </div>
-      </div>
-    </footer>
-    
-    <div id="back2top"><i class="fa fa-angle-up"></i></div>
-    <div class="ps-loading">
-      <div class="rectangle-bounce">
-        <div class="rect1"></div>
-        <div class="rect2"></div>
-        <div class="rect3"></div>
-        <div class="rect4"></div>
-        <div class="rect5"></div>
-      </div>
-    </div>
-    
-    <!-- Plugins-->
+    </header>
+
+    <!-- Main Content -->
+    <main class="ps-main">
+        <div class="ps-container">
+            <div class="success-container">
+                <div class="text-center">
+                    <i class="fa fa-check-circle success-icon"></i>
+                    <h1 style="color: #27ae60; margin-bottom: 10px;">Pesanan Berhasil!</h1>
+                    <p style="color: #7f8c8d; font-size: 18px;">Terima kasih telah berbelanja di Roti'O</p>
+                </div>
+
+                <div class="order-details">
+                    <h3 style="margin-bottom: 20px; text-align: center;">
+                        <i class="fa fa-shopping-bag" style="margin-right: 10px;"></i>
+                        Detail Pesanan
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Order ID:</strong> <?php echo htmlspecialchars($order_data['order_number']); ?></p>
+                            <p><strong>Nama:</strong> <?php echo htmlspecialchars($order_data['customer_name']); ?></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Total:</strong> Rp <?php echo number_format($order_data['total_amount'], 3); ?></p>
+                            <p><strong>Meja:</strong> <?php echo htmlspecialchars($order_data['nomor_meja']); ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <?php if (isset($_SESSION['payment_method']) && $_SESSION['payment_method'] == 'qris'): ?>
+                <div class="qr-section">
+                    <h3 style="text-align: center; color: #2c3e50; margin-bottom: 25px;">
+                        <i class="fa fa-qrcode" style="margin-right: 10px; color: #e67e22;"></i>
+                        QR Code Pembayaran QRIS
+                    </h3>
+                    <?php 
+                    // Generate dan tampilkan QR code
+                    $qr_filename = generatePaymentQR(
+                        $order_data['order_id'], 
+                        $order_data['order_number'], 
+                        $order_data['total_amount'], 
+                        $order_data['customer_name']
+                    );
+                    ?>
+                    <div style="text-align: center;">
+                        <img src="<?php echo $qr_filename; ?>" alt="QR Code Pembayaran" 
+                             style="max-width: 250px; border: 3px solid #e67e22; border-radius: 15px; box-shadow: 0 8px 25px rgba(230,126,34,0.3);">
+                        <div style="margin-top: 20px; color: #7f8c8d;">
+                            <p><strong>Order ID:</strong> <?php echo htmlspecialchars($order_data['order_number']); ?></p>
+                            <p><strong>Total Pembayaran:</strong> Rp <?php echo number_format($order_data['total_amount'], 3); ?></p>
+                            <p><strong>Customer:</strong> <?php echo htmlspecialchars($order_data['customer_name']); ?></p>
+                        </div>
+                        <p style="color: #e67e22; font-weight: 600; margin-top: 15px; font-size: 16px;">
+                            Silakan scan QR code di atas untuk melakukan pembayaran
+                        </p>
+                        <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; margin-top: 20px;">
+                            <p style="margin: 0; color: #6c757d; font-size: 14px;">
+                                <i class="fa fa-info-circle" style="color: #e67e22;"></i>
+                                Status pesanan akan berubah menjadi "Dibayar" setelah pembayaran berhasil diverifikasi
+                            </p>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <a href="qr_payment_page.php?order_id=<?php echo $order_data['order_id']; ?>" 
+                               class="btn btn-primary" style="background: linear-gradient(135deg, #e67e22, #f39c12); border: none; border-radius: 25px; padding: 12px 30px; font-weight: 600;">
+                                <i class="fa fa-credit-card" style="margin-right: 8px;"></i>
+                                Halaman Pembayaran Lengkap
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <div class="text-center" style="margin-top: 30px;">
+                    <a href="index.php" class="btn btn-primary" style="background: linear-gradient(135deg, #e67e22, #f39c12); border: none; border-radius: 25px; padding: 12px 30px; font-weight: 600; margin-right: 15px;">
+                        <i class="fa fa-home" style="margin-right: 8px;"></i>
+                        Kembali ke Beranda
+                    </a>
+                    <a href="logo-orders.php" class="btn btn-outline-primary" style="border: 2px solid #e67e22; color: #e67e22; border-radius: 25px; padding: 12px 30px; font-weight: 600;">
+                        <i class="fa fa-list" style="margin-right: 8px;"></i>
+                        Lihat Pesanan Saya
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
     <script src="plugins/jquery/dist/jquery.min.js"></script>
     <script src="plugins/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="plugins/owl-carousel/owl.carousel.min.js"></script>
-    <script src="plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-    <script src="plugins/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
-    <script src="plugins/jquery.waypoints.min.js"></script>
-    <script src="plugins/jquery.countTo.js"></script>
-    <script src="plugins/jquery.matchHeight-min.js"></script>
-    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="plugins/gmap3.min.js"></script>
-    <script src="plugins/lightGallery-master/dist/js/lightgallery-all.min.js"></script>
-    <script src="plugins/slick/slick/slick.min.js"></script>
-    <script src="plugins/slick-animation.min.js"></script>
-    <script src="plugins/jquery.slimscroll.min.js"></script>
-    <!-- Custom scripts-->
-    <script src="js/main.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsUcTjt43mTheN9ruCsQVgBE-wgN6_AfY&amp;region=GB"></script>
-    <!-- Newsletter JavaScript -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const newsletterForm = document.getElementById('newsletterForm');
-        const newsletterMessage = document.getElementById('newsletterMessage');
-        const newsletterBtn = document.getElementById('newsletterBtn');
-        
-        if (newsletterForm) {
-            newsletterForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('newsletterEmail').value;
-                
-                if (!email) {
-                    showMessage('Email tidak boleh kosong', 'error');
-                    return;
-                }
-                
-                // Disable button
-                newsletterBtn.disabled = true;
-                newsletterBtn.textContent = 'Subscribing...';
-                
-                // Send AJAX request
-                const formData = new FormData();
-                formData.append('action', 'subscribe');
-                formData.append('email', email);
-                
-                fetch('newsletter_handler.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showMessage(data.message, 'success');
-                        newsletterForm.reset();
-                    } else {
-                        showMessage(data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    showMessage('Terjadi kesalahan. Silakan coba lagi.', 'error');
-                })
-                .finally(() => {
-                    // Re-enable button
-                    newsletterBtn.disabled = false;
-                    newsletterBtn.textContent = 'Subscribe';
-                });
-            });
-        }
-        
-        function showMessage(message, type) {
-            newsletterMessage.innerHTML = `<div class="alert alert-${type === 'success' ? 'success' : 'danger'}">${message}</div>`;
-            
-            // Auto hide after 5 seconds
-            setTimeout(() => {
-                newsletterMessage.innerHTML = '';
-            }, 5000);
-        }
-    });
-    </script>
-  </body>
+</body>
 </html>
 
 <?php
-// Hapus data order sukses dari session setelah ditampilkan
+// Clear order success data setelah ditampilkan
 unset($_SESSION['order_success']);
+unset($_SESSION['payment_method']);
 ?> 

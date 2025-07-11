@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 session_start();
 require_once 'includes/functions.php';
 require_once 'config/database.php';
+require_once 'generate_qr.php';
 
 // Cek apakah user sudah login
 if (!isset($_SESSION['user_id'])) {
@@ -57,6 +58,7 @@ if ($_POST && isset($_POST['place_order'])) {
     $customer_phone = trim($_POST['customer_phone']);
     $nomor_meja = trim($_POST['nomor_meja']);
     $notes = trim($_POST['notes'] ?? '');
+    $payment_method = trim($_POST['payment_method'] ?? '');
     $user_id = $_SESSION['user_id'];
     
     // Store form data for repopulation if there are errors
@@ -65,7 +67,8 @@ if ($_POST && isset($_POST['place_order'])) {
         'customer_email' => $customer_email,
         'customer_phone' => $customer_phone,
         'nomor_meja' => $nomor_meja,
-        'notes' => $notes
+        'notes' => $notes,
+        'payment_method' => $payment_method
     );
     
     // Basic validation
@@ -87,6 +90,11 @@ if ($_POST && isset($_POST['place_order'])) {
         }
     }
     
+    // Validate payment method
+    if (empty($payment_method)) {
+        $errors[] = "Metode pembayaran wajib dipilih";
+    }
+    
     // Validate cart items
     if (empty($_SESSION['cart'])) {
         $errors[] = "Keranjang belanja kosong";
@@ -103,8 +111,8 @@ if ($_POST && isset($_POST['place_order'])) {
             $stmt = $db->prepare("
                 INSERT INTO orders (
                     order_number, user_id, customer_name, customer_email, customer_phone, nomor_meja,
-                    notes, total_amount, status, created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())
+                    notes, total_amount, status, created_at, payment_method
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW(), ?)
             ");
             
             $result = $stmt->execute([
@@ -115,7 +123,8 @@ if ($_POST && isset($_POST['place_order'])) {
                 $customer_phone,
                 $nomor_meja,
                 $notes,
-                $cart_total
+                $cart_total,
+                $payment_method
             ]);
             
             if (!$result) {
@@ -159,6 +168,7 @@ if ($_POST && isset($_POST['place_order'])) {
                 'total_amount' => $cart_total,
                 'nomor_meja' => $nomor_meja
             ];
+            $_SESSION['payment_method'] = $payment_method;
             
             // Redirect to success page
             header('Location: order-success.php');
@@ -562,6 +572,16 @@ if ($_POST && isset($_POST['place_order'])) {
                                                 <textarea class="form-control" name="notes" rows="4" placeholder="Catatan khusus untuk pesanan Anda (opsional)"><?php echo isset($order_data['notes']) ? htmlspecialchars($order_data['notes']) : ''; ?></textarea>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Metode Pembayaran <sup>*</sup></label>
+                                                <select class="form-control" name="payment_method" id="payment_method" required onchange="toggleQR()">
+                                                    <option value="">-- Pilih Metode Pembayaran --</option>
+                                                    <option value="cash" <?php echo (isset($order_data['payment_method']) && $order_data['payment_method'] == 'cash') ? 'selected' : ''; ?>>Cash</option>
+                                                    <option value="qris" <?php echo (isset($order_data['payment_method']) && $order_data['payment_method'] == 'qris') ? 'selected' : ''; ?>>QRIS</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -603,6 +623,14 @@ if ($_POST && isset($_POST['place_order'])) {
                                                 Total <span style="color: #f39c12; font-weight: 700; font-size: 24px;">Rp <?php echo number_format($cart_total, 3); ?></span>
                                             </h3>
                                         </div>
+                                        <div id="qris_qr_section" style="display: none; margin-top: 20px;">
+                                            <div class="form-group" style="text-align:center;">
+                                                <label>QR Code Pembayaran QRIS</label><br>
+                                                <div id="qr_code_container">
+                                                    <p style="color:#e67e22; font-weight:600;">QR Code akan muncul setelah pesanan dibuat</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="ps-form__footer" style="margin-top: 25px;">
                                         <button type="submit" name="place_order" class="ps-btn ps-btn--yellow ps-btn--fullwidth" style="background: linear-gradient(135deg, #e67e22, #f39c12); border: none; border-radius: 25px; padding: 15px; font-weight: 600; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3); transition: all 0.3s ease;">
@@ -629,7 +657,7 @@ if ($_POST && isset($_POST['place_order'])) {
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
                     <div class="ps-block--iconbox">
-                        <i class="ba-delivery-truck-2"></i>
+                        <i class="ba-oven2"></i>
                         <h4>Pengiriman Gratis <span> Untuk Pesanan Di Atas Rp199.000</h4>
                         <p>Ingin melacak paket? Temukan informasi pelacakan dan detail pesanan dari Pesanan Saya.</p>
                     </div>
@@ -795,6 +823,57 @@ if ($_POST && isset($_POST['place_order'])) {
                 newsletterMessage.innerHTML = '';
             }, 5000);
         }
+    });
+    </script>
+    <script>
+    function toggleQR() {
+        var payment = document.getElementById('payment_method').value;
+        var qrSection = document.getElementById('qris_qr_section');
+        if (payment === 'qris') {
+            qrSection.style.display = 'block';
+        } else {
+            qrSection.style.display = 'none';
+        }
+    }
+    
+    // Fungsi untuk generate QR code
+    function generateQRCode(orderId, orderNumber, totalAmount, customerName) {
+        var formData = new FormData();
+        formData.append('action', 'generate_qr');
+        formData.append('order_id', orderId);
+        formData.append('order_number', orderNumber);
+        formData.append('total_amount', totalAmount);
+        formData.append('customer_name', customerName);
+        
+        fetch('generate_qr.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                var qrContainer = document.getElementById('qr_code_container');
+                qrContainer.innerHTML = `
+                    <div style="text-align: center; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <h4 style="color: #2c3e50; margin-bottom: 15px;">QR Code Pembayaran</h4>
+                        <img src="${data.qr_filename}" alt="QR Code Pembayaran" style="max-width: 200px; border: 2px solid #e67e22; border-radius: 10px; box-shadow: 0 4px 15px rgba(230,126,34,0.2);">
+                        <div style="margin-top: 15px; color: #7f8c8d; font-size: 12px;">
+                            <p><strong>Order ID:</strong> ${data.order_number}</p>
+                            <p><strong>Total:</strong> Rp ${parseInt(data.total_amount).toLocaleString('id-ID')}</p>
+                        </div>
+                        <p style="color: #e67e22; font-weight: 600; margin-top: 10px;">Silakan scan QR code di atas untuk melakukan pembayaran</p>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error generating QR code:', error);
+        });
+    }
+    
+    // Jalankan saat halaman dimuat jika sudah ada value
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleQR();
     });
     </script>
 </body>
