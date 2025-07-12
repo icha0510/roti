@@ -52,6 +52,7 @@ if ($payment_method === 'cash') {
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header-nav.css">
     <style>
         body {
             font-family: 'Lora', serif;

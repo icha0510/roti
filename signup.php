@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="plugins/bakery-icon/style.css">
     <link rel="stylesheet" href="plugins/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header-nav.css">
     <style>
         .signup-container {
             min-height: 100vh;

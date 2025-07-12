@@ -46,172 +46,154 @@ $categories = getAllCategories();
     <link rel="stylesheet" href="plugins/slick/slick/slick.css">
     <link rel="stylesheet" href="plugins/lightGallery-master/dist/css/lightgallery.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <style>
-      /* Custom CSS untuk TikTok icon */
-      .fa-tiktok:before {
-        content: "";
-        background-image: url("data:image/svg+xml,%3Csvg id='fi_3046120' enable-background='new 0 0 512 512' height='512' viewBox='0 0 512 512' width='512' xmlns='http://www.w3.org/2000/svg'%3E%3Cg%3E%3Cpath d='m480.32 128.39c-29.22 0-56.18-9.68-77.83-26.01-24.83-18.72-42.67-46.18-48.97-77.83-1.56-7.82-2.4-15.89-2.48-24.16h-83.47v228.08l-.1 124.93c0 33.4-21.75 61.72-51.9 71.68-8.75 2.89-18.2 4.26-28.04 3.72-12.56-.69-24.33-4.48-34.56-10.6-21.77-13.02-36.53-36.64-36.93-63.66-.63-42.23 33.51-76.66 75.71-76.66 8.33 0 16.33 1.36 23.82 3.83v-62.34-22.41c-7.9-1.17-15.94-1.78-24.07-1.78-46.19 0-89.39 19.2-120.27 53.79-23.34 26.14-37.34 59.49-39.5 94.46-2.83 45.94 13.98 89.61 46.58 121.83 4.79 4.73 9.82 9.12 15.08 13.17 27.95 21.51 62.12 33.17 98.11 33.17 8.13 0 16.17-.6 24.07-1.77 33.62-4.98 64.64-20.37 89.12-44.57 30.08-29.73 46.7-69.2 46.88-111.21l-.43-186.56c14.35 11.07 30.04 20.23 46.88 27.34 26.19 11.05 53.96 16.65 82.54 16.64v-60.61-22.49c.02.02-.22.02-.24.02z'/%3E%3C/g%3E%3C/svg%3E");
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        vertical-align: middle;
-      }
-      .fa-brands.fa-tiktok {
-        font-family: inherit;
-      }
-    </style>
+    <link rel="stylesheet" href="css/header-nav.css">
   </head>
   
     <!-- Header-->
-<header class="header header--3" data-sticky="false">
+<header class="header" data-sticky="false">
   <div class="ps-container">
-    <nav class="navigation">
-      <div class="header-wrapper">
-        
-        <!-- Logo Section -->
-        <div class="header-logo">
-          <a class="ps-logo" href="index.php">
-            <img src="images/logo-rotio.png" alt="">
-          </a>
-        </div>
-
-        <!-- Navigation Menu -->
-        <div class="header-nav">
-          <ul class="menu">
-            <li class="menu-item-has-children current-menu-item">
-              <a href="index.php">Beranda</a>
-            </li>
-            <li>
-              <a href="about.php">Tentang</a>
-            </li>
-            <li class="menu-item-has-children">
-              <a href="#">Produk</a>
-              <span class="sub-toggle">
-                <i class="fa fa-angle-down"></i>
-              </span>
-              <ul class="sub-menu">
-                <li><a href="product-listing.php">Daftar Produk</a></li>
-                <li><a href="order-form.php">Formulir Pesanan</a></li>
-              </ul>
-            </li>   
-            <li class="menu-item-has-children">
-              <a href="#">Lainnya</a>
-              <span class="sub-toggle">
-                <i class="fa fa-angle-down"></i>
-              </span>
-              <ul class="sub-menu">
-                <li><a href="blog-grid.php">Blog</a></li>
-                <li><a href="store.php">Toko Kami</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="contact.php">Hubungi Kami</a>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Mobile Menu Toggle -->
-        <div class="menu-toggle">
-          <span></span>
-        </div>
-        
-        <!-- Header Actions -->
-        <div class="header__actions">
-          
-          <!-- User Profile Dropdown -->
-          <div class="header-profile">
-            <?php if (isset($_SESSION['user_id'])): ?>
-              <div class="ps-dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="ba-profile"></i>
-                  <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a href="logo-orders.php">Pesanan Saya</a>
-                  </li>
-                  <li>
-                    <a href="profile.php">Profil</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li>
-                    <a href="logout.php">Keluar</a>
-                  </li>
-                </ul>
-              </div>
-            <?php else: ?>
-              <a href="login.php">
+    <div class="header-wrapper">
+      <!-- Logo Left -->
+      <div class="header-logo">
+        <a class="ps-logo" href="index.php">
+          <img src="images/logo-rotio.png" alt="Roti'O">
+        </a>
+      </div>
+      <!-- Desktop Nav (hidden on mobile) -->
+      <nav class="header-nav" id="headerNav">
+        <ul class="menu">
+          <li class="menu-item-has-children current-menu-item"><a href="index.php">Beranda</a></li>
+          <li><a href="about.php">Tentang</a></li>
+          <li class="menu-item-has-children">
+            <a href="#">Produk</a>
+            <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
+            <ul class="sub-menu">
+              <li><a href="product-listing.php">Daftar Produk</a></li>
+              <li><a href="order-form.php">Formulir Pesanan</a></li>
+            </ul>
+          </li>
+          <li class="menu-item-has-children">
+            <a href="#">Lainnya</a>
+            <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
+            <ul class="sub-menu">
+              <li><a href="blog-grid.php">Blog</a></li>
+              <li><a href="store.php">Toko Kami</a></li>
+            </ul>
+          </li>
+          <li><a href="contact.php">Hubungi Kami</a></li>
+        </ul>
+      </nav>
+      <!-- Header Actions (always right) -->
+      <div class="header__actions">
+        <div class="header-action-item header-profile">
+          <?php if (isset($_SESSION['user_id'])): ?>
+            <div class="ps-dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="ba-profile"></i>
+                <span class="profile-name"><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
               </a>
-            <?php endif; ?>
-          </div>
-          
-          <!-- Shopping Cart -->
-          <div class="header-cart">
-            <div class="ps-cart">
-              <a class="ps-cart__toggle" href="cart.php">
-                <span>
-                  <i><?php echo $cart_count; ?></i>
-                </span>
-                <i class="ba-shopping"></i>
-              </a>
-              
-              <div class="ps-cart__listing">
-                <div class="ps-cart__content">
-                  <?php if (!empty($_SESSION['cart'])): ?>
-                    <?php $count = 0; foreach ($_SESSION['cart'] as $item): $count++; if ($count <= 6): ?>
-                      <div class="ps-cart-item">
-                        <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
-                        <div class="ps-cart-item__thumbnail">
-                          <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
-                          <?php if (!empty($item['image_data'])): ?>
-                            <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
-                          <?php else: ?>
-                            <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
-                          <?php endif; ?>
-                        </div>
-                        <div class="ps-cart-item__content">
-                          <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>">
-                            <?php echo $item['name']; ?>
-                          </a>
-                          <p>
-                            <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
-                            <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
-                          </p>
-                        </div>
-                      </div>
-                    <?php endif; endforeach; ?>
-                  <?php else: ?>
+              <ul class="dropdown-menu">
+                <li><a href="logo-orders.php">Pesanan Saya</a></li>
+                <li><a href="profile.php">Profil</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a href="logout.php">Keluar</a></li>
+              </ul>
+            </div>
+          <?php else: ?>
+            <a href="login.php"><i class="ba-profile"></i></a>
+          <?php endif; ?>
+        </div>
+        <div class="header-action-item header-cart">
+          <div class="ps-cart">
+            <a class="ps-cart__toggle" href="cart.php">
+              <span class="cart-badge"><i><?php echo $cart_count; ?></i></span>
+              <i class="ba-shopping"></i>
+            </a>
+            <div class="ps-cart__listing">
+              <div class="ps-cart__content">
+                <?php if (!empty($_SESSION['cart'])): ?>
+                  <?php $count = 0; foreach ($_SESSION['cart'] as $item): $count++; if ($count <= 6): ?>
                     <div class="ps-cart-item">
+                      <a class="ps-cart-item__close" href="cart.php?action=remove&id=<?php echo $item['id']; ?>"></a>
+                      <div class="ps-cart-item__thumbnail">
+                        <a href="product-detail.php?id=<?php echo $item['id']; ?>"></a>
+                        <?php if (!empty($item['image_data'])): ?>
+                          <?php echo displayImage($item['image_data'], $item['image_mime'], '', $item['name']); ?>
+                        <?php else: ?>
+                          <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
+                        <?php endif; ?>
+                      </div>
                       <div class="ps-cart-item__content">
-                        <p>Keranjang belanja Anda kosong</p>
+                        <a class="ps-cart-item__title" href="product-detail.php?id=<?php echo $item['id']; ?>">
+                          <?php echo $item['name']; ?>
+                        </a>
+                        <p>
+                          <span>Jumlah:<i><?php echo $item['quantity']; ?></i></span>
+                          <span>Total:<i>Rp<?php echo number_format($item['price'] * $item['quantity'], 3); ?></i></span>
+                        </p>
                       </div>
                     </div>
-                  <?php endif; ?>
-                </div>
-                
-                <div class="ps-cart__total">
-                  <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
-                  <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
-                </div>
-                
-                <div class="ps-cart__footer">
-                  <a href="cart.php">Checkout</a>
-                </div>
+                  <?php endif; endforeach; ?>
+                <?php else: ?>
+                  <div class="ps-cart-item">
+                    <div class="ps-cart-item__content">
+                      <p>Keranjang belanja Anda kosong</p>
+                    </div>
+                  </div>
+                <?php endif; ?>
+              </div>
+              <div class="ps-cart__total">
+                <p>Jumlah item:<span><?php echo $cart_count; ?></span></p>
+                <p>Total Item:<span>Rp <?php echo number_format($cart_total, 3); ?></span></p>
+              </div>
+              <div class="ps-cart__footer">
+                <a href="cart.php">Checkout</a>
               </div>
             </div>
           </div>
-          
+        </div>
+        <!-- Mobile Menu Toggle Button -->
+        <div class="header-action-item mobile-menu-toggle">
+          <button class="menu-toggle-btn" id="mobileMenuToggle" aria-label="Buka Menu">
+            <i class="fa fa-bars" id="menuIcon"></i>
+          </button>
         </div>
       </div>
-    </nav>
+    </div>
   </div>
 </header>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+<!-- Mobile Navigation -->
+<nav class="mobile-nav" id="mobileNav">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Tutup Menu">
+    <i class="fa fa-times"></i>
+  </button>
+  <ul class="menu">
+    <li class="menu-item-has-children current-menu-item"><a href="index.php">Beranda</a></li>
+    <li><a href="about.php">Tentang</a></li>
+    <li class="menu-item-has-children">
+      <a href="#">Produk</a>
+      <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
+      <ul class="sub-menu">
+        <li><a href="product-listing.php">Daftar Produk</a></li>
+        <li><a href="order-form.php">Formulir Pesanan</a></li>
+      </ul>
+    </li>
+    <li class="menu-item-has-children">
+      <a href="#">Lainnya</a>
+      <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
+      <ul class="sub-menu">
+        <li><a href="blog-grid.php">Blog</a></li>
+        <li><a href="store.php">Toko Kami</a></li>
+      </ul>
+    </li>
+    <li><a href="contact.php">Hubungi Kami</a></li>
+  </ul>
+</nav>
+
     <!-- Home banner-->
     <div class="pb-80" id="slider">
       <div class="ps-carousel--animate ps-carousel--1st">
@@ -388,9 +370,12 @@ $categories = getAllCategories();
     <script src="plugins/jquery.slimscroll.min.js"></script>
     <!-- Custom scripts-->
     <script src="js/main.js"></script>
+    <script src="js/header.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsUcTjt43mTheN9ruCsQVgBE-wgN6_AfY&amp;region=GB"></script>
     <script>
     $(document).ready(function() {
+
+        // Newsletter functionality (unchanged)
         $('#newsletterForm').on('submit', function(e) {
             e.preventDefault();
             var email = $('#newsletterEmail').val();
