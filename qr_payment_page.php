@@ -146,7 +146,7 @@ if ($_POST && isset($_POST['process_payment'])) {
     
     // Validasi jumlah pembayaran
     if ($payment_amount < $order['total_amount']) {
-        $payment_error = "Jumlah pembayaran kurang dari total tagihan (Rp " . number_format($order['total_amount'], 0, ',', '.') . ")";
+        $payment_error = "Jumlah pembayaran kurang dari total tagihan (Rp " . number_format($order['total_amount'], 3, ',', '.') . ")";
     } else {
         try {
             $db->beginTransaction();
@@ -578,7 +578,7 @@ if ($_POST && isset($_POST['process_payment'])) {
             <?php if ($order['status'] === 'pending'): ?>
                 <div class="alert alert-info" style="background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;">
                     <i class="fas fa-info-circle"></i>
-                    <strong>Fitur Auto Payment:</strong> Jika Anda scan QR code ini dan jumlah pembayaran sesuai dengan total tagihan (Rp <?php echo number_format($order['total_amount'], 0, ',', '.'); ?>), pembayaran akan diproses otomatis dan pesanan akan langsung diproses.
+                    <strong>Fitur Auto Payment:</strong> Jika Anda scan QR code ini dan jumlah pembayaran sesuai dengan total tagihan (Rp <?php echo number_format($order['total_amount'], 3, ',', '.'); ?>), pembayaran akan diproses otomatis dan pesanan akan langsung diproses.
                 </div>
                 
                 <!-- Payment Status Checker -->
@@ -683,7 +683,7 @@ if ($_POST && isset($_POST['process_payment'])) {
                                 <div class="item-quantity">Jumlah: <?php echo $item['quantity']; ?></div>
                             </div>
                             <div class="item-price">
-                                Rp <?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?>
+                                Rp <?php echo number_format($item['price'] * $item['quantity'], 3, ',', '.'); ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -693,7 +693,7 @@ if ($_POST && isset($_POST['process_payment'])) {
             <div class="total-section">
                 <h2>Total Pembayaran</h2>
                 <div class="total-amount">
-                    Rp <?php echo number_format($order['total_amount'], 0, ',', '.'); ?>
+                    Rp <?php echo number_format($order['total_amount'], 3, ',', '.'); ?>
                 </div>
             </div>
             

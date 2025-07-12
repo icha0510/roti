@@ -220,7 +220,7 @@ if (!$order) {
                 </div>
                 <div class="info-row">
                     <span class="info-label">Total Pembayaran:</span>
-                    <span class="info-value">Rp <?php echo number_format($order['total_amount'], 0, ',', '.'); ?></span>
+                    <span class="info-value">Rp <?php echo number_format($order['total_amount'], 3, ',', '.'); ?></span>
                 </div>
                 <div class="info-row">
                     <span class="info-label">Status:</span>

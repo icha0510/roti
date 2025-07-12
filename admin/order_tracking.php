@@ -96,6 +96,7 @@ function status_badge($status) {
     if ($status == 'cancelled') $badge = 'badge-cancel';
     if ($status == 'processing') $badge = 'badge-process';
     if ($status == 'shipped') $badge = 'badge-shipped';
+    if ($status == 'paid') $badge = 'badge-paid'; // Tambah badge khusus
     
     // Mapping status ke bahasa Indonesia
     $status_labels = [
@@ -103,7 +104,8 @@ function status_badge($status) {
         'processing' => 'Pesanan Diproses',
         'shipped' => 'Pesanan Dikirim',
         'completed' => 'Pesanan Selesai',
-        'cancelled' => 'Pesanan Dibatalkan'
+        'cancelled' => 'Pesanan Dibatalkan',
+        'paid' => '<span style="font-size:16px;vertical-align:middle;margin-right:6px;">✔️</span>Payment completed via QRIS scan - Auto Payment' // Label khusus + ikon
     ];
     
     $label = $status_labels[$status] ?? ucfirst($status);
@@ -186,6 +188,7 @@ if (!$isAjax) {
         .badge-cancel { background: linear-gradient(45deg, #dc3545, #e74c3c); color: #fff; } 
         .badge-process { background: linear-gradient(45deg, #17a2b8, #3498db); color: #fff; } 
         .badge-shipped { background: linear-gradient(45deg, #6f42c1, #8e44ad); color: #fff; } 
+        .badge-paid { background: linear-gradient(45deg, #ff9800, #fbc02d); color: #fff; border: 2px solid #ff9800; box-shadow: 0 2px 12px rgba(255,152,0,0.18); font-size: 14px; letter-spacing: 0.2px; padding: 10px 20px; min-width: 220px; text-align: center; display: inline-flex; align-items: center; gap: 6px; } 
         ul.tracking-list { 
             list-style: none; 
             padding: 0; 
@@ -747,14 +750,7 @@ if (!$isAjax) {
     <p><strong>Email:</strong> <?php echo htmlspecialchars($order['customer_email']); ?></p>
     <p><strong>Telepon:</strong> <?php echo htmlspecialchars($order['customer_phone']); ?></p>
     <p><strong>Nomor Meja:</strong> <?php echo htmlspecialchars($order['nomor_meja']); ?></p>
-    
-    <?php if ($order['user_name']): ?>
-        <h4>🔐 Informasi User Account</h4>
-        <p><strong>User:</strong> <?php echo htmlspecialchars($order['user_name']); ?></p>
-        <p><strong>Email User:</strong> <?php echo htmlspecialchars($order['user_email']); ?></p>
-    <?php else: ?>
-        <p><em>Order dari guest user</em></p>
-    <?php endif; ?>
+    <p><strong>Metode Pembayaran:</strong> <?php echo htmlspecialchars(ucfirst($order['payment_method'] ?? '-')); ?></p>
 </div>
 
 <h4 class="slide-in-right">🛍️ Detail Produk</h4>
@@ -813,12 +809,20 @@ if (!$isAjax) {
     </div>
 <?php else: ?>
     <div class="tracking-timeline">
-        <?php foreach ($trackings as $t): ?>
+        <?php foreach (
+            $trackings as $t): ?>
             <div class="tracking-item">
                 <div class="tracking-content">
                     <div class="status-<?php echo $t['status']; ?>">
                         <span class="status-indicator"></span>
-                        <?php echo status_badge($t['status']); ?> - <?php echo htmlspecialchars($t['description']); ?>
+                        <?php 
+                        if ($t['status'] === 'paid') {
+                            // Badge paid: tampilkan badge saja, tanpa deskripsi
+                            echo status_badge('paid'); 
+                        } else {
+                            echo status_badge($t['status']) . ' - ' . htmlspecialchars($t['description']);
+                        }
+                        ?>
                     </div>
                     <div class="tracking-time"><?php echo date('d/m/Y H:i', strtotime($t['created_at'])); ?></div>
                 </div>
@@ -827,29 +831,6 @@ if (!$isAjax) {
     </div>
 <?php endif; ?>
 
-<div class="status-update-form">
-    <h3>🔄 Update Status Order</h3>
-    <form method="POST">
-        <div class="form-group">
-            <label>Status:</label>
-            <select name="status" required>
-                <option value="">-- Pilih Status --</option>
-                <option value="pending">Pesanan Masuk</option>
-                <option value="processing">Pesanan Diproses</option>
-                <option value="shipped">Pesanan Dikirim</option>
-                <option value="completed">Pesanan Selesai</option>
-                <option value="cancelled">Pesanan Dibatalkan</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Deskripsi (opsional):</label>
-            <textarea name="description" placeholder="Tambahkan catatan untuk status ini..."></textarea>
-        </div>
-        <button type="submit">Update Status</button>
-    </form>
-</div>
-
-<a href="orders.php" class="back-link">← Kembali ke Daftar Order</a>
 
 <?php if (!$isAjax): ?>
     <div class="floating-action" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Kembali ke atas">

@@ -316,7 +316,7 @@ $order_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="info-item">
                         <label>Total Tagihan</label>
                         <span style="color: #e67e22; font-weight: 700; font-size: 1.1em;">
-                            Rp <?php echo number_format($latest_order['total_amount'], 0, ',', '.'); ?>
+                            Rp <?php echo number_format($latest_order['total_amount'], 3, ',', '.'); ?>
                         </span>
                     </div>
                     <div class="info-item">
@@ -340,7 +340,7 @@ $order_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <span style="color: #6c757d; font-size: 0.9em;"> (x<?php echo $item['quantity']; ?>)</span>
                             </div>
                             <span style="color: #e67e22; font-weight: 600;">
-                                Rp <?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?>
+                                Rp <?php echo number_format($item['price'] * $item['quantity'], 3, ',', '.'); ?>
                             </span>
                         </div>
                     <?php endforeach; ?>
@@ -390,7 +390,7 @@ $order_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ3aGl0ZSIvPgo8cmVjdCB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlNjdlMjIiIHN0cm9rZS13aWR0aD0iMiIvPgo8cmVjdCB4PSIzMCIgeT0iMzAiIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlNjdlMjIiIHN0cm9rZS13aWR0aD0iMSIvPgo8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjEwIiBmaWxsPSIjZTY3ZTIyIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZTY3ZTIyIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiPk9yZGVyOiA8L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZTY3ZTIyIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiPj8/PzwvdGV4dD4KPC9zdmc+" alt="QR Code Preview">
                     <div style="margin-top: 15px; color: #6c757d; font-size: 12px;">
                         <p><strong>Order:</strong> <?php echo htmlspecialchars($latest_order['order_number']); ?></p>
-                        <p><strong>Total:</strong> Rp <?php echo number_format($latest_order['total_amount'], 0, ',', '.'); ?></p>
+                        <p><strong>Total:</strong> Rp <?php echo number_format($latest_order['total_amount'], 3, ',', '.'); ?></p>
                     </div>
                 </div>
             </div>

@@ -409,7 +409,7 @@ if (isset($_SESSION['cart'])) {
                                         <h5>Informasi Pengiriman</h5>
                                         <p><strong>Nama:</strong> <?php echo htmlspecialchars($order['customer_name']); ?></p>
                                         <p><strong>Telepon:</strong> <?php echo htmlspecialchars($order['customer_phone']); ?></p>
-                                        <p><strong>Alamat:</strong> <?php echo htmlspecialchars($order['customer_address']); ?></p>
+                                        <p><strong>Nomor Meja:</strong> <?php echo htmlspecialchars($order['nomor_meja']); ?></p>
                                     </div>
                                 </div>
                             </div>

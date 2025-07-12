@@ -154,7 +154,7 @@ if ($_POST && isset($_POST['place_order'])) {
             }
             
             // Insert order tracking
-            $stmt = $db->prepare("INSERT INTO order_tracking (order_id, status, description, created_at) VALUES (?, 'pending', 'Order has been placed successfully', NOW())");
+            $stmt = $db->prepare("INSERT INTO order_tracking (order_id, status, description, created_at) VALUES (?, 'pending', '', NOW())");
             $stmt->execute([$order_id]);
             
             $db->commit();

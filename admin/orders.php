@@ -5,15 +5,32 @@ require_once '../config/database.php';
 $database = new Database();
 $db = $database->getConnection();
 
-// Ambil semua order dan status terakhir dengan informasi user
+// Tambahkan filter status
+$status_filter = isset($_GET['status']) ? $_GET['status'] : '';
+$status_options = [
+    '' => 'Semua Status',
+    'pending' => 'Pending',
+    'processing' => 'Processing',
+    'shipped' => 'Shipped',
+    'completed' => 'Completed',
+    'cancelled' => 'Cancelled',
+];
+
+// Modifikasi query SQL jika ada filter status
 $sql = "SELECT o.*, 
         u.name as user_name, u.email as user_email,
         (SELECT status FROM order_tracking WHERE order_id = o.id ORDER BY created_at DESC LIMIT 1) as last_status,
         (SELECT created_at FROM order_tracking WHERE order_id = o.id ORDER BY created_at DESC LIMIT 1) as last_update
         FROM orders o
-        LEFT JOIN users u ON o.user_id = u.id
-        ORDER BY o.created_at DESC";
+        LEFT JOIN users u ON o.user_id = u.id";
+if ($status_filter && isset($status_options[$status_filter])) {
+    $sql .= " WHERE (SELECT status FROM order_tracking WHERE order_id = o.id ORDER BY created_at DESC LIMIT 1) = :status_filter";
+}
+$sql .= " ORDER BY o.created_at DESC";
 $stmt = $db->prepare($sql);
+if ($status_filter && isset($status_options[$status_filter])) {
+    $stmt->bindParam(':status_filter', $status_filter);
+}
 $stmt->execute();
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -393,6 +410,18 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <div class="container">
         <h2>📋 Dashboard Manajemen Pesanan</h2>
+        <!-- Filter Status -->
+        <form method="get" style="margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+            <label for="status" style="font-weight:600;">Filter Status:</label>
+            <select name="status" id="status" onchange="this.form.submit()" style="padding:6px 12px;border-radius:6px;">
+                <?php foreach ($status_options as $value => $label): ?>
+                    <option value="<?php echo $value; ?>" <?php if ($status_filter === $value) echo 'selected'; ?>><?php echo $label; ?></option>
+                <?php endforeach; ?>
+            </select>
+            <?php if ($status_filter): ?>
+                <a href="orders.php" style="margin-left:10px; color:#dc3545; text-decoration:underline;">Reset</a>
+            <?php endif; ?>
+        </form>
         
         <div class="order-count">
             <h3>📊 Total Pesanan: <?php echo count($orders); ?></h3>
@@ -407,7 +436,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
                             <th>No. Pesanan</th>
                             <th>Pelanggan</th>
-                            <th>Pengguna</th>
+                            <th>Metode Pembayaran</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -420,14 +449,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <?php echo htmlspecialchars($order['customer_name']); ?>
                                 <div class="user-info"><?php echo htmlspecialchars($order['customer_email']); ?></div>
                             </td>
-                            <td>
-                                <?php if ($order['user_name']): ?>
-                                    <?php echo htmlspecialchars($order['user_name']); ?>
-                                    <div class="user-info"><?php echo htmlspecialchars($order['user_email']); ?></div>
-                                <?php else: ?>
-                                    <em>Tamu</em>
-                                <?php endif; ?>
-                            </td>
+                            <td><?php echo htmlspecialchars(ucfirst($order['payment_method'] ?? '-')); ?></td>
                             <td>
                                 <?php
                                     // Perbaiki status default
@@ -483,7 +505,11 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td>
                                 <div class="action-buttons">
                                     <button class="btn btn-small btn-view show-detail-btn" data-order-id="<?php echo $order['id']; ?>">👁️ Lihat</button>
-                                    <button class="btn btn-small btn-update" onclick="openUpdateModal(<?php echo $order['id']; ?>, '<?php echo htmlspecialchars($order['order_number']); ?>', '<?php echo $status; ?>')">🔄 Ubah Status</button>
+                                    <?php if (strtolower(trim($status)) === 'completed'): ?>
+                                        <button class="btn btn-small btn-update" disabled style="opacity:0.6;cursor:not-allowed;">🔄 Ubah Status</button>
+                                    <?php else: ?>
+                                        <button class="btn btn-small btn-update" onclick="openUpdateModal(<?php echo $order['id']; ?>, '<?php echo htmlspecialchars($order['order_number']); ?>', '<?php echo $status; ?>')">🔄 Ubah Status</button>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                         </tr>

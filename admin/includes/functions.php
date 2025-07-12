@@ -443,6 +443,54 @@ function deletePost($id) {
     return $stmt->execute();
 }
 
+// Fungsi untuk mengambil post berdasarkan ID
+function getPostById($id) {
+    $database = new Database();
+    $db = $database->getConnection();
+    
+    $sql = "SELECT * FROM posts WHERE id = :id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Fungsi untuk update post
+function updatePost($id, $data) {
+    $database = new Database();
+    $db = $database->getConnection();
+    
+    // Jika ada gambar baru, update dengan gambar
+    if (isset($data['image_data']) && $data['image_data']) {
+        $sql = "UPDATE posts SET title = :title, slug = :slug, content = :content, excerpt = :excerpt, 
+                author = :author, image_data = :image_data, image_mime = :image_mime, status = :status, 
+                updated_at = NOW() WHERE id = :id";
+    } else {
+        // Jika tidak ada gambar baru, tidak update kolom gambar
+        $sql = "UPDATE posts SET title = :title, slug = :slug, content = :content, excerpt = :excerpt, 
+                author = :author, status = :status, updated_at = NOW() WHERE id = :id";
+    }
+    
+    $stmt = $db->prepare($sql);
+    
+    $stmt->bindParam(':title', $data['title']);
+    $stmt->bindParam(':slug', $data['slug']);
+    $stmt->bindParam(':content', $data['content']);
+    $stmt->bindParam(':excerpt', $data['excerpt']);
+    $stmt->bindParam(':author', $data['author']);
+    $stmt->bindParam(':status', $data['status']);
+    $stmt->bindParam(':id', $id);
+    
+    // Bind image data jika ada
+    if (isset($data['image_data']) && $data['image_data']) {
+        $stmt->bindParam(':image_data', $data['image_data']);
+        $stmt->bindParam(':image_mime', $data['image_mime']);
+    }
+    
+    return $stmt->execute();
+}
+
 // Fungsi untuk membuat slug dari string
 function createSlug($string) {
     $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)));
@@ -470,15 +518,18 @@ function displayImage($image_data, $mime_type, $class = '', $alt = '') {
     if (!empty($image_data)) {
         // Jika data sudah dalam format base64, gunakan langsung
         if (is_string($image_data) && base64_decode($image_data, true) !== false) {
-            return '<img src="data:' . $mime_type . ';base64,' . $image_data . '" class="' . $class . '" alt="' . $alt . '" style="max-width: 100px; height: auto;">';
+            $style = $class === 'image-preview' ? 'max-width: 200px; max-height: 200px; height: auto;' : 'max-width: 100px; height: auto;';
+            return '<img src="data:' . $mime_type . ';base64,' . $image_data . '" class="' . $class . '" alt="' . $alt . '" style="' . $style . '">';
         }
         // Jika data dalam format binary, konversi ke base64
         else {
             $base64 = base64_encode($image_data);
-            return '<img src="data:' . $mime_type . ';base64,' . $base64 . '" class="' . $class . '" alt="' . $alt . '" style="max-width: 100px; height: auto;">';
+            $style = $class === 'image-preview' ? 'max-width: 200px; max-height: 200px; height: auto;' : 'max-width: 100px; height: auto;';
+            return '<img src="data:' . $mime_type . ';base64,' . $base64 . '" class="' . $class . '" alt="' . $alt . '" style="' . $style . '">';
         }
     }
-    return '<img src="../images/products/default.jpg" class="' . $class . '" alt="' . $alt . '" style="max-width: 100px; height: auto;">';
+    $style = $class === 'image-preview' ? 'max-width: 200px; max-height: 200px; height: auto;' : 'max-width: 100px; height: auto;';
+    return '<img src="../images/posts/default.jpg" class="' . $class . '" alt="' . $alt . '" style="' . $style . '">';
 }
 
 // Fungsi upload gambar sederhana tanpa kompresi (fallback jika GD tidak tersedia)

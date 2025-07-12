@@ -339,7 +339,7 @@ function saveOrder($order_data) {
         $stmt_items->execute();
         
         // Insert ke tabel order_tracking
-        $sql_tracking = "INSERT INTO order_tracking (order_id, status, description, created_at) VALUES (:order_id, 'pending', 'Order has been placed successfully', NOW())";
+        $sql_tracking = "INSERT INTO order_tracking (order_id, status, description, created_at) VALUES (:order_id, 'pending', '', NOW())";
         $stmt_tracking = $db->prepare($sql_tracking);
         $stmt_tracking->bindParam(':order_id', $order_id);
         $stmt_tracking->execute();
