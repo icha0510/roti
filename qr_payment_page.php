@@ -11,6 +11,7 @@ $order_id = isset($_GET['order_id']) ? $_GET['order_id'] : '';
 $order_number = isset($_GET['order_number']) ? $_GET['order_number'] : '';
 $total_amount = isset($_GET['total_amount']) ? $_GET['total_amount'] : '';
 $customer_name = isset($_GET['customer_name']) ? $_GET['customer_name'] : '';
+$auto_pay = isset($_GET['auto_pay']) ? $_GET['auto_pay'] : '';
 
 // Validasi parameter
 if (empty($order_id) || empty($order_number) || empty($total_amount)) {
@@ -31,12 +32,111 @@ if (!$order) {
     exit;
 }
 
+// Cek apakah pesanan sudah expired (5 menit dari created_at)
+$order_created = strtotime($order['created_at']);
+$current_time = time();
+$time_limit = 5 * 60; // 5 menit dalam detik
+$time_remaining = $time_limit - ($current_time - $order_created);
+
+// Pastikan time_remaining tidak negatif dan tidak lebih dari 5 menit
+if ($time_remaining < 0) {
+    $time_remaining = 0;
+} elseif ($time_remaining > $time_limit) {
+    $time_remaining = $time_limit;
+}
+
+// Jika waktu sudah habis dan status masih pending, batalkan pesanan
+if ($time_remaining <= 0 && $order['status'] === 'pending') {
+    try {
+        $db->beginTransaction();
+        
+        // Update status order menjadi cancelled
+        $stmt = $db->prepare("UPDATE orders SET status = 'cancelled', updated_at = NOW() WHERE id = ?");
+        $stmt->execute([$order_id]);
+        
+        // Insert tracking untuk pembatalan
+        $stmt = $db->prepare("
+            INSERT INTO order_tracking (order_id, status, description, created_at) 
+            VALUES (?, 'cancelled', 'Order cancelled due to payment timeout (5 minutes)', NOW())
+        ");
+        $stmt->execute([$order_id]);
+        
+        $db->commit();
+        
+        // Redirect ke halaman timeout
+        header('Location: order-timeout.php?order_id=' . $order_id . '&order_number=' . $order_number);
+        exit;
+        
+    } catch (Exception $e) {
+        $db->rollBack();
+        $timeout_error = "Gagal membatalkan pesanan: " . $e->getMessage();
+    }
+}
+
 // Ambil detail order items
 $stmt = $db->prepare("SELECT * FROM order_items WHERE order_id = ?");
 $stmt->execute([$order_id]);
 $order_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Handle payment submission
+// Handle auto payment jika user mengakses QR code
+if ($auto_pay === 'true' && $order['status'] === 'pending') {
+    try {
+        $db->beginTransaction();
+        
+        // Update status order
+        $stmt = $db->prepare("UPDATE orders SET status = 'paid', updated_at = NOW() WHERE id = ?");
+        $stmt->execute([$order_id]);
+        
+        // Simpan transaksi pembayaran
+        $stmt = $db->prepare("
+            INSERT INTO payment_transactions (
+                order_id, order_number, amount_paid, payment_method, status, created_at
+            ) VALUES (?, ?, ?, 'qris', 'success', NOW())
+        ");
+        $stmt->execute([$order_id, $order_number, $order['total_amount']]);
+        
+        // Update tracking
+        $stmt = $db->prepare("
+            INSERT INTO order_tracking (order_id, status, description, created_at) 
+            VALUES (?, 'paid', 'Payment completed via QRIS scan - Auto Payment', NOW())
+        ");
+        $stmt->execute([$order_id]);
+        
+        // Update tracking untuk processing
+        $stmt = $db->prepare("
+            INSERT INTO order_tracking (order_id, status, description, created_at) 
+            VALUES (?, 'processing', 'Order is being processed after successful payment', NOW())
+        ");
+        $stmt->execute([$order_id]);
+        
+        // Update status order menjadi processing
+        $stmt = $db->prepare("UPDATE orders SET status = 'processing' WHERE id = ?");
+        $stmt->execute([$order_id]);
+        
+        $db->commit();
+        
+        // Set session data untuk order success
+        $_SESSION['order_success'] = [
+            'order_id' => $order_id,
+            'order_number' => $order_number,
+            'customer_name' => $customer_name,
+            'total_amount' => $total_amount,
+            'nomor_meja' => $order['nomor_meja']
+        ];
+        $_SESSION['payment_method'] = 'qris';
+        $_SESSION['auto_payment_success'] = true;
+        
+        // Redirect ke halaman sukses
+        header('Location: order-success.php?from_qr_payment=true&auto_payment=true');
+        exit;
+        
+    } catch (Exception $e) {
+        $db->rollBack();
+        $auto_payment_error = "Gagal memproses pembayaran otomatis: " . $e->getMessage();
+    }
+}
+
+// Handle payment submission manual
 $payment_success = false;
 $payment_error = '';
 
@@ -58,10 +158,10 @@ if ($_POST && isset($_POST['process_payment'])) {
             // Simpan transaksi pembayaran
             $stmt = $db->prepare("
                 INSERT INTO payment_transactions (
-                    order_id, payment_method, amount_paid, payment_date, status, created_at
-                ) VALUES (?, ?, ?, NOW(), 'completed', NOW())
+                    order_id, order_number, amount_paid, payment_method, status, created_at
+                ) VALUES (?, ?, ?, ?, 'success', NOW())
             ");
-            $stmt->execute([$order_id, $payment_method, $payment_amount]);
+            $stmt->execute([$order_id, $order_number, $payment_amount, $payment_method]);
             
             // Update tracking
             $stmt = $db->prepare("
@@ -73,8 +173,18 @@ if ($_POST && isset($_POST['process_payment'])) {
             $db->commit();
             $payment_success = true;
             
-            // Redirect ke halaman sukses setelah 3 detik
-            header("refresh:3;url=order-success.php?order_id=" . $order_id);
+            // Set session data untuk order success
+            $_SESSION['order_success'] = [
+                'order_id' => $order_id,
+                'order_number' => $order_number,
+                'customer_name' => $customer_name,
+                'total_amount' => $total_amount,
+                'nomor_meja' => $order['nomor_meja']
+            ];
+            $_SESSION['payment_method'] = 'qris';
+            
+            // Redirect ke halaman sukses dengan parameter from_qr_payment
+            header("refresh:3;url=order-success.php?from_qr_payment=true");
             
         } catch (Exception $e) {
             $db->rollBack();
@@ -317,16 +427,9 @@ if ($_POST && isset($_POST['process_payment'])) {
         
         .payment-method i {
             font-size: 2em;
+            color: #e67e22;
             margin-bottom: 10px;
             display: block;
-        }
-        
-        .payment-method.cash i {
-            color: #27ae60;
-        }
-        
-        .payment-method.qris i {
-            color: #e74c3c;
         }
         
         .btn-pay {
@@ -417,6 +520,12 @@ if ($_POST && isset($_POST['process_payment'])) {
             100% { transform: rotate(360deg); }
         }
         
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
         @media (max-width: 768px) {
             .payment-content {
                 padding: 20px;
@@ -439,11 +548,18 @@ if ($_POST && isset($_POST['process_payment'])) {
 <body>
     <div class="payment-container">
         <div class="payment-header">
-            <h1><i class="fas fa-credit-card"></i> Pembayaran</h1>
-            <p>Lengkapi pembayaran untuk pesanan Anda</p>
+            <h1><i class="fas fa-qrcode"></i> Pembayaran QRIS</h1>
+            <p>Scan QR code untuk menyelesaikan pembayaran</p>
         </div>
         
         <div class="payment-content">
+            <?php if (isset($auto_payment_error)): ?>
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <?php echo htmlspecialchars($auto_payment_error); ?>
+                </div>
+            <?php endif; ?>
+            
             <?php if ($payment_success): ?>
                 <div class="alert alert-success">
                     <i class="fas fa-check-circle"></i>
@@ -455,6 +571,85 @@ if ($_POST && isset($_POST['process_payment'])) {
                 <div class="alert alert-danger">
                     <i class="fas fa-exclamation-triangle"></i>
                     <?php echo htmlspecialchars($payment_error); ?>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Info Auto Payment -->
+            <?php if ($order['status'] === 'pending'): ?>
+                <div class="alert alert-info" style="background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Fitur Auto Payment:</strong> Jika Anda scan QR code ini dan jumlah pembayaran sesuai dengan total tagihan (Rp <?php echo number_format($order['total_amount'], 0, ',', '.'); ?>), pembayaran akan diproses otomatis dan pesanan akan langsung diproses.
+                </div>
+                
+                <!-- Payment Status Checker -->
+                <div id="payment-status-checker" style="background: linear-gradient(135deg, #e8f5e8, #d4edda); border: 2px solid #c3e6cb; border-radius: 15px; padding: 20px; margin-bottom: 20px; display: none;">
+                    <div style="text-align: center;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #27ae60; margin-bottom: 10px;"></i>
+                        <h4 style="color: #155724; margin-bottom: 10px;">Memeriksa Status Pembayaran...</h4>
+                        <p style="color: #155724; font-size: 14px; margin: 0;">
+                            Sistem sedang memeriksa apakah pembayaran telah diterima
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Payment Success Alert -->
+                <div id="payment-success-alert" style="background: linear-gradient(135deg, #d4edda, #c3e6cb); border: 2px solid #27ae60; border-radius: 15px; padding: 20px; margin-bottom: 20px; display: none;">
+                    <div style="text-align: center;">
+                        <i class="fas fa-check-circle" style="font-size: 48px; color: #27ae60; margin-bottom: 15px;"></i>
+                        <h3 style="color: #155724; margin-bottom: 10px;">Pembayaran Berhasil!</h3>
+                        <p style="color: #155724; font-size: 16px; margin-bottom: 15px;">
+                            Pembayaran Anda telah diterima dan pesanan sedang diproses
+                        </p>
+                        <div style="background: white; border-radius: 10px; padding: 15px; margin-top: 15px;">
+                            <p style="margin: 0; color: #6c757d; font-size: 14px;">
+                                <i class="fas fa-info-circle" style="color: #27ae60;"></i>
+                                Anda akan dialihkan ke halaman sukses dalam beberapa detik
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timer Countdown -->
+                <div class="timer-section" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; border-radius: 15px; padding: 20px; text-align: center; margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px;">
+                        <i class="fas fa-clock" style="margin-right: 10px;"></i>
+                        Waktu Tersisa untuk Pembayaran
+                    </h4>
+                    <div id="countdown" style="font-size: 2.5em; font-weight: bold; margin-bottom: 10px;">
+                        <?php 
+                        if ($time_remaining > 0) {
+                            $minutes = floor($time_remaining / 60);
+                            $seconds = $time_remaining % 60;
+                            echo '<span style="display: inline-block; margin: 0 5px;">';
+                            echo '<span style="font-size: 0.6em; display: block; opacity: 0.8;">Menit</span>';
+                            echo '<span>' . sprintf('%02d', $minutes) . '</span>';
+                            echo '</span>';
+                            echo '<span style="font-size: 0.8em; margin: 0 5px;">:</span>';
+                            echo '<span style="display: inline-block; margin: 0 5px;">';
+                            echo '<span style="font-size: 0.6em; display: block; opacity: 0.8;">Detik</span>';
+                            echo '<span>' . sprintf('%02d', $seconds) . '</span>';
+                            echo '</span>';
+                        } else {
+                            echo '<span style="display: inline-block; margin: 0 5px;">';
+                            echo '<span style="font-size: 0.6em; display: block; opacity: 0.8;">Menit</span>';
+                            echo '<span>00</span>';
+                            echo '</span>';
+                            echo '<span style="font-size: 0.8em; margin: 0 5px;">:</span>';
+                            echo '<span style="display: inline-block; margin: 0 5px;">';
+                            echo '<span style="font-size: 0.6em; display: block; opacity: 0.8;">Detik</span>';
+                            echo '<span>00</span>';
+                            echo '</span>';
+                        }
+                        ?>
+                    </div>
+                    <p style="margin: 0; font-size: 14px; opacity: 0.9;">
+                        Pesanan akan dibatalkan otomatis jika tidak dibayar dalam waktu 5 menit
+                    </p>
+                </div>
+            <?php elseif ($order['status'] === 'paid'): ?>
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>Pesanan Sudah Dibayar:</strong> Pesanan ini sudah dibayar dan sedang diproses.
                 </div>
             <?php endif; ?>
             
@@ -504,41 +699,38 @@ if ($_POST && isset($_POST['process_payment'])) {
             
             <?php if (!$payment_success): ?>
                 <form method="POST" class="payment-form" id="paymentForm">
-                    <h3><i class="fas fa-credit-card"></i> Pilih Metode Pembayaran</h3>
+                    <h3><i class="fas fa-qrcode"></i> Pembayaran QRIS</h3>
                     
-                    <div class="form-group">
-                        <label>Metode Pembayaran</label>
-                        <div class="payment-methods">
-                            <div class="payment-method" data-method="cash">
-                                <i class="fas fa-money-bill-wave"></i>
-                                <div>Cash</div>
+                    <!-- QR Code Section untuk QRIS -->
+                    <div id="qris_section" style="margin-bottom: 30px;">
+                        <div style="background: white; border-radius: 15px; padding: 30px; text-align: center; border: 2px solid #e67e22;">
+                            <h4 style="color: #2c3e50; margin-bottom: 20px;">
+                                <i class="fas fa-qrcode" style="color: #e67e22; margin-right: 10px;"></i>
+                                QR Code Pembayaran QRIS
+                            </h4>
+                            <div id="qr_code_container">
+                                <div class="spinner"></div>
+                                <p>Generating QR Code...</p>
                             </div>
-                            <div class="payment-method" data-method="qris">
-                                <i class="fas fa-qrcode"></i>
-                                <div>QRIS</div>
+                            <div style="margin-top: 20px; background: #f8f9fa; border-radius: 10px; padding: 15px;">
+                                <p style="margin: 0; color: #6c757d; font-size: 14px;">
+                                    <i class="fas fa-info-circle" style="color: #e67e22;"></i>
+                                    Silakan scan QR code di atas menggunakan aplikasi e-wallet atau mobile banking Anda
+                                </p>
                             </div>
                         </div>
-                        <input type="hidden" name="payment_method" id="payment_method" required>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="payment_amount">Jumlah Pembayaran</label>
-                        <input type="number" 
-                               class="form-control" 
-                               id="payment_amount" 
-                               name="payment_amount" 
-                               min="<?php echo $order['total_amount']; ?>" 
-                               step="1000" 
-                               value="<?php echo $order['total_amount']; ?>" 
-                               required>
-                        <small style="color: #7f8c8d; margin-top: 5px; display: block;">
-                            Minimal pembayaran: Rp <?php echo number_format($order['total_amount'], 0, ',', '.'); ?>
-                        </small>
+                    <!-- Button untuk QRIS -->
+                    <div id="qris_button">
+                        <button type="button" class="btn-pay" id="qrisPayButton" style="background: linear-gradient(135deg, #e67e22, #f39c12);">
+                            <i class="fas fa-qrcode"></i> Bayar dengan QRIS
+                        </button>
                     </div>
                     
-                    <button type="submit" name="process_payment" class="btn-pay" id="payButton">
-                        <i class="fas fa-lock"></i> Proses Pembayaran
-                    </button>
+                    <!-- Hidden inputs untuk form submission -->
+                    <input type="hidden" name="payment_method" value="qris">
+                    <input type="hidden" name="payment_amount" value="<?php echo $order['total_amount']; ?>">
                 </form>
                 
                 <div class="loading" id="loading">
@@ -556,48 +748,193 @@ if ($_POST && isset($_POST['process_payment'])) {
     </div>
     
     <script>
-        // Payment method selection
-        document.querySelectorAll('.payment-method').forEach(method => {
-            method.addEventListener('click', function() {
-                // Remove selected class from all methods
-                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+        // Timer countdown
+        <?php if ($order['status'] === 'pending' && $time_remaining > 0): ?>
+        let timeRemaining = <?php echo $time_remaining; ?>;
+        const countdownElement = document.getElementById('countdown');
+        const timerSection = document.querySelector('.timer-section');
+        
+        function updateCountdown() {
+            if (timeRemaining <= 0) {
+                countdownElement.innerHTML = `
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <span style="font-size: 0.6em; display: block; opacity: 0.8;">Menit</span>
+                        <span>00</span>
+                    </span>
+                    <span style="font-size: 0.8em; margin: 0 5px;">:</span>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <span style="font-size: 0.6em; display: block; opacity: 0.8;">Detik</span>
+                        <span>00</span>
+                    </span>
+                `;
+                timerSection.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                timerSection.innerHTML = `
+                    <h4 style="margin-bottom: 15px;">
+                        <i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i>
+                        Waktu Pembayaran Habis
+                    </h4>
+                    <p style="margin: 0; font-size: 16px;">
+                        Pesanan telah dibatalkan otomatis karena tidak dibayar dalam waktu 5 menit
+                    </p>
+                `;
                 
-                // Add selected class to clicked method
-                this.classList.add('selected');
-                
-                // Update hidden input
-                document.getElementById('payment_method').value = this.dataset.method;
+                // Redirect ke halaman timeout setelah 3 detik
+                setTimeout(() => {
+                    window.location.href = 'order-timeout.php?order_id=<?php echo $order_id; ?>&order_number=<?php echo $order_number; ?>';
+                }, 3000);
+                return;
+            }
+            
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            countdownElement.innerHTML = `
+                <span style="display: inline-block; margin: 0 5px;">
+                    <span style="font-size: 0.6em; display: block; opacity: 0.8;">Menit</span>
+                    <span>${minutes.toString().padStart(2, '0')}</span>
+                </span>
+                <span style="font-size: 0.8em; margin: 0 5px;">:</span>
+                <span style="display: inline-block; margin: 0 5px;">
+                    <span style="font-size: 0.6em; display: block; opacity: 0.8;">Detik</span>
+                    <span>${seconds.toString().padStart(2, '0')}</span>
+                </span>
+            `;
+            
+            // Ubah warna timer menjadi merah ketika kurang dari 1 menit
+            if (timeRemaining <= 60) {
+                timerSection.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                countdownElement.style.animation = 'pulse 1s infinite';
+            }
+            
+            timeRemaining--;
+        }
+        
+        // Update countdown setiap detik
+        setInterval(updateCountdown, 1000);
+        <?php endif; ?>
+        
+        // Generate QR Code function
+        function generateQRCode() {
+            const qrContainer = document.getElementById('qr_code_container');
+            qrContainer.innerHTML = '<div class="spinner"></div><p>Generating QR Code...</p>';
+            
+            // Call AJAX to generate QR code
+            fetch('generate_qr.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'action': 'generate_qr',
+                    'order_id': '<?php echo $order_id; ?>',
+                    'order_number': '<?php echo $order_number; ?>',
+                    'total_amount': '<?php echo $total_amount; ?>',
+                    'customer_name': '<?php echo urlencode($customer_name); ?>'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    qrContainer.innerHTML = `
+                        <img src="${data.qr_filename}" alt="QR Code Pembayaran" 
+                             style="max-width: 200px; border: 2px solid #e67e22; border-radius: 10px; box-shadow: 0 4px 15px rgba(230,126,34,0.2);">
+                        <div style="margin-top: 15px; color: #7f8c8d; font-size: 12px;">
+                            <p><strong>Order ID:</strong> ${data.order_number}</p>
+                            <p><strong>Total:</strong> Rp ${parseInt(data.total_amount).toLocaleString('id-ID')}</p>
+                        </div>
+                    `;
+                } else {
+                    qrContainer.innerHTML = '<p style="color: red;">Gagal generate QR Code</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                qrContainer.innerHTML = '<p style="color: red;">Error generating QR Code</p>';
             });
+        }
+        
+        // QRIS Payment Button
+        document.getElementById('qrisPayButton').addEventListener('click', function() {
+            // Simulate QRIS payment process
+            this.disabled = true;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses Pembayaran QRIS...';
+            
+            // Simulate payment processing (in real implementation, this would be handled by QRIS provider)
+            setTimeout(() => {
+                // Submit form with QRIS payment method
+                const form = document.getElementById('paymentForm');
+                form.submit();
+            }, 2000);
         });
         
-        // Form submission
-        document.getElementById('paymentForm').addEventListener('submit', function(e) {
-            const paymentMethod = document.getElementById('payment_method').value;
-            const paymentAmount = document.getElementById('payment_amount').value;
-            
-            if (!paymentMethod) {
-                e.preventDefault();
-                alert('Silakan pilih metode pembayaran');
-                return;
-            }
-            
-            if (!paymentAmount || paymentAmount < <?php echo $order['total_amount']; ?>) {
-                e.preventDefault();
-                alert('Jumlah pembayaran tidak valid');
-                return;
-            }
-            
-            // Show loading
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('payButton').disabled = true;
-        });
+        // Payment status polling
+        let paymentCheckInterval;
+        let paymentCheckCount = 0;
+        const maxPaymentChecks = 60; // Check for 5 minutes (60 * 5 seconds)
         
-        // Auto-select first payment method
+        function startPaymentStatusCheck() {
+            paymentCheckInterval = setInterval(checkPaymentStatus, 5000); // Check every 5 seconds
+        }
+        
+        function checkPaymentStatus() {
+            paymentCheckCount++;
+            
+            // Show payment status checker
+            document.getElementById('payment-status-checker').style.display = 'block';
+            
+            // Call AJAX to check payment status
+            fetch('check_payment_status.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'order_id': '<?php echo $order_id; ?>',
+                    'order_number': '<?php echo $order_number; ?>'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.status === 'paid') {
+                    // Payment successful
+                    clearInterval(paymentCheckInterval);
+                    document.getElementById('payment-status-checker').style.display = 'none';
+                    document.getElementById('payment-success-alert').style.display = 'block';
+                    
+                    // Hide payment form
+                    const paymentForm = document.querySelector('.payment-form');
+                    if (paymentForm) {
+                        paymentForm.style.display = 'none';
+                    }
+                    
+                    // Redirect to success page after 3 seconds
+                    setTimeout(() => {
+                        window.location.href = 'order-success.php?from_qr_payment=true&auto_payment=true';
+                    }, 3000);
+                    
+                } else if (paymentCheckCount >= maxPaymentChecks) {
+                    // Stop checking after 5 minutes
+                    clearInterval(paymentCheckInterval);
+                    document.getElementById('payment-status-checker').style.display = 'none';
+                    console.log('Payment status check timeout');
+                }
+            })
+            .catch(error => {
+                console.error('Error checking payment status:', error);
+                if (paymentCheckCount >= maxPaymentChecks) {
+                    clearInterval(paymentCheckInterval);
+                    document.getElementById('payment-status-checker').style.display = 'none';
+                }
+            });
+        }
+        
+        // Generate QR code when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            const firstMethod = document.querySelector('.payment-method');
-            if (firstMethod) {
-                firstMethod.click();
-            }
+            generateQRCode();
+            
+            // Start payment status checking if order is pending
+            <?php if ($order['status'] === 'pending'): ?>
+            startPaymentStatusCheck();
+            <?php endif; ?>
         });
     </script>
 </body>

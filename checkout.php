@@ -170,8 +170,14 @@ if ($_POST && isset($_POST['place_order'])) {
             ];
             $_SESSION['payment_method'] = $payment_method;
             
-            // Redirect to success page
-            header('Location: order-success.php');
+            // Redirect berdasarkan metode pembayaran
+            if ($payment_method === 'qris') {
+                // Redirect ke halaman pembayaran QRIS
+                header('Location: qr_payment_page.php?order_id=' . $order_id . '&order_number=' . $order_number . '&total_amount=' . $cart_total . '&customer_name=' . urlencode($customer_name));
+            } else {
+                // Redirect ke halaman sukses untuk pembayaran cash
+                header('Location: order-success.php');
+            }
             exit;
             
         } catch (Exception $e) {

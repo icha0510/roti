@@ -10,6 +10,9 @@ if (!isset($_SESSION['order_success'])) {
 }
 
 $order_data = $_SESSION['order_success'];
+
+// Cek apakah user datang dari proses pembayaran QRIS yang sudah selesai
+$from_qr_payment = isset($_GET['from_qr_payment']) && $_GET['from_qr_payment'] === 'true';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -96,44 +99,41 @@ $order_data = $_SESSION['order_success'];
                     </div>
                 </div>
 
-                <?php if (isset($_SESSION['payment_method']) && $_SESSION['payment_method'] == 'qris'): ?>
+                <?php if ($from_qr_payment): ?>
                 <div class="qr-section">
-                    <h3 style="text-align: center; color: #2c3e50; margin-bottom: 25px;">
-                        <i class="fa fa-qrcode" style="margin-right: 10px; color: #e67e22;"></i>
-                        QR Code Pembayaran QRIS
+                    <h3 style="text-align: center; color: #27ae60; margin-bottom: 25px;">
+                        <i class="fa fa-check-circle" style="margin-right: 10px; color: #27ae60;"></i>
+                        <?php if (isset($_GET['auto_payment']) && $_GET['auto_payment'] === 'true'): ?>
+                            Pembayaran QRIS Otomatis Berhasil!
+                        <?php else: ?>
+                            Pembayaran QRIS Berhasil!
+                        <?php endif; ?>
                     </h3>
-                    <?php 
-                    // Generate dan tampilkan QR code
-                    $qr_filename = generatePaymentQR(
-                        $order_data['order_id'], 
-                        $order_data['order_number'], 
-                        $order_data['total_amount'], 
-                        $order_data['customer_name']
-                    );
-                    ?>
-                    <div style="text-align: center;">
-                        <img src="<?php echo $qr_filename; ?>" alt="QR Code Pembayaran" 
-                             style="max-width: 250px; border: 3px solid #e67e22; border-radius: 15px; box-shadow: 0 8px 25px rgba(230,126,34,0.3);">
-                        <div style="margin-top: 20px; color: #7f8c8d;">
-                            <p><strong>Order ID:</strong> <?php echo htmlspecialchars($order_data['order_number']); ?></p>
-                            <p><strong>Total Pembayaran:</strong> Rp <?php echo number_format($order_data['total_amount'], 3); ?></p>
-                            <p><strong>Customer:</strong> <?php echo htmlspecialchars($order_data['customer_name']); ?></p>
-                        </div>
-                        <p style="color: #e67e22; font-weight: 600; margin-top: 15px; font-size: 16px;">
-                            Silakan scan QR code di atas untuk melakukan pembayaran
+                    <div style="text-align: center; background: #d4edda; border-radius: 15px; padding: 30px; border: 2px solid #c3e6cb;">
+                        <i class="fa fa-credit-card" style="font-size: 48px; color: #27ae60; margin-bottom: 20px;"></i>
+                        <h4 style="color: #155724; margin-bottom: 15px;">
+                            <?php if (isset($_GET['auto_payment']) && $_GET['auto_payment'] === 'true'): ?>
+                                Pembayaran Otomatis Telah Diverifikasi
+                            <?php else: ?>
+                                Pembayaran Telah Diverifikasi
+                            <?php endif; ?>
+                        </h4>
+                        <p style="color: #155724; font-size: 16px; margin-bottom: 20px;">
+                            <?php if (isset($_GET['auto_payment']) && $_GET['auto_payment'] === 'true'): ?>
+                                Terima kasih! Pembayaran Anda melalui QRIS telah diproses otomatis dan pesanan sedang diproses.
+                            <?php else: ?>
+                                Terima kasih! Pembayaran Anda melalui QRIS telah berhasil diproses.
+                            <?php endif; ?>
                         </p>
-                        <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; margin-top: 20px;">
+                        <div style="background: white; border-radius: 10px; padding: 20px; margin-top: 20px;">
                             <p style="margin: 0; color: #6c757d; font-size: 14px;">
-                                <i class="fa fa-info-circle" style="color: #e67e22;"></i>
-                                Status pesanan akan berubah menjadi "Dibayar" setelah pembayaran berhasil diverifikasi
+                                <i class="fa fa-info-circle" style="color: #27ae60;"></i>
+                                <?php if (isset($_GET['auto_payment']) && $_GET['auto_payment'] === 'true'): ?>
+                                    Pesanan Anda telah otomatis diproses dan akan segera disiapkan
+                                <?php else: ?>
+                                    Pesanan Anda akan segera diproses oleh tim kami
+                                <?php endif; ?>
                             </p>
-                        </div>
-                        <div style="margin-top: 20px;">
-                            <a href="qr_payment_page.php?order_id=<?php echo $order_data['order_id']; ?>" 
-                               class="btn btn-primary" style="background: linear-gradient(135deg, #e67e22, #f39c12); border: none; border-radius: 25px; padding: 12px 30px; font-weight: 600;">
-                                <i class="fa fa-credit-card" style="margin-right: 8px;"></i>
-                                Halaman Pembayaran Lengkap
-                            </a>
                         </div>
                     </div>
                 </div>

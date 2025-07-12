@@ -23,14 +23,15 @@ use Endroid\QrCode\Color\Color;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 
 function generatePaymentQR($order_id, $order_number, $total_amount, $customer_name) {
-    // Buat URL untuk halaman pembayaran - gunakan localhost
-    $payment_url = 'http://localhost/web/bready/qr_payment_page.php';
+    // Buat URL untuk halaman pembayaran - sesuaikan dengan path yang benar
+    $payment_url = 'http://localhost/Latihan/roti/qr_payment_page.php';
     
-    // Buat URL lengkap dengan parameter
+    // Buat URL lengkap dengan parameter termasuk auto_pay=true
     $qr_url = $payment_url . '?order_id=' . urlencode($order_id) . 
               '&order_number=' . urlencode($order_number) . 
               '&total_amount=' . urlencode($total_amount) . 
-              '&customer_name=' . urlencode($customer_name);
+              '&customer_name=' . urlencode($customer_name) . 
+              '&auto_pay=true';
     
     // QR code berisi URL langsung, bukan JSON
     $qr_content = $qr_url;
@@ -99,10 +100,11 @@ if (isset($_GET['order_id']) && isset($_GET['order_number']) && isset($_GET['tot
         $qr_filename = generatePaymentQR($order_id, $order_number, $total_amount, $customer_name);
         
         // Redirect ke halaman pembayaran
-        $payment_url = 'qr_payment_page.php?order_id=' . urlencode($order_id) . 
+        $payment_url = 'http://localhost/Latihan/roti/qr_payment_page.php?order_id=' . urlencode($order_id) . 
                       '&order_number=' . urlencode($order_number) . 
                       '&total_amount=' . urlencode($total_amount) . 
-                      '&customer_name=' . urlencode($customer_name);
+                      '&customer_name=' . urlencode($customer_name) . 
+                      '&auto_pay=true';
         
         header('Location: ' . $payment_url);
         exit;
