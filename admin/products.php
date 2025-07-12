@@ -134,7 +134,7 @@ if (isset($_GET['edit'])) {
             color: var(--text-dark);
         }
 
-        /* Sidebar Styling - Mempertahankan desain asli */
+        /* Sidebar Styling - Simple */
         .sidebar {
             min-height: 100vh;
             background: #343a40;
@@ -144,15 +144,17 @@ if (isset($_GET['edit'])) {
             width: 250px;
             z-index: 1000;
             box-shadow: var(--shadow-heavy);
+            border-right: 1px solid rgba(255,255,255,0.1);
         }
 
         .sidebar .nav-link {
             color: #fff;
-            padding: 10px 20px;
-            margin: 2px 10px;
-            border-radius: 8px;
+            padding: 12px 20px;
+            margin: 4px 10px;
+            border-radius: 12px;
             transition: all 0.3s ease;
             font-weight: 500;
+            position: relative;
         }
 
         .sidebar .nav-link:hover {
@@ -169,7 +171,12 @@ if (isset($_GET['edit'])) {
 
         .sidebar .nav-link i {
             width: 20px;
-            margin-right: 10px;
+            margin-right: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover i {
+            transform: scale(1.1);
         }
 
         /* Main Content */

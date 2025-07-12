@@ -98,10 +98,10 @@ $low_stock_products = array_filter($products, function($p) { return isset($p['st
             min-height: 100vh;
         }
 
-        /* Sidebar Styling - Enhanced */
+        /* Sidebar Styling - Simple */
         .sidebar {
             min-height: 100vh;
-            background: linear-gradient(180deg, #343a40 0%, #495057 100%);
+            background: #343a40;
             position: fixed;
             top: 0;
             left: 0;
@@ -116,39 +116,21 @@ $low_stock_products = array_filter($products, function($p) { return isset($p['st
             padding: 12px 20px;
             margin: 4px 10px;
             border-radius: 12px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             font-weight: 500;
             position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .sidebar .nav-link:hover::before {
-            left: 100%;
         }
 
         .sidebar .nav-link:hover {
-            background: rgba(255,255,255,0.1);
-            transform: translateX(8px) scale(1.02);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: #495057;
+            transform: translateX(5px);
         }
 
         .sidebar .nav-link.active {
-            background: var(--gradient-primary);
+            background: #F2CB05;
             color: #343a40;
             font-weight: 600;
-            box-shadow: 0 6px 20px rgba(242,203,5,0.4);
-            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(242,203,5,0.3);
         }
 
         .sidebar .nav-link i {
