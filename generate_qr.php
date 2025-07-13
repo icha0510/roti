@@ -24,7 +24,7 @@ use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 
 function generatePaymentQR($order_id, $order_number, $total_amount, $customer_name) {
     // Buat URL untuk halaman pembayaran - sesuaikan dengan path yang benar
-    $payment_url = 'http://localhost/Latihan/roti/qr_payment_page.php';
+    $payment_url = 'http://localhost/web/bready/qr_payment_page.php';
     
     // Buat URL lengkap dengan parameter termasuk auto_pay=true
     $qr_url = $payment_url . '?order_id=' . urlencode($order_id) . 

@@ -579,9 +579,9 @@ if (isset($_GET['edit'])) {
                                 </td>
                                 <td>
                                     <div>
-                                        <strong class="text-success">Rp<?php echo number_format($product['price'], 0, ',', '.'); ?></strong>
+                                        <strong class="text-success">Rp<?php echo number_format($product['price'], 3, ',', '.'); ?></strong>
                                         <?php if ($product['sale_price']): ?>
-                                            <div class="small text-danger">Sale: Rp<?php echo number_format($product['sale_price'], 0, ',', '.'); ?></div>
+                                            <div class="small text-danger">Sale: Rp<?php echo number_format($product['sale_price'], 3, ',', '.'); ?></div>
                                         <?php endif; ?>
                                     </div>
                                 </td>
