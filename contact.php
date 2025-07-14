@@ -97,14 +97,7 @@ foreach ($_SESSION['cart'] as $item) {
         <ul class="menu">
           <li class="menu-item-has-children"><a href="index.php">Beranda</a></li>
           <li><a href="about.php">Tentang</a></li>
-          <li class="menu-item-has-children">
-            <a href="#">Produk</a>
-            <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-            <ul class="sub-menu">
-              <li><a href="product-listing.php">Daftar Produk</a></li>
-              <li><a href="order-form.php">Formulir Pesanan</a></li>
-            </ul>
-          </li>
+          <li class="menu-item-has-children"><a href="product-listing.php">Produk</a></li>
           <li class="menu-item-has-children">
             <a href="#">Lainnya</a>
             <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
@@ -207,14 +200,7 @@ foreach ($_SESSION['cart'] as $item) {
   <ul class="menu">
     <li class="menu-item-has-children"><a href="index.php">Beranda</a></li>
     <li><a href="about.php">Tentang</a></li>
-    <li class="menu-item-has-children">
-      <a href="#">Produk</a>
-      <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-      <ul class="sub-menu">
-        <li><a href="product-listing.php">Daftar Produk</a></li>
-        <li><a href="order-form.php">Formulir Pesanan</a></li>
-      </ul>
-    </li>
+    <li class="menu-item-has-children"><a href="product-listing.php">Produk</a></li>
     <li class="menu-item-has-children">
       <a href="#">Lainnya</a>
       <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
@@ -244,24 +230,24 @@ foreach ($_SESSION['cart'] as $item) {
       <div class="ps-container">
         <div class="row">
           <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 ">
-            <form class="ps-form--contact" action="do_action" method="post">
+            <form class="ps-form--contact" action="" method="post">
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                   <div class="form-group">
                     <label>Nama <sup>*</sup></label>
-                    <input class="form-control" type="text" placeholder="">
+                    <input class="form-control" type="text" name="name" placeholder="">
                   </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                   <div class="form-group">
                     <label>Email <sup>*</sup></label>
-                    <input class="form-control" type="text" placeholder="">
+                    <input class="form-control" type="text" name="email" placeholder="">
                   </div>
                 </div>
               </div>
               <div class="form-group">
                 <label>Pesan Anda <sup>*</sup></label>
-                <textarea class="form-control" rows="7"></textarea>
+                <textarea class="form-control" name="message" rows="7"></textarea>
               </div>
               <div class="form-group submit">
                 <button class="ps-btn ps-btn--yellow">Kirim</button>
@@ -276,26 +262,11 @@ foreach ($_SESSION['cart'] as $item) {
                     <h3>KANTOR DI JAKARTA</h3>
                     <h4>PT. Sebastian Citra Indonesia</h4>
                     <p>Jl. Semanan Raya No.27, RT.4/RW.8, Semanan, Kec. Kalideres, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11850</p>
-                    <p><i class="fa fa-envelope-o"></i><a href="#">hello@example.com</a></p>
-                    <p><i class="fa fa-phone"></i> +1 650-253-0000</p>
+                    <p><i class="fa fa-envelope-o"></i><a href="#">rotio.indonesia@gmail.com</a></p>
+                    <p><i class="fa fa-phone"></i> +62 812-3456-7890</p>
                   </div>
                 </div>
-                <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                  <div class="ps-block--contact-2">
-                    <h3>OFFICE AT VIETNAM</h3>
-                    <h4>189/32 BASEMENT COMPANY, ABC, VIET NAM</h4>
-                    <p><i class="fa fa-envelope-o"></i><a href="#">hello@basis.com</a></p>
-                    <p><i class="fa fa-phone"></i> +1 650-253-0000</p>
-                  </div>
-                </div> -->
-                <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                  <div class="ps-block--contact-2">
-                    <h3>OFFICE AT PARIS</h3>
-                    <h4>189/32 BASEMENT COMPANY, PARIS, FRANCE</h4>
-                    <p><i class="fa fa-envelope-o"></i><a href="#">hello@basis.com</a></p>
-                    <p><i class="fa fa-phone"></i> +1 650-253-0000</p>
-                  </div>
-                </div> -->
+                
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                   <div class="ps-block--contact-2">
                     <h3>IKUTI KAMI</h3>
@@ -315,27 +286,27 @@ foreach ($_SESSION['cart'] as $item) {
       <div class="ps-container">
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-            <div class="ps-block--iconbox"><i class="ba-delivery-truck-2"></i>
-              <h4>Pengiriman Gratis <span>Untuk Pesanan Di Atas Rp199.000</span></h4>
-              <p>Ingin melacak paket? Temukan informasi pelacakan dan detail pesanan dari Pesanan Anda.</p>
+            <div class="ps-block--iconbox"><i class="ba-oven2"></i>
+              <h4>Fresh From Oven <span>Baru keluar dari panggangan</span></h4>
+              <p>Setiap roti yang kamu nikmati selalu hangat, dan beraroma semerbak.</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-biscuit-1"></i>
               <h4>Koki Master<span> DENGAN PASSION</span></h4>
-              <p>Belanja ribuan produk, dengan kedatangan baru ditambahkan setiap hari.</p>
+              <p>Koki yang berpengalaman dan berdedikasi.</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-flour"></i>
-              <h4>Bahan Alami<span> melindungi keluarga Anda</span></h4>
+              <h4>Bahan Alami<span> aman untuk keluarga</span></h4>
               <p>Kami selalu memastikan keamanan semua produk toko</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
             <div class="ps-block--iconbox"><i class="ba-cake-3"></i>
-              <h4>Rasa Menarik <span>SELALU MENDENGARKAN</span></h4>
-              <p>Kami menawarkan hotline pelanggan 24/7 sehingga Anda tidak pernah sendirian jika memiliki pertanyaan.</p>
+              <h4>Rasa Menarik <span>selalu nikmat</span></h4>
+              <p>Kami menawarkan cita rasa yang unik dan menarik.</p>
             </div>
           </div>
         </div>

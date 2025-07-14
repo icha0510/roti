@@ -76,14 +76,7 @@ foreach ($_SESSION['cart'] as $item) {
         <ul class="menu">
           <li class="menu-item-has-children"><a href="index.php">Beranda</a></li>
           <li class="menu-item-has-children current-menu-item"><a href="about.php">Tentang</a></li>
-          <li class="menu-item-has-children">
-            <a href="#">Produk</a>
-            <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-            <ul class="sub-menu">
-              <li><a href="product-listing.php">Daftar Produk</a></li>
-              <li><a href="order-form.php">Formulir Pesanan</a></li>
-            </ul>
-          </li>
+          <li class="menu-item-has-children"><a href="product-listing.php">Produk</a></li>
           <li class="menu-item-has-children">
             <a href="#">Lainnya</a>
             <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
@@ -186,14 +179,7 @@ foreach ($_SESSION['cart'] as $item) {
   <ul class="menu">
     <li class="menu-item-has-children"><a href="index.php">Beranda</a></li>
     <li class="menu-item-has-children current-menu-item"><a href="about.php">Tentang</a></li>
-    <li class="menu-item-has-children">
-      <a href="#">Produk</a>
-      <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-      <ul class="sub-menu">
-        <li><a href="product-listing.php">Daftar Produk</a></li>
-        <li><a href="order-form.php">Formulir Pesanan</a></li>
-      </ul>
-    </li>
+    <li class="menu-item-has-children"><a href="product-listing.php">Produk</a></li>
     <li class="menu-item-has-children">
       <a href="#">Lainnya</a>
       <span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
