@@ -1,25 +1,16 @@
-# Keamanan dasar untuk admin panel
-# Blokir akses ke file sensitif
-<Files "*.sql">
-    Order Allow,Deny
-    Deny from all
-</Files>
+# Basic admin .htaccess
+RewriteEngine On
 
-<Files "*.md">
-    Order Allow,Deny
-    Deny from all
-</Files>
+# Redirect ke public folder
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/$1 [L]
 
-# Blokir akses ke file konfigurasi
-<Files "database.php">
-    Order Allow,Deny
+# Block sensitive files
+<FilesMatch "\.(sql|md|log|bak|ini|env)$">
+    Order allow,deny
     Deny from all
-</Files>
+</FilesMatch>
 
-<Files "config/*">
-    Order Allow,Deny
-    Deny from all
-</Files>
-
-# Blokir akses langsung ke register.php (akan ditangani oleh PHP session)
-# Catatan: Proteksi utama dilakukan di register.php dengan session check 
+# Disable directory browsing
+Options -Indexes
