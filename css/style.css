@@ -4114,7 +4114,7 @@ html .bg--parallax {
 }
 
 .menu-toggle-btn.active {
-  color: #e67e22;
+  color: #b88a2b;
 }
 
 /* Show mobile menu toggle on smaller screens */
@@ -4197,7 +4197,7 @@ html .bg--parallax {
 
 .mobile-menu-close:hover {
   background: #f8f9fa;
-  color: #e67e22;
+  color: #b88a2b;
 }
 
 .mobile-nav .menu {
@@ -4226,7 +4226,7 @@ html .bg--parallax {
 
 .mobile-nav .menu > li > a:hover {
   background: #f8f9fa;
-  color: #e67e22;
+  color: #b88a2b;
 }
 
 .mobile-nav .sub-toggle {
@@ -4285,7 +4285,7 @@ html .bg--parallax {
 
 .mobile-nav .sub-menu li a:hover {
   background: #e9ecef;
-  color: #e67e22;
+  color: #b88a2b;
   padding-left: 52px;
 }
 

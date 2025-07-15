@@ -24,11 +24,10 @@ use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 
 function generatePaymentQR($order_id, $order_number, $total_amount, $customer_name) {
     // Buat URL untuk halaman pembayaran - sesuaikan dengan path yang benar
-<<<<<<< HEAD
-=======
-    // $payment_url = 'http://localhost/web/bready/qr_payment_page.php';
->>>>>>> e91872aeac2c50759ba6ebb86b8ea960c399388f
-    $payment_url = 'http://tokorotio.com/qr_payment_page.php';
+
+    $payment_url = 'http://localhost/web/bready/qr_payment_page.php';
+
+    // $payment_url = 'http://tokorotio.com/qr_payment_page.php';
     
     // Buat URL lengkap dengan parameter termasuk auto_pay=true
     $qr_url = $payment_url . '?order_id=' . urlencode($order_id) . 
