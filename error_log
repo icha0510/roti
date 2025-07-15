@@ -7,3 +7,8 @@
 [13-Jul-2025 15:00:17 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in /home/tokorot3/public_html/roti/includes/functions.php on line 470
 [14-Jul-2025 08:20:09 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in /home/tokorot3/public_html/roti/includes/functions.php on line 470
 [14-Jul-2025 15:27:31 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in /home/tokorot3/public_html/roti/includes/functions.php on line 470
+[15-Jul-2025 01:10:18 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/tokorot3/public_html/roti/includes/functions.php:71
+Stack trace:
+#0 /home/tokorot3/public_html/roti/product-listing.php(23): getAllCategories()
+#1 {main}
+  thrown in /home/tokorot3/public_html/roti/includes/functions.php on line 71
