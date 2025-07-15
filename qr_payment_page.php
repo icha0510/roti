@@ -198,6 +198,7 @@ if ($_POST && isset($_POST['process_payment'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="images/logo-rotio.png" rel="icon">
     <title>Pembayaran - Roti'O</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -210,7 +211,7 @@ if ($_POST && isset($_POST['process_payment'])) {
         
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg,rgb(234, 203, 102) 0%,rgb(172, 128, 34) 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -839,7 +840,6 @@ if ($_POST && isset($_POST['process_payment'])) {
                              style="max-width: 200px; border: 2px solid #e67e22; border-radius: 10px; box-shadow: 0 4px 15px rgba(230,126,34,0.2);">
                         <div style="margin-top: 15px; color: #7f8c8d; font-size: 12px;">
                             <p><strong>Order ID:</strong> ${data.order_number}</p>
-                            <p><strong>Total:</strong> Rp ${parseInt(data.total_amount).toLocaleString('id-ID')}</p>
                         </div>
                     `;
                 } else {

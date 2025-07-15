@@ -12,8 +12,7 @@
   
   .fa-brands.fa-tiktok {
     font-family: inherit;
-  }
-  
+  }  
   /* RESET AND BASE STYLES */
   * {
     box-sizing: border-box;
@@ -89,12 +88,12 @@
   }
   
   .header-nav .menu > li > a:hover {
-    color: #e67e22;
+    color: #d7a63c;
   }
   
   /* Current menu item styling */
   .header-nav .menu > li.current-menu-item > a {
-    color: #e67e22;
+    color: #d7a63c;
     font-weight: 600;
   }
   
@@ -105,7 +104,7 @@
     left: 0;
     width: 100%;
     height: 2px;
-    background: #e67e22;
+    background: #d7a63c;
     border-radius: 1px;
   }
   
@@ -150,18 +149,18 @@
   
   .header-nav .sub-menu li a:hover {
     background: #f8f9fa;
-    color: #e67e22;
+    color: #d7a63c;
     padding-left: 25px;
   }
   
   .header-nav .sub-menu li.current-menu-item a {
-    background: #e67e22;
+    background: #d7a63c;
     color: #fff;
     font-weight: 500;
   }
   
   .header-nav .sub-menu li.current-menu-item a:hover {
-    background: #d35400;
+    background: #d7a63c;
     color: #fff;
   }
   
@@ -194,7 +193,7 @@
   
   .header-profile a:hover,
   .header-cart a:hover {
-    color: #e67e22;
+    color: #d7a63c;
   }
   
   .ps-cart__toggle {
@@ -208,14 +207,14 @@
   }
   
   .ps-cart__toggle:hover {
-    color: #e67e22;
+    color: #d7a63c;
   }
   
   .cart-badge {
     position: absolute;
     top: -5px;
     right: -5px;
-    background: #e67e22;
+    background: #d7a63c;
     color: #fff;
     border-radius: 50%;
     font-size: 11px;
@@ -242,7 +241,7 @@
   }
   
   .header-profile:hover .profile-name {
-    color: #e67e22;
+    color: #d7a63c;
   }
   
   /* Dropdown menu styling */
@@ -288,7 +287,7 @@
   
   .ps-dropdown .dropdown-menu li a:hover {
     background: #f8f9fa;
-    color: #e67e22;
+    color: #d7a63c;
     padding-left: 25px;
   }
   
@@ -315,11 +314,11 @@
   
   .menu-toggle-btn:hover {
     background: #f8f9fa;
-    color: #e67e22;
+    color: #d7a63c;
   }
   
   .menu-toggle-btn.active {
-    color: #e67e22;
+    color: #d7a63c;
     transform: rotate(90deg);
   }
   
@@ -379,7 +378,7 @@
   
   .mobile-menu-close:hover {
     background: #f8f9fa;
-    color: #e67e22;
+    color: #d7a63c;
     transform: rotate(90deg);
   }
   
@@ -398,7 +397,7 @@
   }
   
   .mobile-nav .menu > li > a {
-    color: #333;
+    color: #ffffff;
     font-weight: 500;
     text-decoration: none;
     padding: 18px 24px;
@@ -410,12 +409,12 @@
   
   .mobile-nav .menu > li > a:hover {
     background: #f8f9fa;
-    color: #e67e22;
+    color: #d7a63c;
   }
   
   /* Mobile current menu item */
   .mobile-nav .menu > li.current-menu-item > a {
-    background: #e67e22;
+    background: #d7a63c;
     color: #fff;
     font-weight: 600;
   }
@@ -427,7 +426,7 @@
     top: 0;
     width: 4px;
     height: 100%;
-    background: #d35400;
+    background: #d7a63c;
   }
   
   .mobile-nav .sub-toggle {
@@ -447,11 +446,11 @@
   
   .mobile-nav .sub-toggle:hover {
     background: #f0f0f0;
-    color: #e67e22;
+    color: #d7a63c;
   }
   
   .mobile-nav .sub-toggle.active {
-    color: #e67e22;
+    color: #d7a63c;
     transform: translateY(-50%) rotate(180deg);
   }
   
@@ -488,13 +487,13 @@
   
   .mobile-nav .sub-menu li a:hover {
     background: #e9ecef;
-    color: #e67e22;
+    color: #d7a63c;
     padding-left: 52px;
   }
   
   /* Mobile submenu current item */
   .mobile-nav .sub-menu li.current-menu-item a {
-    background: #e67e22;
+    background: #d7a63c;
     color: #fff;
     font-weight: 500;
   }
@@ -506,7 +505,7 @@
     top: 0;
     width: 4px;
     height: 100%;
-    background: #d35400;
+    background: #d7a63c;
   }
   
   @keyframes slideDown {
@@ -643,7 +642,7 @@
     left: 50%;
     width: 0;
     height: 2px;
-    background: #e67e22;
+    background: #d7a63c;
     transition: all 0.3s ease;
     transform: translateX(-50%);
   }
@@ -721,7 +720,7 @@
   }
   
   .ps-cart-item__title:hover {
-    color: #e67e22;
+    color: #d7a63c;
   }
   
   .ps-cart-item p {
@@ -734,7 +733,7 @@
     position: absolute;
     top: 5px;
     right: 5px;
-    background: #ff4757;
+    background: #d7a63c;
     color: #fff;
     border: none;
     width: 20px;
@@ -749,14 +748,14 @@
   }
   
   .ps-cart-item__close:hover {
-    background: #ff3742;
+    background: #d7a63c;
     transform: scale(1.1);
   }
   
   .ps-cart__total {
     padding: 15px;
     border-top: 1px solid #f0f0f0;
-    background: #f8f9fa;
+    background: #d7a63c;
   }
   
   .ps-cart__total p {
@@ -771,7 +770,7 @@
   
   .ps-cart__footer a {
     display: block;
-    background: #e67e22;
+    background: #d7a63c;
     color: #fff;
     padding: 12px 20px;
     text-decoration: none;
@@ -781,7 +780,7 @@
   }
   
   .ps-cart__footer a:hover {
-    background: #d35400;
+    background: #d7a63c;
     transform: translateY(-1px);
   }
   
@@ -800,7 +799,7 @@
     height: 16px;
     margin: -8px 0 0 -8px;
     border: 2px solid transparent;
-    border-top: 2px solid #e67e22;
+    border-top: 2px solid #d7a63c;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -834,7 +833,7 @@
     height: 12px;
     margin: -6px 0 0 0;
     border: 2px solid transparent;
-    border-top: 2px solid #e67e22;
+    border-top: 2px solid #d7a63c;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -874,12 +873,12 @@
   .mobile-menu-close:focus,
   .mobile-nav .menu a:focus,
   .header-nav .menu a:focus {
-    outline: 2px solid #e67e22;
+    outline: 2px solid #d7a63c;
     outline-offset: 2px;
   }
   
   .menu-toggle-btn[aria-expanded="true"] {
-    color: #e67e22;
+    color: #d7a63c;
   }
   
   /* SCROLLBAR STYLING FOR MOBILE MENU */
@@ -933,7 +932,7 @@
   .mobile-menu-close:focus-visible,
   .mobile-nav .menu a:focus-visible,
   .header-nav .menu a:focus-visible {
-    outline: 2px solid #e67e22;
+    outline: 2px solid #d7a63c;
     outline-offset: 2px;
   }
   
@@ -1003,12 +1002,12 @@
   .mobile-nav .menu > li > a:hover,
   .mobile-nav .menu > li > a:focus {
     background: #f5f5f5;
-    color: #e67e22;
+    color: #d7a63c;
   }
   
   .mobile-nav .menu > li.current-menu-item > a {
     background: #fff6ee;
-    color: #e67e22;
+    color: #d7a63c;
     font-weight: 600;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(230, 126, 34, 0.07);
@@ -1022,7 +1021,7 @@
     top: 0;
     width: 4px;
     height: 100%;
-    background: #e67e22;
+    background: #d7a63c;
     border-radius: 8px 0 0 8px;
   }
   
@@ -1051,12 +1050,12 @@
   .mobile-nav .sub-menu li a:hover,
   .mobile-nav .sub-menu li a:focus {
     background: #f5f5f5;
-    color: #e67e22;
+    color: #d7a63c;
   }
   
   .mobile-nav .sub-menu li.current-menu-item a {
     background: #ffe5cc;
-    color: #e67e22;
+    color: #d7a63c;
     font-weight: 600;
     position: relative;
   }
@@ -1068,7 +1067,7 @@
     top: 0;
     width: 3px;
     height: 100%;
-    background: #e67e22;
+    background: #d7a63c;
     border-radius: 0 4px 4px 0;
   }
   
@@ -1081,7 +1080,7 @@
   
   /* Submenu toggle icon refinement */
   .mobile-nav .sub-toggle {
-    color: #e67e22;
+    color: #d7a63c;
     background: none;
     border: none;
     font-size: 18px;
@@ -1092,7 +1091,7 @@
   }
   
   .mobile-nav .sub-toggle.active {
-    color: #d35400;
+    color: #d7a63c;
   }
   
   /* Reduce margin between menu items for compact look */
@@ -1103,6 +1102,6 @@
   /* Remove thick border on active, use subtle highlight */
   .mobile-nav .menu > li.current-menu-item > a::before {
     width: 3px;
-    background: #e67e22;
+    background: #d7a63c;
     border-radius: 8px 0 0 8px;
   }

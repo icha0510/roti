@@ -580,4 +580,12 @@ function deleteNewsletterSubscriber($id) {
     
     return $stmt->execute();
 }
+
+function save_contact_message($name, $email, $message) {
+    // Ganti variabel $conn sesuai dengan variabel koneksi di project kamu
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO contact_messages (name, email, message) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $name, $email, $message);
+    return $stmt->execute();
+}
 ?> 
